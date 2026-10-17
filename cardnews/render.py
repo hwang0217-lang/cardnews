@@ -34,7 +34,7 @@ def font(paths, size):
 def wrap(draw, text, fnt, max_width):
     """글자 단위로 줄바꿈 (한국어는 띄어쓰기가 짧아서 글자 기준이 안전해요)."""
     lines, cur = [], ""
-    for word in text.split(" "):
+    for word in text.split():  # 줄바꿈·연속 공백은 모두 한 칸 공백으로 취급
         trial = f"{cur} {word}".strip()
         if draw.textlength(trial, font=fnt) <= max_width:
             cur = trial
