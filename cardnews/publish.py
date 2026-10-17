@@ -32,7 +32,8 @@ def wait_until_ready(container_id: str, token: str, tries: int = 20) -> None:
 
 def publish_carousel(image_urls: list[str], caption: str) -> str:
     token = os.environ["IG_ACCESS_TOKEN"]
-    user_id = os.environ["IG_USER_ID"]
+    # 토큰 주인의 계정을 뜻하는 "me"를 쓰면 계정 ID를 잘못 넣어서 생기는 오류가 없어요.
+    user_id = "me"
 
     child_ids = []
     for url in image_urls:
