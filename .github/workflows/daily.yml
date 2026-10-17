@@ -36,6 +36,14 @@ jobs:
           IG_HANDLE: ${{ vars.IG_HANDLE }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: python cardnews/main.py
+      - name: 연습 실행 이미지 보관 (내려받아 확인용)
+        if: ${{ github.event.inputs.dry_run == '1' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardnews-preview
+          path: cardnews/images
+          retention-days: 3
+          if-no-files-found: ignore
       - name: 발행 기록 저장
         run: |
           git config user.name 'cardnews-bot'
