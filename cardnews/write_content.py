@@ -15,7 +15,10 @@ PROMPT = """주제: {topic}
 반드시 submit_cardnews 도구를 호출해서 카드뉴스 내용을 제출해줘. 글로 답하지 말고 도구만 써.
 - cover_title: 표지 제목 (최대 22자, 숫자나 질문으로 시선 끌기)
 - cover_sub: 표지 부제 (최대 20자)
-- slides: 정확히 5개. 각각 title(최대 16자), body(최대 60자, 두 줄 이내)
+- cover_photo_query: 표지 배경 사진 검색어 (영어 2~4단어, 예: "cozy small kitchen")
+- slides: 정확히 5개. 각각 title(최대 16자), body(최대 60자, 두 줄 이내),
+  photo_query(그 장 내용과 어울리는 사진 검색어, 영어 2~4단어)
+- 사진 검색어는 주방, 식재료, 조리도구, 식탁 같은 물건·공간 위주로 쓰고 사람 얼굴이 나올 법한 검색어와 브랜드명은 피해
 - closing: 마지막 장 문구 (최대 30자, 저장/팔로우 유도)
 - caption: 인스타 설명글 (첫 줄은 핵심 한 문장, 3~5줄, 마지막은 독자에게 묻는 질문)
 - hashtags: 8개, 모두 # 로 시작, 띄어쓰기 없이
@@ -29,6 +32,7 @@ TOOL = {
         "properties": {
             "cover_title": {"type": "string"},
             "cover_sub": {"type": "string"},
+            "cover_photo_query": {"type": "string"},
             "slides": {
                 "type": "array",
                 "minItems": 5,
@@ -38,8 +42,9 @@ TOOL = {
                     "properties": {
                         "title": {"type": "string"},
                         "body": {"type": "string"},
+                        "photo_query": {"type": "string"},
                     },
-                    "required": ["title", "body"],
+                    "required": ["title", "body", "photo_query"],
                 },
             },
             "closing": {"type": "string"},
