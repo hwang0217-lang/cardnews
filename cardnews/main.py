@@ -7,7 +7,7 @@ from pathlib import Path
 
 from publish import publish_carousel
 from render import render_all
-from write_content import write_content
+from write_content import suggest_topics, write_content
 
 ROOT = Path(__file__).parent
 TOPICS = json.loads((ROOT / "topics.json").read_text(encoding="utf-8"))
@@ -22,11 +22,18 @@ def load_state() -> dict:
 
 
 def pick_topic(state: dict) -> str:
+    """미리 만든 주제 → 이전에 AI가 만든 주제 순으로 쓰고, 다 떨어지면 AI가 새 주제를 만든다."""
     done = {p["topic"] for p in state["posted"]}
-    for t in TOPICS:
+    extra = state.setdefault("extra_topics", [])
+    for t in TOPICS + extra:
         if t not in done:
             return t
-    raise SystemExit("남은 주제가 없어요. topics.json에 주제를 더 추가해 주세요.")
+    new = suggest_topics(list(done) + TOPICS + extra)
+    if not new:
+        raise SystemExit("새 주제를 만들지 못했어요. 잠시 뒤 다시 시도돼요.")
+    print(f"주제 목록이 떨어져서 AI가 새 주제 {len(new)}개를 만들었어요.")
+    extra.extend(new)
+    return new[0]
 
 
 def public_urls(paths: list[Path]) -> list[str]:
@@ -64,6 +71,7 @@ def save_state(state: dict, topic: str, media_id: str) -> None:
     state["posted"].append(
         {"topic": topic, "media_id": media_id, "at": time.strftime("%Y-%m-%d %H:%M:%S")}
     )
+    state["posted"] = state["posted"][-400:]
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
 

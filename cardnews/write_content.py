@@ -106,6 +106,50 @@ def validate(d: dict) -> None:
     d["hashtags"] = [h if h.startswith("#") else f"#{h}" for h in d["hashtags"]]
 
 
+TOPIC_TOOL = {
+    "name": "submit_topics",
+    "description": "새 카드뉴스 주제 목록을 제출한다.",
+    "input_schema": {
+        "type": "object",
+        "properties": {"topics": {"type": "array", "items": {"type": "string"}}},
+        "required": ["topics"],
+    },
+}
+
+
+def _norm(s: str) -> str:
+    return "".join(s.split())
+
+
+def suggest_topics(done: list, n: int = 12) -> list:
+    """이미 다룬 주제와 겹치지 않는 새 주제를 AI가 만든다 (주제 목록이 떨어졌을 때)."""
+    recent = "\n".join(f"- {t}" for t in done[-80:])
+    prompt = (
+        f"'원룸 자취생 주방템' 카드뉴스 주제를 {n}개 새로 제안해줘.\n"
+        "조건: 원룸 자취생이 궁금해할 주방·살림·요리·정리·청소·장보기·절약 주제, 목록·비교·체크리스트로 만들기 쉬운 제목, "
+        "특정 브랜드명 금지, 건강 효능 단정 금지, 25자 안팎.\n"
+        f"아래 주제와 같거나 비슷한 것은 제외해줘.\n{recent}\n\nsubmit_topics 도구로만 제출해줘."
+    )
+    client = anthropic.Anthropic()
+    taken = {_norm(t) for t in done}
+    for _ in range(3):
+        msg = client.messages.create(
+            model=MODEL, max_tokens=1200, system=SYSTEM, tools=[TOPIC_TOOL],
+            messages=[{"role": "user", "content": prompt}],
+        )
+        for b in msg.content:
+            if b.type == "tool_use":
+                fresh = []
+                for t in b.input.get("topics", []):
+                    t = " ".join(str(t).split())
+                    if t and _norm(t) not in taken:
+                        taken.add(_norm(t))
+                        fresh.append(t)
+                if fresh:
+                    return fresh
+    return []
+
+
 if __name__ == "__main__":
     import json
     import sys
