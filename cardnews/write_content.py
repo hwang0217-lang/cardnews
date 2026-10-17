@@ -12,7 +12,7 @@ SYSTEM = """너는 '원룸 자취생 주방템' 인스타그램 계정의 카드
 
 PROMPT = """주제: {topic}
 
-submit_cardnews 도구로 카드뉴스 내용을 제출해줘.
+반드시 submit_cardnews 도구를 호출해서 카드뉴스 내용을 제출해줘. 글로 답하지 말고 도구만 써.
 - cover_title: 표지 제목 (최대 22자, 숫자나 질문으로 시선 끌기)
 - cover_sub: 표지 부제 (최대 20자)
 - slides: 정확히 5개. 각각 title(최대 16자), body(최대 60자, 두 줄 이내)
@@ -60,17 +60,20 @@ def write_content(topic: str, tries: int = 3) -> dict:
             max_tokens=2000,
             system=SYSTEM,
             tools=[TOOL],
-            tool_choice={"type": "tool", "name": "submit_cardnews"},
             messages=[{"role": "user", "content": PROMPT.format(topic=topic)}],
         )
+        used_tool = False
         for block in msg.content:
             if block.type == "tool_use":
+                used_tool = True
                 data = block.input
                 try:
                     validate(data)
                     return data
                 except ValueError as e:
                     last_error = e
+        if not used_tool:
+            last_error = ValueError("도구를 호출하지 않고 글로 답했어요")
     raise ValueError(f"글 생성에 {tries}번 실패했어요: {last_error}")
 
 
