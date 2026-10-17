@@ -14,16 +14,16 @@ TEXT = "#2B2B2B"
 SUB = "#6F655A"
 HANDLE = os.environ.get("IG_HANDLE", "@nordic_log")
 
-BLACK_FONTS = [
-    "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc",
-    "/usr/share/fonts/truetype/noto/NotoSansCJK-Black.ttc",
-    "C:/Windows/Fonts/malgunbd.ttf",
-]
 BOLD_FONTS = [
     "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
     "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc",
     "C:/Windows/Fonts/malgunbd.ttf",
 ]
+# Black 굵기는 별도 글꼴 패키지에 있어서, 없으면 Bold로 대신 써요.
+BLACK_FONTS = [
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansCJK-Black.ttc",
+] + BOLD_FONTS
 REGULAR_FONTS = [
     "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
     "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
