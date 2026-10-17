@@ -1,18 +1,22 @@
-"""카드뉴스 글(JSON)을 1080x1350 이미지 7장으로 그린다. 사진이 있으면 사진 위주 레이아웃."""
+"""카드뉴스 글(JSON)을 1080x1350 이미지 7장으로 그린다.
+
+디자인: 사진을 화면 가득 깔고, 글자를 사진 위에 얹고, 핵심 구절에 형광펜을 칠한다.
+"""
 import os
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from images import generate_image
 from photos import get_photo
 
 W, H = 1080, 1350
-BG = "#F7F1E8"
-ACCENT = "#E8743B"
-ACCENT_LIGHT = "#FFD2B3"
-TEXT = "#2B2B2B"
-SUB = "#6F655A"
+LIME = "#C8F04A"       # 포인트(형광펜) 색
+DARK = "#1B1A17"       # 형광펜 위 글자색
+WHITE = "#FFFFFF"
+SOFT = "#E9E4DA"
 HANDLE = os.environ.get("IG_HANDLE", "@nordic_log")
+MARGIN = 64
 
 BOLD_FONTS = [
     "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
@@ -38,37 +42,78 @@ def font(paths, size):
     raise FileNotFoundError("한글 글꼴을 찾지 못했어요")
 
 
-def wrap(draw, text, fnt, max_width):
-    lines, cur = [], ""
-    for word in text.split():  # 줄바꿈·연속 공백은 한 칸 공백으로 취급
-        trial = f"{cur} {word}".strip()
-        if draw.textlength(trial, font=fnt) <= max_width:
-            cur = trial
+# ---------- 글자 배치 ----------
+
+def norm(text: str) -> str:
+    return " ".join(text.split())  # 줄바꿈·연속 공백은 한 칸 공백으로
+
+
+def wrap_spans(draw, text, fnt, max_width):
+    """text를 줄로 나눠 (시작, 끝) 위치 목록으로 돌려준다."""
+    spans, line_start, line_end = [], None, None
+    pos = 0
+    for word in text.split(" "):
+        w_start, w_end = pos, pos + len(word)
+        pos = w_end + 1
+        if not word:
             continue
-        if cur:
-            lines.append(cur)
-            cur = ""
-        for ch in word:
-            if draw.textlength(cur + ch, font=fnt) <= max_width:
-                cur += ch
-            else:
-                lines.append(cur)
-                cur = ch
-    if cur:
-        lines.append(cur)
-    return lines
+        if line_start is None:
+            line_start, line_end = w_start, w_end
+        elif draw.textlength(text[line_start:w_end], font=fnt) <= max_width:
+            line_end = w_end
+        else:
+            spans.append((line_start, line_end))
+            line_start, line_end = w_start, w_end
+        # 한 단어가 한 줄보다 길면 글자 단위로 쪼갠다
+        while draw.textlength(text[line_start:line_end], font=fnt) > max_width:
+            cut = line_start + 1
+            while cut < line_end and draw.textlength(text[line_start:cut + 1], font=fnt) <= max_width:
+                cut += 1
+            spans.append((line_start, cut))
+            line_start = cut
+    if line_start is not None:
+        spans.append((line_start, line_end))
+    return spans
 
 
-def block_height(draw, text, fnt, max_width, gap):
-    return len(wrap(draw, text, fnt, max_width)) * (fnt.size + gap) - gap
+def text_height(draw, text, fnt, max_width, gap):
+    n = len(wrap_spans(draw, norm(text), fnt, max_width))
+    return n * fnt.size + max(0, n - 1) * gap
 
 
-def draw_block(draw, text, fnt, x, y, max_width, fill, gap):
-    for line in wrap(draw, text, fnt, max_width):
-        draw.text((x, y), line, font=fnt, fill=fill)
+def draw_text(draw, text, fnt, x, y, max_width, fill, gap, last_fill=None):
+    """줄 단위로 그리고 다음 y를 돌려준다. last_fill이 있으면 마지막 줄만 그 색."""
+    text = norm(text)
+    spans = wrap_spans(draw, text, fnt, max_width)
+    for i, (s, e) in enumerate(spans):
+        color = last_fill if (last_fill and i == len(spans) - 1) else fill
+        draw.text((x, y), text[s:e], font=fnt, fill=color)
         y += fnt.size + gap
-    return y
+    return y - gap
 
+
+def draw_highlighted(draw, text, highlight, fnt, x, y, max_width, gap, fill=WHITE):
+    """본문을 그리면서 highlight 구절에는 형광펜을 칠한다."""
+    text = norm(text)
+    hl = norm(highlight or "")
+    h_start = text.find(hl) if hl else -1
+    h_end = h_start + len(hl) if h_start >= 0 else -1
+    for s, e in wrap_spans(draw, text, fnt, max_width):
+        a, b = max(s, h_start), min(e, h_end)
+        if h_start >= 0 and a < b:
+            x0 = x + draw.textlength(text[s:a], font=fnt)
+            x1 = x + draw.textlength(text[s:b], font=fnt)
+            draw.rectangle((x0 - 4, y + 2, x1 + 4, y + fnt.size + 8), fill=LIME)
+            draw.text((x, y), text[s:a], font=fnt, fill=fill)
+            draw.text((x0, y), text[a:b], font=fnt, fill=DARK)
+            draw.text((x1, y), text[b:e], font=fnt, fill=fill)
+        else:
+            draw.text((x, y), text[s:e], font=fnt, fill=fill)
+        y += fnt.size + gap
+    return y - gap
+
+
+# ---------- 이미지 처리 ----------
 
 def cover_crop(img: Image.Image, w: int, h: int) -> Image.Image:
     scale = max(w / img.width, h / img.height)
@@ -78,8 +123,8 @@ def cover_crop(img: Image.Image, w: int, h: int) -> Image.Image:
 
 
 def fallback_background(w: int, h: int) -> Image.Image:
-    """사진이 없을 때: 주황 계열 그라데이션."""
-    top, bottom = (232, 116, 59), (196, 78, 30)
+    """사진이 없을 때: 어두운 따뜻한 회색 그라데이션."""
+    top, bottom = (58, 52, 46), (24, 21, 18)
     grad = Image.new("RGB", (1, h))
     for y in range(h):
         t = y / (h - 1)
@@ -87,103 +132,130 @@ def fallback_background(w: int, h: int) -> Image.Image:
     return grad.resize((w, h))
 
 
-def photo_or_fallback(query: str, w: int, h: int) -> tuple[Image.Image, bool]:
-    # 가로로 넓은 칸(본문 위쪽)은 가로 사진, 꽉 찬 세로 칸(표지·마지막)은 세로 사진을 가져와요.
-    ph = get_photo(query, "horizontal" if w / h > 0.9 else "vertical")
-    if ph is None:
-        return fallback_background(w, h), False
-    return cover_crop(ph, w, h), True
+_photo_cache: dict = {}
 
 
-def vertical_shade(img: Image.Image, start: float, end_alpha: int, start_alpha: int = 0) -> Image.Image:
-    """start(0~1) 지점부터 아래로 갈수록 어두워지는 그림자."""
+def full_photo(prompt: str, query: str, style: str = ""):
+    """AI 생성 이미지 → 스톡 사진 → 어두운 배경 순으로 시도한다. 같은 요청은 한 번만 만든다."""
+    key = (prompt, query, style)
+    if key not in _photo_cache:
+        ph = generate_image(prompt, style) if prompt else None
+        if ph is None and query:
+            ph = get_photo(query, "vertical")
+        _photo_cache[key] = cover_crop(ph, W, H) if ph is not None else None
+    cached = _photo_cache[key]
+    if cached is None:
+        return fallback_background(W, H), False
+    return cached.copy(), True
+
+
+def shade(img: Image.Image, stops) -> Image.Image:
+    """stops=[(위치0~1, 어둡기0~255), ...]를 이어서 세로 그림자를 입힌다."""
     mask = Image.new("L", (1, img.height))
     for y in range(img.height):
-        t = max(0.0, (y / img.height - start) / (1 - start))
-        mask.putpixel((0, y), int(start_alpha + (end_alpha - start_alpha) * t))
-    mask = mask.resize(img.size)
-    return Image.composite(Image.new("RGB", img.size, (22, 16, 10)), img, mask)
+        t = y / (img.height - 1)
+        a = stops[-1][1]
+        for (p0, a0), (p1, a1) in zip(stops, stops[1:]):
+            if p0 <= t <= p1:
+                a = a0 + (a1 - a0) * (t - p0) / (p1 - p0 or 1)
+                break
+        else:
+            if t < stops[0][0]:
+                a = stops[0][1]
+        mask.putpixel((0, y), int(a))
+    return Image.composite(Image.new("RGB", img.size, (14, 12, 10)), img, mask.resize(img.size))
 
 
-def pill(d, x, y, text, fnt, fill, color, pad_x=34, pad_y=16):
+def pill(d, x, y, text, fnt, fill, color, pad_x=28, pad_y=12):
     tw = d.textlength(text, font=fnt)
-    d.rounded_rectangle((x, y, x + tw + pad_x * 2, y + fnt.size + pad_y * 2), 60, fill=fill)
+    d.rounded_rectangle((x, y, x + tw + pad_x * 2, y + fnt.size + pad_y * 2), 40, fill=fill)
     d.text((x + pad_x, y + pad_y - 2), text, font=fnt, fill=color)
-    return x + tw + pad_x * 2
 
 
-def page_chip(d, page, total):
-    f = font(BOLD_FONTS, 30)
-    t = f"{page} / {total}"
-    tw = d.textlength(t, font=f)
-    x = W - 70 - tw - 48
-    d.rounded_rectangle((x, 70, W - 70, 70 + 30 + 28), 40, fill="#3A2F26")
-    d.text((x + 24, 84), t, font=f, fill="#FFFFFF")
+def sticker(img: Image.Image, text: str, center, angle: float, fill, color):
+    """사진 위에 붙이는 기울어진 라벨."""
+    f = font(BOLD_FONTS, 38)
+    tmp = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    tw = int(tmp.textlength(text, font=f))
+    pad_x, pad_y = 26, 16
+    w, h = tw + pad_x * 2, f.size + pad_y * 2
+    tag = Image.new("RGBA", (w + 8, h + 8), (0, 0, 0, 0))
+    td = ImageDraw.Draw(tag)
+    td.rounded_rectangle((4, 4, w + 4, h + 4), 12, fill=fill)
+    td.text((4 + pad_x, 4 + pad_y - 3), text, font=f, fill=color)
+    tag = tag.rotate(angle, expand=True, resample=Image.BICUBIC)
+    img.paste(tag, (int(center[0] - tag.width / 2), int(center[1] - tag.height / 2)), tag)
 
+
+def footer(d, page, total, y):
+    d.line((MARGIN, y, W - MARGIN, y), fill="#6B655C", width=2)
+    f = font(REGULAR_FONTS, 28)
+    d.text((MARGIN, y + 22), HANDLE, font=f, fill=SOFT)
+    label = f"{page} / {total}"
+    d.text((W - MARGIN - d.textlength(label, font=f), y + 22), label, font=f, fill=SOFT)
+
+
+# ---------- 슬라이드 ----------
 
 def cover(c, total):
-    img, has_photo = photo_or_fallback(c.get("cover_photo_query", ""), W, H)
-    img = vertical_shade(img, 0.30, 235, 40 if has_photo else 0)
-    d = ImageDraw.Draw(img)
-    pill(d, 70, 70, "원룸 자취 주방템", font(BOLD_FONTS, 36), ACCENT, "#FFFFFF")
-    page_chip(d, 1, total)
+    img, has_photo = full_photo(c.get("cover_image_prompt", ""), c.get("cover_photo_query", ""), c.get("visual_style", ""))
+    img = shade(img, [(0, 70), (0.22, 20), (0.45, 70), (1, 235)])
 
-    title_f = font(BLACK_FONTS, 112)
-    sub_f = font(BOLD_FONTS, 50)
-    mw = W - 140
-    th = block_height(d, c["cover_title"], title_f, mw, 22)
-    sh = block_height(d, c["cover_sub"], sub_f, mw, 12)
-    y = H - 190 - sh - 44 - th
-    y = draw_block(d, c["cover_title"], title_f, 70, y, mw, "#FFFFFF", 22)
-    draw_block(d, c["cover_sub"], sub_f, 70, y + 32, mw, ACCENT_LIGHT, 12)
-    d.text((70, H - 120), "옆으로 넘겨서 확인  →", font=font(BOLD_FONTS, 38), fill="#FFFFFF")
-    d.text((W - 70 - d.textlength(HANDLE, font=font(REGULAR_FONTS, 32)), H - 118), HANDLE,
-           font=font(REGULAR_FONTS, 32), fill="#E8E0D6")
+    stickers = (c.get("cover_stickers") or [])[:2]
+    positions = [((300, 470), -7), ((790, 560), 6)]
+    for text, (center, angle), fill, color in zip(stickers, positions, (LIME, WHITE), (DARK, DARK)):
+        sticker(img, text, center, angle, fill, color)
+
+    d = ImageDraw.Draw(img)
+    d.text((MARGIN, 62), HANDLE.lstrip("@"), font=font(BLACK_FONTS, 50), fill=WHITE)
+
+    tf = font(BLACK_FONTS, 84)
+    mw = W - MARGIN * 2
+    sub_f = font(BOLD_FONTS, 42)
+    th = text_height(d, c["cover_title"], tf, mw, 18)
+    sh = text_height(d, c["cover_sub"], sub_f, mw, 10)
+    y = H - 150 - sh - 30 - th
+    d.text((MARGIN, y - 52), HANDLE.lstrip("@") + " 자취 주방", font=font(REGULAR_FONTS, 30), fill=SOFT)
+    y = draw_text(d, c["cover_title"], tf, MARGIN, y, mw, WHITE, 18, last_fill=LIME)
+    draw_text(d, c["cover_sub"], sub_f, MARGIN, y + 30, mw, SOFT, 10)
+    d.text((MARGIN, H - 96), "옆으로 넘겨서 확인  →", font=font(BOLD_FONTS, 32), fill=LIME)
+    label = f"1 / {total}"
+    f = font(REGULAR_FONTS, 28)
+    d.text((W - MARGIN - d.textlength(label, font=f), H - 94), label, font=f, fill=SOFT)
     return img
 
 
-def body(item, num, page, total):
-    PH_H = 760
-    photo, _ = photo_or_fallback(item.get("photo_query", ""), W, PH_H)
-    img = Image.new("RGB", (W, H), BG)
-    img.paste(photo, (0, 0))
+def body(item, num, page, total, style=""):
+    img, has_photo = full_photo(item.get("image_prompt", ""), item.get("photo_query", ""), style)
+    img = shade(img, [(0, 150), (0.2, 40), (0.5, 20), (0.66, 150), (1, 245)])
     d = ImageDraw.Draw(img)
-    # 아래 카드가 사진 위로 둥글게 올라오는 모양
-    d.rounded_rectangle((0, PH_H - 70, W, H + 80), 70, fill=BG)
-    # 번호 배지
-    d.ellipse((70, PH_H - 130, 70 + 140, PH_H + 10), fill=ACCENT, outline=BG, width=10)
-    nf = font(BLACK_FONTS, 84)
-    t = str(num)
-    d.text((70 + 70 - d.textlength(t, font=nf) / 2, PH_H - 130 + 70 - nf.size * 0.58), t, font=nf, fill="#FFFFFF")
 
-    mw = W - 140
-    tf = font(BLACK_FONTS, 70)
-    y = draw_block(d, item["title"], tf, 70, PH_H + 60, mw, TEXT, 16)
-    d.rounded_rectangle((70, y + 22, 70 + 120, y + 32), 5, fill=ACCENT)
-    draw_block(d, item["body"], font(REGULAR_FONTS, 46), 70, y + 70, mw, SUB, 20)
+    pill(d, MARGIN, 64, f"POINT {num}", font(BLACK_FONTS, 30), LIME, DARK)
+    mw = W - MARGIN * 2
+    draw_text(d, item["title"], font(BLACK_FONTS, 66), MARGIN, 140, mw, WHITE, 14)
 
-    sf = font(REGULAR_FONTS, 28)
-    d.text((70, H - 62), HANDLE, font=sf, fill="#9A8F83")
-    label = f"{page} / {total}"
-    d.text((W - 70 - d.textlength(label, font=sf), H - 62), label, font=sf, fill="#9A8F83")
+    bf = font(REGULAR_FONTS, 44)
+    bh = text_height(d, item["body"], bf, mw, 22)
+    y = H - 150 - bh
+    draw_highlighted(d, item["body"], item.get("highlight"), bf, MARGIN, y, mw, 22)
+    footer(d, page, total, H - 112)
     return img
 
 
 def closing(c, page, total):
-    img, has_photo = photo_or_fallback(c.get("closing_photo_query") or c.get("cover_photo_query", ""), W, H)
+    # 표지와 같은 사진을 재사용해서 이미지 생성 비용을 아낀다 (캐시에서 가져옴)
+    img, has_photo = full_photo(c.get("cover_image_prompt", ""), c.get("cover_photo_query", ""), c.get("visual_style", ""))
     if has_photo:
-        img = img.filter(ImageFilter.GaussianBlur(6))
-    img = vertical_shade(img, 0.0, 215, 150 if has_photo else 0)
+        img = img.filter(ImageFilter.GaussianBlur(7))
+    img = shade(img, [(0, 190), (1, 235)])
     d = ImageDraw.Draw(img)
-    page_chip(d, page, total)
-    cf = font(BLACK_FONTS, 92)
-    mw = W - 160
-    th = block_height(d, c["closing"], cf, mw, 24)
-    y = (H - th) // 2 - 80
-    y = draw_block(d, c["closing"], cf, 80, y, mw, "#FFFFFF", 24)
-    pill(d, 80, y + 60, "저장 & 팔로우", font(BLACK_FONTS, 50), ACCENT, "#FFFFFF", 52, 24)
-    hf = font(REGULAR_FONTS, 34)
-    d.text((80, H - 120), HANDLE, font=hf, fill="#E8E0D6")
+    cf = font(BLACK_FONTS, 84)
+    mw = W - 140
+    th = text_height(d, c["closing"], cf, mw, 22)
+    y = (H - th) // 2 - 90
+    y = draw_text(d, c["closing"], cf, 70, y, mw, WHITE, 22, last_fill=LIME)
+    pill(d, 70, y + 64, "저장 & 팔로우", font(BLACK_FONTS, 48), LIME, DARK, 48, 22)
+    footer(d, page, total, H - 112)
     return img
 
 
@@ -192,7 +264,7 @@ def render_all(content: dict, out_dir: Path) -> list[Path]:
     total = len(content["slides"]) + 2
     images = [cover(content, total)]
     for i, s in enumerate(content["slides"], 1):
-        images.append(body(s, i, i + 1, total))
+        images.append(body(s, i, i + 1, total, content.get("visual_style", "")))
     images.append(closing(content, total, total))
     paths = []
     for i, im in enumerate(images, 1):
