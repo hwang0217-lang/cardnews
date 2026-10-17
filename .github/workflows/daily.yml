@@ -2,8 +2,10 @@ name: daily-cardnews
 
 on:
   schedule:
-    # 한국시간 월~금 저녁 7시 = UTC 10시
-    - cron: "0 10 * * 1-5"
+    # 한국시간 매일 오전 8시 = UTC 전날 23시
+    - cron: "0 23 * * *"
+    # 한국시간 매일 저녁 7시 = UTC 오전 10시
+    - cron: "0 10 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -12,6 +14,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: kitchen-cardnews
+  cancel-in-progress: false
 
 jobs:
   post:
