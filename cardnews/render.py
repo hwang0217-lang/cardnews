@@ -195,6 +195,36 @@ def footer(d, page, total, y):
     d.text((W - MARGIN - d.textlength(label, font=f), y + 22), label, font=f, fill=SOFT)
 
 
+EMOJI_FONTS = [  # (글꼴 경로, 글꼴 크기) - 컬러 이모지 글꼴은 정해진 크기로만 그릴 수 있어요
+    ("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109),
+    ("/usr/share/fonts/noto/NotoColorEmoji.ttf", 109),
+    ("C:/Windows/Fonts/seguiemj.ttf", 109),
+]
+
+
+def emoji_image(ch: str, size: int):
+    """이모지 한 개를 컬러 그림으로 만든다. 글꼴이 없거나 실패하면 None (그러면 이모지만 빼고 진행)."""
+    ch = (ch or "").strip()
+    if not ch:
+        return None
+    for path, px in EMOJI_FONTS:
+        if not Path(path).exists():
+            continue
+        try:
+            fnt = ImageFont.truetype(path, px)
+            tile = Image.new("RGBA", (px * 2, px * 2), (0, 0, 0, 0))
+            ImageDraw.Draw(tile).text((px // 2, px // 4), ch, font=fnt, embedded_color=True)
+            box = tile.getbbox()
+            if not box:
+                continue
+            tile = tile.crop(box)
+            scale = size / max(tile.size)
+            return tile.resize((max(1, int(tile.width * scale)), max(1, int(tile.height * scale))), Image.LANCZOS)
+        except Exception as e:
+            print(f"이모지 그리기 실패({path}): {e}")
+    return None
+
+
 # ---------- 슬라이드 ----------
 
 def cover(c, total):
@@ -232,7 +262,11 @@ def body(item, num, page, total, style=""):
 
     pill(d, MARGIN, 64, f"POINT {num}", font(BLACK_FONTS, 30), LIME, DARK)
     mw = W - MARGIN * 2
-    draw_text(d, item["title"], font(BLACK_FONTS, 66), MARGIN, 140, mw, WHITE, 14)
+    emoji = emoji_image(item.get("emoji", ""), 66)
+    tx = MARGIN + (84 if emoji else 0)          # 이모지가 있으면 제목을 오른쪽으로 비켜서 쓴다
+    draw_text(d, item["title"], font(BLACK_FONTS, 66), tx, 140, mw - (tx - MARGIN), WHITE, 14)
+    if emoji:
+        img.paste(emoji, (MARGIN, 140 + 4), emoji)
 
     bf = font(REGULAR_FONTS, 44)
     bh = text_height(d, item["body"], bf, mw, 22)

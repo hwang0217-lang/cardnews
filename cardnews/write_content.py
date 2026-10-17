@@ -22,12 +22,14 @@ PROMPT = """주제: {topic}
 - cover_photo_query: 표지 배경 사진 검색어 (영어 2~4단어, 예: "cozy small kitchen")
 - slides: 정확히 5개. 각각 title(최대 16자), body(최대 60자, 두 줄 이내),
   highlight(body 안에 글자 그대로 들어 있는 핵심 구절 하나, 최대 14자),
+  emoji(그 장 제목에 어울리는 이모지 정확히 1개, 예: 🍳 🧽 🥄 🧊 💡),
   image_prompt(그 장이 말하는 실제 물건 하나를 구체적으로 묘사한 영어 한두 문장. 재질, 색, 모양, 놓인 장소를 적고 "사람", "손"은 쓰지 않기),
   photo_query(그 장 내용과 어울리는 사진 검색어, 영어 2~4단어)
 - image_prompt는 현실에 흔한 평범한 제품 모습으로 쓰고, 화려하거나 비현실적인 재질(금색, 네온 등)은 쓰지 않기
 - 사진 검색어는 주방, 식재료, 조리도구, 식탁 같은 물건·공간 위주로 쓰고 사람 얼굴이 나올 법한 검색어와 브랜드명은 피해
 - closing: 마지막 장 문구 (최대 30자, 저장/팔로우 유도)
-- caption: 인스타 설명글 (첫 줄은 핵심 한 문장, 3~5줄, 마지막은 독자에게 묻는 질문)
+- caption: 인스타 설명글 (첫 줄은 핵심 한 문장, 3~5줄, 마지막은 독자에게 묻는 질문).
+  내용에 어울리는 이모지를 전체에서 2~4개만 자연스럽게 섞는다 (예: 🍳 📌 💡). 줄마다 붙이거나 같은 이모지를 반복하지 않는다.
 - hashtags: 8개, 모두 # 로 시작, 띄어쓰기 없이
 한국어로 작성해줘."""
 
@@ -53,6 +55,7 @@ TOOL = {
                         "title": {"type": "string"},
                         "body": {"type": "string"},
                         "highlight": {"type": "string"},
+                        "emoji": {"type": "string"},
                         "image_prompt": {"type": "string"},
                         "photo_query": {"type": "string"},
                     },
@@ -103,6 +106,9 @@ def validate(d: dict) -> None:
     for s in d["slides"]:
         if not s.get("title") or not s.get("body"):
             raise ValueError("slide에 title/body가 비어 있어요")
+        # 이모지는 한 개만 쓰고, 이상하게 길면 버린다 (없어도 발행에는 문제없음)
+        em = (s.get("emoji") or "").strip()
+        s["emoji"] = em if 0 < len(em) <= 8 and not any(c.isascii() and c.isalnum() for c in em) else ""
     d["hashtags"] = [h if h.startswith("#") else f"#{h}" for h in d["hashtags"]]
 
 
