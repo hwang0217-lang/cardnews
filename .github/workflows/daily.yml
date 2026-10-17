@@ -2,6 +2,7 @@ name: daily-cardnews
 
 on:
   schedule:
+    # 한국시간 월~금 저녁 7시 = UTC 10시
     - cron: "0 10 * * 1-5"
   workflow_dispatch:
     inputs:
@@ -29,6 +30,8 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           IG_HANDLE: ${{ vars.IG_HANDLE }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: python cardnews/main.py
