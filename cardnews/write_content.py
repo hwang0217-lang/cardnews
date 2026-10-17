@@ -86,4 +86,28 @@ def write_content(topic: str, tries: int = 3) -> dict:
                 data = block.input
                 try:
                     validate(data)
-    
+                    return data
+                except ValueError as e:
+                    last_error = e
+        if not used_tool:
+            last_error = ValueError("도구를 호출하지 않고 글로 답했어요")
+    raise ValueError(f"글 생성에 {tries}번 실패했어요: {last_error}")
+
+
+def validate(d: dict) -> None:
+    for key in ("cover_title", "cover_sub", "slides", "closing", "caption", "hashtags"):
+        if key not in d:
+            raise ValueError(f"'{key}' 항목이 없어요")
+    if len(d["slides"]) != 5:
+        raise ValueError("slides는 5개여야 해요")
+    for s in d["slides"]:
+        if not s.get("title") or not s.get("body"):
+            raise ValueError("slide에 title/body가 비어 있어요")
+    d["hashtags"] = [h if h.startswith("#") else f"#{h}" for h in d["hashtags"]]
+
+
+if __name__ == "__main__":
+    import json
+    import sys
+
+    print(json.dumps(write_content(sys.argv[1]), ensure_ascii=False, indent=2))
