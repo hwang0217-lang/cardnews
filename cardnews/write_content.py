@@ -15,9 +15,16 @@ PROMPT = """주제: {topic}
 반드시 submit_cardnews 도구를 호출해서 카드뉴스 내용을 제출해줘. 글로 답하지 말고 도구만 써.
 - cover_title: 표지 제목 (최대 22자, 숫자나 질문으로 시선 끌기)
 - cover_sub: 표지 부제 (최대 20자)
+- cover_stickers: 표지 사진 위에 붙일 짧은 문구 2개 (각각 최대 12자, 예: "원룸 필수템만!")
+- visual_style: 모든 사진이 공유할 분위기 한 줄 (영어, 예: "light oak countertop, warm morning light, cream and sage color palette")
+- cover_image_prompt: 표지 사진에 찍힐 대상을 구체적으로 묘사한 영어 한두 문장
+  (예: "a stack of three clear glass meal prep containers with snap-on lids on a light oak kitchen counter")
 - cover_photo_query: 표지 배경 사진 검색어 (영어 2~4단어, 예: "cozy small kitchen")
 - slides: 정확히 5개. 각각 title(최대 16자), body(최대 60자, 두 줄 이내),
+  highlight(body 안에 글자 그대로 들어 있는 핵심 구절 하나, 최대 14자),
+  image_prompt(그 장이 말하는 실제 물건 하나를 구체적으로 묘사한 영어 한두 문장. 재질, 색, 모양, 놓인 장소를 적고 "사람", "손"은 쓰지 않기),
   photo_query(그 장 내용과 어울리는 사진 검색어, 영어 2~4단어)
+- image_prompt는 현실에 흔한 평범한 제품 모습으로 쓰고, 화려하거나 비현실적인 재질(금색, 네온 등)은 쓰지 않기
 - 사진 검색어는 주방, 식재료, 조리도구, 식탁 같은 물건·공간 위주로 쓰고 사람 얼굴이 나올 법한 검색어와 브랜드명은 피해
 - closing: 마지막 장 문구 (최대 30자, 저장/팔로우 유도)
 - caption: 인스타 설명글 (첫 줄은 핵심 한 문장, 3~5줄, 마지막은 독자에게 묻는 질문)
@@ -32,6 +39,9 @@ TOOL = {
         "properties": {
             "cover_title": {"type": "string"},
             "cover_sub": {"type": "string"},
+            "cover_stickers": {"type": "array", "items": {"type": "string"}},
+            "visual_style": {"type": "string"},
+            "cover_image_prompt": {"type": "string"},
             "cover_photo_query": {"type": "string"},
             "slides": {
                 "type": "array",
@@ -42,9 +52,11 @@ TOOL = {
                     "properties": {
                         "title": {"type": "string"},
                         "body": {"type": "string"},
+                        "highlight": {"type": "string"},
+                        "image_prompt": {"type": "string"},
                         "photo_query": {"type": "string"},
                     },
-                    "required": ["title", "body", "photo_query"],
+                    "required": ["title", "body", "image_prompt", "photo_query"],
                 },
             },
             "closing": {"type": "string"},
@@ -74,28 +86,4 @@ def write_content(topic: str, tries: int = 3) -> dict:
                 data = block.input
                 try:
                     validate(data)
-                    return data
-                except ValueError as e:
-                    last_error = e
-        if not used_tool:
-            last_error = ValueError("도구를 호출하지 않고 글로 답했어요")
-    raise ValueError(f"글 생성에 {tries}번 실패했어요: {last_error}")
-
-
-def validate(d: dict) -> None:
-    for key in ("cover_title", "cover_sub", "slides", "closing", "caption", "hashtags"):
-        if key not in d:
-            raise ValueError(f"'{key}' 항목이 없어요")
-    if len(d["slides"]) != 5:
-        raise ValueError("slides는 5개여야 해요")
-    for s in d["slides"]:
-        if not s.get("title") or not s.get("body"):
-            raise ValueError("slide에 title/body가 비어 있어요")
-    d["hashtags"] = [h if h.startswith("#") else f"#{h}" for h in d["hashtags"]]
-
-
-if __name__ == "__main__":
-    import json
-    import sys
-
-    print(json.dumps(write_content(sys.argv[1]), ensure_ascii=False, indent=2))
+    
