@@ -73,7 +73,8 @@ def main() -> None:
     print(f"주제: {topic}")
 
     content = write_content(topic)
-    caption = content["caption"].strip() + "\n\n" + " ".join(content["hashtags"])
+    ai_note = "※ 이미지는 AI로 생성한 참고용이에요." if os.environ.get("GEMINI_API_KEY") else ""
+    caption = "\n\n".join(p for p in (content["caption"].strip(), ai_note, " ".join(content["hashtags"])) if p)
 
     slug = time.strftime("%Y%m%d-%H%M")
     paths = render_all(content, ROOT / "images" / slug)
