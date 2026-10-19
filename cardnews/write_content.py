@@ -71,17 +71,24 @@ TOOL = {
 }
 
 
-def write_content(topic: str, tries: int = 3) -> dict:
+def write_content(topic: str, tries: int = 4) -> dict:
     client = anthropic.Anthropic()
     last_error = None
-    for _ in range(tries):
+    for attempt in range(tries):
+        prompt = PROMPT.format(topic=topic)
+        prompt += ("\n\n주제에 숫자(예: 7가지)가 있어도 slides는 반드시 5개로 구성하고, 필요하면 항목을 묶거나 대표 항목만 골라줘."
+                   "\nslides, closing, caption, hashtags를 빠뜨리지 말고 모든 항목을 채워서 한 번에 제출해줘.")
+        if last_error:
+            prompt += f"\n(이전 시도 실패 이유: {last_error})"
         msg = client.messages.create(
             model=MODEL,
-            max_tokens=2000,
+            max_tokens=4500,  # 항목이 많아서 짧으면 중간에 잘려 slides가 빠져요
             system=SYSTEM,
             tools=[TOOL],
-            messages=[{"role": "user", "content": PROMPT.format(topic=topic)}],
+            messages=[{"role": "user", "content": prompt}],
         )
+        if msg.stop_reason == "max_tokens":
+            print(f"글 생성이 길이 제한으로 잘렸어요 (시도 {attempt + 1}/{tries})")
         used_tool = False
         for block in msg.content:
             if block.type == "tool_use":

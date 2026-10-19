@@ -21,14 +21,17 @@ def load_state() -> dict:
     return {"posted": []}
 
 
-def pick_topic(state: dict) -> str:
-    """미리 만든 주제 → 이전에 AI가 만든 주제 순으로 쓰고, 다 떨어지면 AI가 새 주제를 만든다."""
+def pick_topic(state: dict, avoid=()) -> str:
+    """미리 만든 주제 → 이전에 AI가 만든 주제 순으로 쓰고, 다 떨어지면 AI가 새 주제를 만든다.
+    글 만들기에 2번 이상 실패한 주제와 이번 실행에서 이미 시도한 주제(avoid)는 건너뛴다."""
     done = {p["topic"] for p in state["posted"]}
+    failed = state.setdefault("failed", {})
+    skip = done | {t for t, n in failed.items() if n >= 2} | set(avoid)
     extra = state.setdefault("extra_topics", [])
     for t in TOPICS + extra:
-        if t not in done:
+        if t not in skip:
             return t
-    new = suggest_topics(list(done) + TOPICS + extra)
+    new = suggest_topics(list(skip) + TOPICS + extra)
     if not new:
         raise SystemExit("새 주제를 만들지 못했어요. 잠시 뒤 다시 시도돼요.")
     print(f"주제 목록이 떨어져서 AI가 새 주제 {len(new)}개를 만들었어요.")
@@ -72,15 +75,34 @@ def save_state(state: dict, topic: str, media_id: str) -> None:
         {"topic": topic, "media_id": media_id, "at": time.strftime("%Y-%m-%d %H:%M:%S")}
     )
     state["posted"] = state["posted"][-400:]
+    persist_state(state)
+
+
+def persist_state(state: dict) -> None:
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def main() -> None:
     state = load_state()
-    topic = pick_topic(state)
-    print(f"주제: {topic}")
 
-    content = write_content(topic)
+    # 글 만들기에 실패하면 같은 주제를 계속 고르지 않도록, 다른 주제로 최대 3번까지 시도한다
+    content, topic, tried = None, "", []
+    for _ in range(3):
+        topic = pick_topic(state, avoid=tried)
+        tried.append(topic)
+        print(f"주제: {topic}")
+        try:
+            content = write_content(topic)
+            break
+        except ValueError as e:
+            failed = state.setdefault("failed", {})
+            failed[topic] = failed.get(topic, 0) + 1
+            print(f"글 만들기 실패({failed[topic]}회), 다른 주제로 시도해요: {e}")
+    if content is None:
+        if not DRY_RUN:
+            persist_state(state)  # 실패 기록을 남겨서 다음 실행이 같은 주제에 갇히지 않게 한다
+        raise RuntimeError(f"글 만들기에 연속 실패했어요 (시도한 주제: {tried})")
+
     ai_note = "※ 이미지는 AI로 생성한 참고용이에요." if os.environ.get("GEMINI_API_KEY") else ""
     caption = "\n\n".join(p for p in (content["caption"].strip(), ai_note, " ".join(content["hashtags"])) if p)
 
