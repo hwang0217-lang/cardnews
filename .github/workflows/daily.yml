@@ -2,11 +2,11 @@ name: daily-cardnews
 
 on:
   schedule:
-    # 정각(0분)은 GitHub가 몰려서 몇 시간씩 밀리기 쉬워서, 일부러 어긋난 분에 걸어요.
-    # 한국시간 매일 오전 7시 47분 = UTC 전날 22시 47분 (지연을 감안해 조금 일찍)
+    # 한국시간 오전 7:47 / 오후 6:47
     - cron: "47 22 * * *"
-    # 한국시간 매일 오후 6시 47분 = UTC 오전 9시 47분
     - cron: "47 9 * * *"
+    # 보조 확인: 한국시간 10:17 / 21:17. 이미 발행한 시간대는 건너뜁니다.
+    - cron: "17 1,12 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -25,14 +25,48 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: 시간대별 발행 확인 및 누락 감지
+        id: gate
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timedelta, timezone
+          from pathlib import Path
+          kst = timezone(timedelta(hours=9))
+          now = datetime.now(kst)
+          morning = now.replace(hour=7, minute=47, second=0, microsecond=0)
+          evening = now.replace(hour=18, minute=47, second=0, microsecond=0)
+          start = evening if now >= evening else morning if now >= morning else evening - timedelta(days=1)
+          path = Path('cardnews/state.json')
+          posted = json.loads(path.read_text(encoding='utf-8')).get('posted', []) if path.exists() else []
+          already = any(datetime.strptime(p['at'], '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc) >= start for p in posted)
+          preview = os.environ.get('DRY_RUN') == '1'
+          proceed = preview or not already
+          message = '연습 실행: 실제 발행 없음' if preview else '이미 발행한 시간대: 중복 발행 생략' if already else '이 시간대 미발행: 발행 진행'
+          if os.environ.get('SCHEDULE') == '17 1,12 * * *' and not already:
+              print('::warning::정규 발행 기록이 없어 보조 실행에서 발행을 시도합니다.')
+          print(message)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'proceed={str(proceed).lower()}\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as f:
+              f.write(f'### 발행 확인\n- 확인 시각: {now:%Y-%m-%d %H:%M} KST\n- 시간대 시작: {start:%Y-%m-%d %H:%M} KST\n- {message}\n')
+          PY
       - name: 한글 글꼴 설치
+        if: steps.gate.outputs.proceed == 'true'
         run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk fonts-noto-color-emoji
       - name: 라이브러리 설치
+        if: steps.gate.outputs.proceed == 'true'
         run: pip install -r cardnews/requirements.txt
       - name: 카드뉴스 만들고 올리기
+        if: steps.gate.outputs.proceed == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
