@@ -6,6 +6,7 @@ import time
 from pathlib import Path
 
 from publish import publish_carousel
+from layouts import describe_fonts, pick_style
 from render import render_all
 from write_content import suggest_topics, write_content
 
@@ -107,7 +108,9 @@ def main() -> None:
     caption = "\n\n".join(p for p in (content["caption"].strip(), ai_note, " ".join(content["hashtags"])) if p)
 
     slug = time.strftime("%Y%m%d-%H%M")
-    paths = render_all(content, ROOT / "images" / slug)
+    style = pick_style(state, slug)  # 최근에 쓴 스타일은 피해서 오늘의 디자인을 고른다
+    print(f"오늘의 디자인: {style['id']} (틀: {style['layout']}) / 글꼴: {describe_fonts()}")
+    paths = render_all(content, ROOT / "images" / slug, style, slug)
     print(f"이미지 {len(paths)}장 생성")
 
     if DRY_RUN:
@@ -120,6 +123,8 @@ def main() -> None:
     wait_for_urls(urls)
     media_id = publish_carousel(urls, caption)
     print(f"업로드 완료: {media_id}")
+    state.setdefault("styles", []).append(style["id"])
+    state["styles"] = state["styles"][-12:]
     save_state(state, topic, media_id)
 
 

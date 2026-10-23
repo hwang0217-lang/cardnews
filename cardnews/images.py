@@ -7,7 +7,7 @@ import time
 from PIL import Image
 
 MODEL = os.environ.get("GEMINI_IMAGE_MODEL", "gemini-nano-banana-2.1")
-SIZE = os.environ.get("GEMINI_IMAGE_SIZE", "2K")  # 대문자 K만 허용돼요
+SIZE = os.environ.get("GEMINI_IMAGE_SIZE", "1K")  # 대문자 K만 허용돼요 (사진이 액자 안에 들어가서 1K로 충분해요)
 ASPECT = "4:5"  # 카드뉴스 1080x1350과 같은 비율
 
 RULES = (

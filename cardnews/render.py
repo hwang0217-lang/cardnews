@@ -293,7 +293,12 @@ def closing(c, page, total):
     return img
 
 
-def render_all(content: dict, out_dir: Path) -> list[Path]:
+def render_all(content: dict, out_dir: Path, style: dict = None, seed_text: str = "") -> list[Path]:
+    # 스타일이 사진 꽉 채우기(photo)가 아니면 Canva 배경을 쓰는 다른 틀로 그린다
+    if style and style.get("layout") != "photo":
+        from layouts import render_styled
+
+        return render_styled(content, out_dir, style, seed_text)
     out_dir.mkdir(parents=True, exist_ok=True)
     total = len(content["slides"]) + 2
     images = [cover(content, total)]
