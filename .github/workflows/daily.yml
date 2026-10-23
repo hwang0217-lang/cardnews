@@ -61,7 +61,7 @@ jobs:
           PY
       - name: 한글 글꼴 설치
         if: steps.gate.outputs.proceed == 'true'
-        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk fonts-noto-color-emoji
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk fonts-noto-color-emoji fonts-nanum fonts-nanum-extra
       - name: 라이브러리 설치
         if: steps.gate.outputs.proceed == 'true'
         run: pip install -r cardnews/requirements.txt
