@@ -59,11 +59,17 @@
       "topic": "자취생 필수 조리도구 최소 구성 7가지",
       "media_id": "18394686427202305",
       "at": "2026-10-23 14:30:09"
+    },
+    {
+      "topic": "음식물 쓰레기 냄새 없애는 방법 5가지",
+      "media_id": "18129460724490953",
+      "at": "2026-10-24 01:11:05"
     }
   ],
   "extra_topics": [],
   "failed": {},
   "styles": [
-    "p-terracotta-center-serif"
+    "p-terracotta-center-serif",
+    "p-mint-band"
   ]
 }
