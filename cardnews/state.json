@@ -69,6 +69,11 @@
       "topic": "주방 기름때 쉽게 지우는 청소 꿀팁 5가지",
       "media_id": "18119639365965421",
       "at": "2026-10-24 13:37:48"
+    },
+    {
+      "topic": "원룸 주방 인테리어 돈 안 들이고 예뻐 보이는 법",
+      "media_id": "18129238690883301",
+      "at": "2026-10-25 00:34:45"
     }
   ],
   "extra_topics": [],
@@ -76,6 +81,7 @@
   "styles": [
     "p-terracotta-center-serif",
     "p-mint-band",
-    "p-sky-left"
+    "p-sky-left",
+    "p-lime-bottom"
   ]
 }
