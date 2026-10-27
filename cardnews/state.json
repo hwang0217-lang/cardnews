@@ -94,6 +94,11 @@
       "topic": "자취 주방 위생 관리 꼭 지킬 것 6가지",
       "media_id": "18010456443004000",
       "at": "2026-10-27 01:40:37"
+    },
+    {
+      "topic": "1만 원으로 시작하는 자취 주방 세팅",
+      "media_id": "18385248778225812",
+      "at": "2026-10-27 15:36:41"
     }
   ],
   "extra_topics": [],
@@ -106,6 +111,7 @@
     "p-gold-matte-serif",
     "p-mono-editorial",
     "p-butter-rounded",
-    "p-mint-band"
+    "p-mint-band",
+    "p-light-panel"
   ]
 }
