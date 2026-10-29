@@ -186,6 +186,20 @@ def shadowed(tile: Image.Image, offset=(8, 12), blur=16, opacity=100):
 
 def placeholder(w, h, style, label="") -> Image.Image:
     tile = Image.new("RGB", (w, h), blend(style["paper"], style["accent"], 0.25))
+    # A deliberate checklist illustration when no paid photo provider is used.
+    d = ImageDraw.Draw(tile)
+    unit = min(w, h)
+    left, top = int(w * .27), int(h * .23)
+    box, gap = int(unit * .10), int(unit * .19)
+    stroke = max(2, int(unit * .012))
+    for i in range(3):
+        y = top + gap * i
+        d.rounded_rectangle((left, y, left + box, y + box), radius=3,
+                            outline=style['ink'], width=stroke)
+        d.line((left + box * .2, y + box * .5, left + box * .43, y + box * .75,
+                left + box * .85, y + box * .23), fill=style['accent'], width=stroke)
+        d.line((left + box * 1.5, y + box * .5, w * .75, y + box * .5),
+               fill=style['ink'], width=stroke)
     return tile
 
 

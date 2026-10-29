@@ -1,12 +1,7 @@
 name: daily-cardnews
 
 on:
-  schedule:
-    # 한국시간 오전 7:47 / 오후 6:47
-    - cron: "47 22 * * *"
-    - cron: "47 9 * * *"
-    # 보조 확인: 한국시간 10:17 / 21:17. 이미 발행한 시간대는 건너뜁니다.
-    - cron: "17 1,12 * * *"
+  # Legacy schedule retired on 2026-10-29; Codex owns publishing.
   workflow_dispatch:
     inputs:
       dry_run:

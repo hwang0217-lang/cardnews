@@ -117,6 +117,15 @@ def main() -> None:
         raise RuntimeError("AI 사진 생성이 계속 실패해서 발행을 건너뛰어요 (결제 잔액·한도를 확인하세요)")
 
     if DRY_RUN:
+        # 로컬 제작은 승인된 음원 사용. 서버 예약은 별도 연결 전까지 유지.
+        music_mode = os.environ.get("MAKE_MUSIC_REEL", "auto")
+        make_music = music_mode == "1" or (
+            music_mode == "auto" and os.environ.get("GITHUB_ACTIONS") != "true"
+        )
+        if make_music:
+            from reels import make_preview
+            video, track = make_preview(content, paths, ROOT / "reel_previews" / slug / "reel.mp4")
+            print(f"음악 포함 릴스 파일 완성: {video} / {track['title']}")
         print("DRY_RUN: 업로드하지 않고 종료")
         print(caption)
         return
@@ -132,6 +141,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    raise SystemExit("Legacy Claude API pipeline disabled; use managed.py")
     try:
         main()
     except Exception as e:
