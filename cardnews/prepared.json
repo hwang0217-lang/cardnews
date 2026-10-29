@@ -1,7 +1,7 @@
 {
   "id": "2026-10-30-am",
   "date": "2026-10-30",
-  "reviewed": true,
+  "reviewed": false,
   "content": {
     "cover_title": "장보기 전, 냉장고 한 장",
     "cover_sub": "중복 구매를 줄이는 냉장고 메모",
@@ -27,5 +27,6 @@
         "body": "남은 재료로 만들 메뉴 하나를 정해요. 그 메뉴에 부족한 재료만 목록에 남겨요."
       }
     ]
-  }
+  },
+  "design_status": "canva_export_and_correction_approval_pending"
 }
