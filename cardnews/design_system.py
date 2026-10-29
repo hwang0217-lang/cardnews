@@ -6,9 +6,9 @@ from PIL import Image, ImageDraw, ImageFont
 W, H = 1080, 1350
 STYLES = ('editorial', 'big-number', 'split', 'notes', 'timeline', 'poster')
 PALETTES = {
-    'nordic': [('F7F0E4','382E29','BB553B'), ('DDEEE4','183D39','D16F32'),
-               ('FFF2E7','432F36','C24B56'), ('F2EEFA','352D4C','7252A2'),
-               ('F4F1E5','283D36','537D67'), ('213E36','FFF5DB','EDB45C')],
+    'nordic': [('FAFAFA','181A1E','30343B'), ('F2F4F7','181A1E','2454D8'),
+               ('FFFFFF','181A1E','30343B'), ('F1F2F4','181A1E','555D6B'),
+               ('FAFAFA','181A1E','2454D8'), ('191C22','F8F9FB','B8C7EC')],
     'issue': [('F2F4F7','152539','2452CE'), ('152539','F4F7FA','83DBCF'),
               ('F5F1EB','3E2731','A42D4C'), ('EAF0F7','1F3655','32689B'),
               ('FFF4E5','3B3025','B94F20'), ('163BA0','FFFFFF','F5D85D')],
