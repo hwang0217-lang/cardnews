@@ -109,6 +109,11 @@
       "topic": "냉동실 정리 이렇게 하면 낭비가 줄어요",
       "media_id": "18095141309663469",
       "at": "2026-10-28 16:20:58"
+    },
+    {
+      "topic": "원룸에서 고기 구워 먹고 냄새 줄이는 법",
+      "media_id": "18132084088840409",
+      "at": "2026-10-29 02:00:36"
     }
   ],
   "extra_topics": [],
@@ -124,6 +129,7 @@
     "p-mint-band",
     "p-light-panel",
     "p-navy-panel",
-    "p-green-left-serif"
+    "p-green-left-serif",
+    "p-lime-bottom"
   ]
 }
