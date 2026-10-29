@@ -13,7 +13,7 @@ SYSTEM = """너는 '원룸 자취생 주방템' 인스타그램 계정의 카드
 PROMPT = """주제: {topic}
 
 반드시 submit_cardnews 도구를 호출해서 카드뉴스 내용을 제출해줘. 글로 답하지 말고 도구만 써.
-- cover_title: 표지 제목 (최대 22자, 숫자나 질문으로 시선 끌기)
+- cover_title: 표지 제목 (최대 22자). 이번 표지의 시선 끄는 방식: {hook}. 매번 "N가지"로만 끝내지 말고 방식을 지켜서 써
 - cover_sub: 표지 부제 (최대 20자)
 - cover_stickers: 표지 사진 위에 붙일 짧은 문구 2개 (각각 최대 12자, 예: "원룸 필수템만!")
 - visual_style: 모든 사진이 공유할 분위기 한 줄 (영어, 예: "light oak countertop, warm morning light, cream and sage color palette")
@@ -28,9 +28,10 @@ PROMPT = """주제: {topic}
 - image_prompt는 현실에 흔한 평범한 제품 모습으로 쓰고, 화려하거나 비현실적인 재질(금색, 네온 등)은 쓰지 않기
 - 사진 검색어는 주방, 식재료, 조리도구, 식탁 같은 물건·공간 위주로 쓰고 사람 얼굴이 나올 법한 검색어와 브랜드명은 피해
 - closing: 마지막 장 문구 (최대 30자, 저장/팔로우 유도)
-- caption: 인스타 설명글 (첫 줄은 핵심 한 문장, 3~5줄, 마지막은 독자에게 묻는 질문).
+- caption: 인스타 설명글. 첫 줄은 사람들이 검색할 만한 핵심 단어(예: 자취, 원룸, 주방, 냄새, 정리)가 들어간 한 문장,
+  3~5줄, 중간에 "저장해두면 나중에 편해요"처럼 저장을 부르는 한 줄, 마지막은 독자가 댓글로 답하기 쉬운 짧은 질문.
   내용에 어울리는 이모지를 전체에서 2~4개만 자연스럽게 섞는다 (예: 🍳 📌 💡). 줄마다 붙이거나 같은 이모지를 반복하지 않는다.
-- hashtags: 8개, 모두 # 로 시작, 띄어쓰기 없이
+- hashtags: 정확히 5개, 모두 # 로 시작, 띄어쓰기 없이. 넓은 태그 2개(예: #자취, #원룸) + 이 주제만의 구체 태그 3개(예: #주방기름때)
 한국어로 작성해줘."""
 
 TOOL = {
@@ -71,11 +72,25 @@ TOOL = {
 }
 
 
+HOOKS = (
+    "숫자 + 손해 피하기 (예: 이거 모르면 매달 3만 원 새요)",
+    "독자에게 직접 던지는 질문 (예: 냉동실 아직도 이렇게 써요?)",
+    "흔한 오해 뒤집기 (예: 밀폐용기 이렇게 쓰면 오히려 냄새나요)",
+    "전과 후 대비 (예: 정리 전 vs 정리 후, 딱 하나 바꿨어요)",
+    "버려도 되는 것 · 꼭 필요한 것 (예: 사지 마세요, 이것만 있으면 돼요)",
+    "한 줄 결론부터 (예: 결론: 프라이팬은 하나면 충분해요)",
+)
+
+
+def pick_hook(topic: str) -> str:
+    return HOOKS[sum(map(ord, topic)) % len(HOOKS)]
+
+
 def write_content(topic: str, tries: int = 4) -> dict:
     client = anthropic.Anthropic()
     last_error = None
     for attempt in range(tries):
-        prompt = PROMPT.format(topic=topic)
+        prompt = PROMPT.format(topic=topic, hook=pick_hook(topic))
         prompt += ("\n\n주제에 숫자(예: 7가지)가 있어도 slides는 반드시 5개로 구성하고, 필요하면 항목을 묶거나 대표 항목만 골라줘."
                    "\nslides, closing, caption, hashtags를 빠뜨리지 말고 모든 항목을 채워서 한 번에 제출해줘.")
         if last_error:
@@ -116,7 +131,7 @@ def validate(d: dict) -> None:
         # 이모지는 한 개만 쓰고, 이상하게 길면 버린다 (없어도 발행에는 문제없음)
         em = (s.get("emoji") or "").strip()
         s["emoji"] = em if 0 < len(em) <= 8 and not any(c.isascii() and c.isalnum() for c in em) else ""
-    d["hashtags"] = [h if h.startswith("#") else f"#{h}" for h in d["hashtags"]]
+    d["hashtags"] = [h if h.startswith("#") else f"#{h}" for h in d["hashtags"]][:5]
 
 
 TOPIC_TOOL = {
@@ -168,3 +183,5 @@ if __name__ == "__main__":
     import sys
 
     print(json.dumps(write_content(sys.argv[1]), ensure_ascii=False, indent=2))
+
+

@@ -8,8 +8,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
 
-from layouts import (SCALES, W, H, blend, body_height, crop_to, draw_body, draw_lines, emoji_tile, fit_lines,
-                     font, get_photo_image, sticker, text_block_height)
+from layouts import (HANDLE, SCALES, W, H, blend, body_height, circle_photo, crop_to, draw_body, draw_lines, emoji_tile,
+                     fit_lines, font, get_photo_image, paste_center, rounded_photo, sticker, text_block_height)
 
 MX = 76  # 글자 좌우 여백
 DARK = (27, 26, 23)
@@ -320,7 +320,148 @@ def cover_image(content, style, rnd, total):
                        hint=pos not in ("panel", "band"))  # 패널·띠 스타일은 아래가 글 영역이라 안내 문구를 빼요
 
 
-def body_image(item, content, style, rnd, num, page, total):
+# ---------------------------------------------------------------- 본문 틀 5종 (장마다 다르게)
+TEMPLATES = ("overlay", "split", "numeral", "circle", "side")
+
+
+def pick_templates(rnd, n):
+    """장마다 본문 틀을 골라요. 같은 틀이 연달아 나오지 않고, 한 게시물에 3종 이상 섞여요."""
+    while True:
+        seq = []
+        for _ in range(n):
+            seq.append(rnd.choice([t for t in TEMPLATES if not seq or t != seq[-1]]))
+        if len(set(seq)) >= 3:
+            return seq
+
+
+def make_tone(style, rnd):
+    """색 바탕 장(밝은 종이 / 어두운 종이)의 색. 한 게시물 안에서는 같게 써요."""
+    acc = style["accent"]
+    if rnd.random() < 0.5:
+        a = (70, 66, 60) if _lum(acc) > 190 else acc
+        return dict(bg=blend((255, 251, 245), acc, 0.14), ink=DARK, sub=(125, 118, 108), dark=False,
+                    st=dict(style, accent=a, marker="fill", label="pill" if style["label"] == "line" else style["label"]))
+    a = (255, 255, 255) if _lum(acc) < 60 else acc
+    return dict(bg=blend((20, 20, 20), acc, 0.10), ink=(255, 255, 255), sub=(170, 168, 164), dark=True,
+                st=dict(style, accent=a))
+
+
+def _ph(photo, w, h, style):
+    return crop_to(photo, w, h) if photo is not None else fallback_photo(style, w, h)
+
+
+def _stack(tone, item, num, emoji, w, max_h, align, tsizes, body_px, title_lines=2):
+    st, ink = tone["st"], tone["ink"]
+    d0 = _d0()
+    label = f"POINT {num}" if st["label"] != "line" else f"POINT {num:02d}"
+    for s in SCALES:
+        parts = [label_part(st, label)]
+        tp, _ = title_part(d0, item["title"], st["title"], tuple(int(z * s) for z in tsizes), w, title_lines, ink,
+                           st["accent"], False, emoji, align)
+        parts.append(tp)
+        bf = font("sans_reg", body_px * s)
+        hl_ink = DARK if _lum(st["accent"]) > 110 else (255, 255, 255)
+        bh = int(body_height(d0, item["body"], bf, w, 0.5)) + 6
+
+        def draw_b(img, d, x, y, w2, al, bf=bf, hl_ink=hl_ink):
+            draw_body(img, d, item["body"], item.get("highlight"), bf, x, y, w2, st, 0.5, ink, st["marker"],
+                      al == "center", hl_ink)
+        parts.append(Part(bh, draw_b))
+        if stack_height(parts, 24) <= max_h:
+            break
+    return parts, 24
+
+
+def _footer_solid(base, tone, page, total, left_only=False):
+    d = ImageDraw.Draw(base)
+    f = font("sans_reg", 28)
+    d.text((MX, H - 84), HANDLE, font=f, fill=tone["sub"])
+    if not left_only:
+        t = f"{page} / {total}"
+        d.text((W - MX - d.textlength(t, font=f), H - 84), t, font=f, fill=tone["sub"])
+
+
+def _solid(tone):
+    return Image.new("RGBA", (W, H), tone["bg"] + (255,))
+
+
+def tpl_split(style, tone, photo, item, num, page, total, emoji):
+    base, st = _solid(tone), tone["st"]
+    ph_h = 640
+    ph = _ph(photo, W, ph_h, style).convert("RGBA")
+    mask = Image.new("L", (W, ph_h), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, -70, W - 1, ph_h - 1), 60, fill=255)
+    base.paste(ph, (0, 0), mask)
+    d = ImageDraw.Draw(base)
+    r = 62
+    d.ellipse((MX, ph_h - r, MX + 2 * r, ph_h + r), fill=st["accent"])
+    nf = font("sans_black", 62)
+    nt = f"{num}"
+    d.text((MX + r - d.textlength(nt, font=nf) / 2, ph_h - nf.size / 2 - 8), nt, font=nf, fill=_on(st["accent"]))
+    w = W - 2 * MX
+    parts, gap = _stack(tone, item, num, emoji, w, H - 120 - (ph_h + 110), "left", (76, 70, 64, 56), 47)
+    draw_stack(base, d, parts, MX, ph_h + 100, w, "left", gap)
+    _footer_solid(base, tone, page, total)
+    return base
+
+
+def tpl_numeral(style, tone, photo, item, num, page, total, emoji, rnd):
+    base, st = _solid(tone), tone["st"]
+    d = ImageDraw.Draw(base)
+    big = font("sans_black", 360)
+    d.text((MX - 14, 10), f"{num:02d}", font=big, fill=blend(tone["bg"], st["accent"], 0.5 if not tone["dark"] else 0.4))
+    tile = rounded_photo(_ph(photo, 800, 520, style), 800, 520, 44, 10, (255, 252, 246) if not tone["dark"] else (60, 60, 60),
+                         angle=rnd.choice([-2, 2]))
+    paste_center(base, tile, W / 2, 270)
+    d = ImageDraw.Draw(base)
+    w = W - 2 * MX
+    parts, gap = _stack(tone, item, num, emoji, w, H - 120 - 860, "left", (72, 66, 60, 54), 45)
+    draw_stack(base, d, parts, MX, 860, w, "left", gap)
+    _footer_solid(base, tone, page, total)
+    return base
+
+
+def tpl_circle(style, tone, photo, item, num, page, total, emoji):
+    base, st = _solid(tone), tone["st"]
+    tile = circle_photo(_ph(photo, 540, 540, style), 540, st["accent"], 14)
+    paste_center(base, tile, W / 2, 80)
+    d = ImageDraw.Draw(base)
+    w = W - 2 * (MX + 20)
+    top = 80 + tile.height - 24
+    parts, gap = _stack(tone, item, num, emoji, w, H - 120 - top, "center", (72, 66, 60, 54), 45)
+    draw_stack(base, d, parts, MX + 20, top, w, "center", gap)
+    _footer_solid(base, tone, page, total)
+    return base
+
+
+def tpl_side(style, tone, photo, item, num, page, total, emoji):
+    base, st = _solid(tone), tone["st"]
+    pw, py0, py1 = 400, 110, H - 150
+    ph = _ph(photo, pw, py1 - py0, style).convert("RGBA")
+    mask = Image.new("L", (pw + 90, py1 - py0), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, pw + 89, py1 - py0 - 1), 60, fill=255)
+    base.paste(ph, (W - pw, py0), mask.crop((0, 0, pw, py1 - py0)))
+    d = ImageDraw.Draw(base)
+    w = W - pw - MX - 44
+    parts, gap = _stack(tone, item, num, emoji, w, 900, "left", (68, 62, 56, 50), 45, title_lines=3)
+    h = stack_height(parts, gap)
+    draw_stack(base, d, parts, MX, py0 + (py1 - py0 - h) / 2, w, "left", gap)
+    d = ImageDraw.Draw(base)
+    f = font("sans_reg", 28)
+    t = f"{HANDLE}  ·  {page} / {total}"
+    d.text((MX, H - 84), t, font=f, fill=tone["sub"])
+    return base
+
+
+def body_image(item, content, style, rnd, num, page, total, template="overlay", tone=None):
+    if template != "overlay" and tone is not None:
+        photo = photo_of(content, item)
+        emoji = emoji_tile(item.get("emoji", ""), 60)
+        args = (style, tone, photo, item, num, page, total, emoji)
+        if template == "numeral":
+            return tpl_numeral(*args, rnd).convert("RGB")
+        fn = {"split": tpl_split, "circle": tpl_circle, "side": tpl_side}[template]
+        return fn(*args).convert("RGB")
     d0 = _d0()
     accent = style["accent"]
     emoji = emoji_tile(item.get("emoji", ""), 60)
@@ -370,8 +511,11 @@ def render_photo2(content: dict, out_dir: Path, style: dict, rnd: random.Random)
     slides = content["slides"]
     total = len(slides) + 2
     images = [cover_image(content, style, rnd, total)]
+    plan = pick_templates(rnd, len(slides))
+    tone = make_tone(style, rnd)
+    print("본문 틀:", ", ".join(plan), "/", "어두운 종이" if tone["dark"] else "밝은 종이")
     for i, s in enumerate(slides, 1):
-        images.append(body_image(s, content, style, rnd, i, i + 1, total))
+        images.append(body_image(s, content, style, rnd, i, i + 1, total, plan[i - 1], tone))
     images.append(closing_image(content, style, rnd, total, total))
     paths = []
     for i, im in enumerate(images, 1):
@@ -379,3 +523,4 @@ def render_photo2(content: dict, out_dir: Path, style: dict, rnd: random.Random)
         im.save(p, "JPEG", quality=92)
         paths.append(p)
     return paths
+

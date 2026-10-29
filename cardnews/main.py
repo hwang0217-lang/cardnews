@@ -6,7 +6,7 @@ import time
 from pathlib import Path
 
 from publish import publish_carousel
-from layouts import describe_fonts, pick_style
+from layouts import PHOTO_STATS, describe_fonts, pick_style
 from render import render_all
 from write_content import suggest_topics, write_content
 
@@ -111,7 +111,10 @@ def main() -> None:
     style = pick_style(state, slug)  # 최근에 쓴 스타일은 피해서 오늘의 디자인을 고른다
     print(f"오늘의 디자인: {style['id']} (틀: {style['layout']}) / 글꼴: {describe_fonts()}")
     paths = render_all(content, ROOT / "images" / slug, style, slug)
-    print(f"이미지 {len(paths)}장 생성")
+    print(f"이미지 {len(paths)}장 생성 (사진 못 만든 장: {PHOTO_STATS['missing']})")
+    if PHOTO_STATS["missing"] > 2 and not DRY_RUN and os.environ.get("GEMINI_API_KEY"):
+        # 사진이 빠진 카드뉴스를 올리면 조회·저장이 크게 떨어져요. 올리지 않고 다음 실행에서 다시 시도해요.
+        raise RuntimeError("AI 사진 생성이 계속 실패해서 발행을 건너뛰어요 (결제 잔액·한도를 확인하세요)")
 
     if DRY_RUN:
         print("DRY_RUN: 업로드하지 않고 종료")

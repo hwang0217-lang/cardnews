@@ -378,14 +378,18 @@ def sticker(img, text, center, angle, fill, color, size=40):
 
 # ---------------------------------------------------------------- 사진
 _photo_cache = {}
+PHOTO_STATS = {"missing": 0, "cover_missing": False}
 
 
 def get_photo_image(prompt, query, style_text):
+    """AI 사진만 쓴다. 엉뚱한 무료 스톡 사진은 글과 안 맞아서 쓰지 않는다. (ALLOW_STOCK_PHOTOS=1일 때만 허용)"""
     key = (prompt, query, style_text)
     if key not in _photo_cache:
         ph = generate_image(prompt, style_text) if prompt else None
-        if ph is None and query:
+        if ph is None and query and os.environ.get("ALLOW_STOCK_PHOTOS") == "1":
             ph = get_photo(query, "vertical")
+        if ph is None:
+            PHOTO_STATS["missing"] += 1
         _photo_cache[key] = ph
     return _photo_cache[key]
 
