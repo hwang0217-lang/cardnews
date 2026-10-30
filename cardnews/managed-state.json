@@ -19,6 +19,15 @@
     "status": "pending",
     "at": "2026-10-31T08:47:14.657491+09:00",
     "title": "서랍 정리, 자주 쓰는 것부터",
-    "design_id": "canva-custom-export"
+    "design_id": "canva-custom-export",
+    "api_response_error": {
+      "code": 9007,
+      "error_subcode": 2207027,
+      "title": "Cannot Publish",
+      "message": "Media is not ready for publishing"
+    },
+    "verification": "browser_checked_no_matching_post",
+    "verified_at": "2026-10-31T08:50:55.151153+09:00",
+    "workflow_run_id": 41146465025
   }
 }
