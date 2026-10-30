@@ -1,55 +1,54 @@
 {
-  "id": "2026-10-30-am",
+  "id": "2026-10-30-pm",
   "date": "2026-10-30",
   "reviewed": true,
+  "design_status": "canva_export_reviewed",
   "content": {
-    "cover_title": "장보기 전, 냉장고 한 장",
-    "cover_sub": "중복 구매를 줄이는 냉장고 메모",
-    "caption": "장보러 가기 전, 냉장고 사진 한 장부터 찍어 보세요.\n\n이미 있는 재료를 확인하고, 만들 메뉴 하나를 정한 뒤 부족한 것만 목록에 남겨요. 같은 재료를 또 사는 일을 줄이는 작은 습관이에요.\n\n사진 찍기 → 있는 재료 확인 → 필요한 것만.\n※ 사진과 그래픽은 설명을 위한 연출 이미지입니다.",
-    "hashtags": [
-      "#자취주방",
-      "#장보기",
-      "#냉장고정리",
-      "#살림기록",
-      "#노르딕로그"
-    ],
+    "cover_title": "요리 시작 전, 빈 그릇 하나",
+    "cover_sub": "손질할 때 나오는 자투리를 한곳에",
     "slides": [
       {
-        "title": "문 열고 한 장",
-        "body": "냉장고와 식재료 보관함을 각각 찍어요. 이름이 안 보이는 재료는 메모해요."
+        "title": "도마 옆에 한 자리",
+        "body": "빈 그릇을 도마 옆에 놓아요. 손질하며 나온 껍질과 꼭지를 잠깐 모으는 자리예요."
       },
       {
-        "title": "살 것보다 있는 것",
-        "body": "사진을 보고 이미 있는 재료를 먼저 적어요. 이번 장보기 목록에서 겹치는 것을 지워요."
+        "title": "손질하는 동안만 모아요",
+        "body": "먹을 재료와 버릴 자투리가 섞이지 않게 나눠 둬요. 포장 비닐은 따로 모아요."
       },
       {
-        "title": "빈칸만 채우기",
-        "body": "남은 재료로 만들 메뉴 하나를 정해요. 그 메뉴에 부족한 재료만 목록에 남겨요."
+        "title": "끝나면 분리해서 비우기",
+        "body": "손질이 끝나면 지역 배출 기준에 맞게 나눠 버려요. 그릇도 바로 씻어 정리해요."
       }
+    ],
+    "caption": "요리하기 전, 도마 옆에 빈 그릇 하나를 놓아 보세요.\n\n손질하며 나오는 껍질과 꼭지를 잠깐 모으고, 손질이 끝나면 지역 배출 기준에 맞게 나눠 비워요. 먹을 재료와 포장 비닐은 따로 둡니다.\n\n새 도구를 사기 전에 집에 있는 그릇으로 시작해 보세요.\n※ 사진·그래픽은 설명을 위한 연출 이미지입니다.",
+    "hashtags": [
+      "#자취주방",
+      "#요리준비",
+      "#살림습관",
+      "#주방동선",
+      "#노르딕로그"
     ]
   },
-  "design_status": "canva_export_reviewed",
-  "late_publish_until": "2026-10-30T16:00:00+09:00",
   "exported_assets": [
     {
-      "path": "images/2026-10-30-am-canva/01.png",
-      "sha256": "2ae0bd6ea86a6a17f8ebc3341ec25d5964dc35f60bbde2ccf9cbaecb050a03f0"
+      "path": "images/2026-10-30-pm-canva/01.png",
+      "sha256": "2a8645907265365049ca6e5fa138545f7b29ce1f025f1d7c07d4a0ed26431b8f"
     },
     {
-      "path": "images/2026-10-30-am-canva/02.png",
-      "sha256": "b3487cb9d759f72eb93f03c593cb39d411eb9f5a35258784fbac729ee13f836b"
+      "path": "images/2026-10-30-pm-canva/02.png",
+      "sha256": "7a715a0592283346f3996b4e9f9c705c7d47001aab5dfb1cf9c8041b749eee1b"
     },
     {
-      "path": "images/2026-10-30-am-canva/03.png",
-      "sha256": "c6d3facd434f9560a1a36a8409ad37c996046d962b2a7fe05c4dd5ac873b1249"
+      "path": "images/2026-10-30-pm-canva/03.png",
+      "sha256": "b9e6340d093454195b203f8eafd5861d00d89fe140e6da0f88017905e968bf33"
     },
     {
-      "path": "images/2026-10-30-am-canva/04.png",
-      "sha256": "f6c5c9b8da761469ec1108fd4276b621de5ac1e9933a392bbaf21510a416dffe"
+      "path": "images/2026-10-30-pm-canva/04.png",
+      "sha256": "255bd16ab8bbfc48631c50c6b97e79f22aec0933f67ebf883803037684d9cf86"
     },
     {
-      "path": "images/2026-10-30-am-canva/05.png",
-      "sha256": "7f7face295cff309728f50771b283d27580f932fb56af86c0e1161925c616d15"
+      "path": "images/2026-10-30-pm-canva/05.png",
+      "sha256": "f8c1e7abd25ef1cc7f05e1909fdde11b9a00e23214c291baa1463e4c325f2c01"
     }
   ]
 }
