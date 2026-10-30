@@ -1,11 +1,11 @@
 {
   "id": "2026-10-30-am",
   "date": "2026-10-30",
-  "reviewed": false,
+  "reviewed": true,
   "content": {
     "cover_title": "장보기 전, 냉장고 한 장",
     "cover_sub": "중복 구매를 줄이는 냉장고 메모",
-    "caption": "마트에 가기 전 냉장고 사진 한 장. 이미 있는 재료부터 확인하면 같은 물건을 또 사는 일을 줄일 수 있어요.",
+    "caption": "장보러 가기 전, 냉장고 사진 한 장부터 찍어 보세요.\n\n이미 있는 재료를 확인하고, 만들 메뉴 하나를 정한 뒤 부족한 것만 목록에 남겨요. 같은 재료를 또 사는 일을 줄이는 작은 습관이에요.\n\n사진 찍기 → 있는 재료 확인 → 필요한 것만.\n※ 사진과 그래픽은 설명을 위한 연출 이미지입니다.",
     "hashtags": [
       "#자취주방",
       "#장보기",
@@ -28,5 +28,28 @@
       }
     ]
   },
-  "design_status": "canva_export_and_correction_approval_pending"
+  "design_status": "canva_export_reviewed",
+  "late_publish_until": "2026-10-30T16:00:00+09:00",
+  "exported_assets": [
+    {
+      "path": "images/2026-10-30-am-canva/01.png",
+      "sha256": "2ae0bd6ea86a6a17f8ebc3341ec25d5964dc35f60bbde2ccf9cbaecb050a03f0"
+    },
+    {
+      "path": "images/2026-10-30-am-canva/02.png",
+      "sha256": "b3487cb9d759f72eb93f03c593cb39d411eb9f5a35258784fbac729ee13f836b"
+    },
+    {
+      "path": "images/2026-10-30-am-canva/03.png",
+      "sha256": "c6d3facd434f9560a1a36a8409ad37c996046d962b2a7fe05c4dd5ac873b1249"
+    },
+    {
+      "path": "images/2026-10-30-am-canva/04.png",
+      "sha256": "f6c5c9b8da761469ec1108fd4276b621de5ac1e9933a392bbaf21510a416dffe"
+    },
+    {
+      "path": "images/2026-10-30-am-canva/05.png",
+      "sha256": "7f7face295cff309728f50771b283d27580f932fb56af86c0e1161925c616d15"
+    }
+  ]
 }
