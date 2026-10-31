@@ -1,54 +1,55 @@
 {
-  "id": "2026-10-31-am",
+  "id": "2026-10-31-pm",
   "date": "2026-10-31",
   "reviewed": true,
-  "design_status": "canva_export_reviewed",
+  "design_status": "all_export_pages_reviewed",
   "content": {
-    "cover_title": "서랍 정리, 자주 쓰는 것부터",
-    "cover_sub": "수납함을 사기 전에 자리부터 나눠요",
+    "cover_title": "건조대가 그릇장이 됐다면?",
+    "cover_sub": "마른 그릇부터 제자리로",
     "slides": [
       {
-        "title": "먼저, 한 칸만 비워요",
-        "body": "서랍 한 칸의 도구를 꺼내 놓아요. 같은 종류끼리 모아 겹치는 물건을 살펴봐요."
+        "title": "먼저, 마른 것만 골라요",
+        "body": "그릇의 안팎과 바닥을 살펴봐요. 아직 물기가 있으면 더 말려요."
       },
       {
-        "title": "손이 가는 횟수로 나눠요",
-        "body": "자주 쓰는 도구는 앞쪽에, 가끔 쓰는 도구는 안쪽에 둬요."
+        "title": "쓰는 자리로 돌려놓아요",
+        "body": "컵은 컵 자리로, 접시는 접시 자리로. 자주 쓰는 것은 꺼내기 쉬운 곳에 둬요."
       },
       {
-        "title": "다시 넣을 자리도 남겨요",
-        "body": "칸을 꽉 채우기보다 꺼내고 되돌려 놓을 여유를 남겨요."
+        "title": "건조대에는 여유를",
+        "body": "마른 그릇을 옮긴 뒤 다음 설거지를 놓을 공간을 남겨요."
       }
     ],
-    "caption": "주방 서랍이 복잡할 때는 한 칸만 꺼내 보세요.\n\n같은 종류끼리 모은 뒤, 자주 쓰는 도구를 앞쪽에 두고 가끔 쓰는 도구는 안쪽에 둡니다. 다시 넣을 자리도 조금 남겨 두세요.\n\n수납함을 새로 사기 전에 내가 자주 쓰는 도구부터 골라보세요.\n※ 사진·그래픽은 설명을 위한 연출 이미지입니다.",
+    "caption": "건조대에 마른 그릇이 쌓여 있다면, 마른 컵 하나부터 제자리로 돌려놓아 보세요.\n\n그릇의 안팎과 바닥을 살피고, 아직 물기가 있으면 더 말려요. 컵과 접시는 쓰는 자리로 옮기고 다음 설거지를 놓을 여유를 남겨 둡니다.\n\n전부 한꺼번에 정리하지 않아도 괜찮아요. 오늘은 마른 것만 골라보세요.\n※ 사진·그래픽은 설명을 위한 연출 이미지입니다.",
     "hashtags": [
       "#자취주방",
-      "#서랍정리",
-      "#주방수납",
+      "#설거지",
+      "#주방정리",
       "#살림습관",
       "#노르딕로그"
     ]
   },
+  "canva_design_id": "DAHZkWWY4Qg",
   "exported_assets": [
     {
-      "path": "images/2026-10-31-am-canva/01.png",
-      "sha256": "15f842b17c0fd340f048a87d526d3ad647668af53ddbb85c15c1b2ac64021fea"
+      "path": "images/2026-10-31-pm/01.png",
+      "sha256": "9486dcc8b67dd72f02adc96c357301fe44b5673dc302636809e4b401d59e7b37"
     },
     {
-      "path": "images/2026-10-31-am-canva/02.png",
-      "sha256": "ec93deeed3c33885fdb8a071b2dfd1af38cf0fd639b62e7719ee60eb26e3e689"
+      "path": "images/2026-10-31-pm/02.png",
+      "sha256": "1bc6b22f057cb1c84cee8412e799da67b4fee729758e0e527c91abbc241caf3a"
     },
     {
-      "path": "images/2026-10-31-am-canva/03.png",
-      "sha256": "b4a2a7bc36ff59a4048523eb85eaced41f071384e3752b1b18d2cfb55633ea34"
+      "path": "images/2026-10-31-pm/03.png",
+      "sha256": "267b6bd247bbc1a497c0719ed78832e64c3d5c46215fc9abea4ca2a35ac61744"
     },
     {
-      "path": "images/2026-10-31-am-canva/04.png",
-      "sha256": "10ba0354b312be0df190110fe5916b9f8d8feac6ece2b65f812123243a76823a"
+      "path": "images/2026-10-31-pm/04.png",
+      "sha256": "434b4f587104626f6b9c5bcabde6df967805bb017cdd5daf9da31a790264da1d"
     },
     {
-      "path": "images/2026-10-31-am-canva/05.png",
-      "sha256": "29862fe6f01d2ccd3abfcb4940795bf206ac080959aa707b1d3afad4f138a80d"
+      "path": "images/2026-10-31-pm/05.png",
+      "sha256": "112d4299fccbbb33e8ac1f56ac969c5270a785c3321ce01adb6f48dc88b1755e"
     }
   ]
 }
