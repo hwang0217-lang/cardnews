@@ -22,7 +22,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk fonts-nanum fonts-nanum-extra
+      # The managed path publishes reviewed PNGs; fonts were used during local rendering.
+      # Do not download 92MB of fonts before uploading already-rendered pages.
       - run: pip install pillow requests
       - run: python cardnews/managed.py
         env:
