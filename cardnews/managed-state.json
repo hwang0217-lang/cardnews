@@ -29,5 +29,11 @@
     "verification": "browser_checked_no_matching_post",
     "verified_at": "2026-10-31T08:50:55.151153+09:00",
     "workflow_run_id": 41146465025
+  },
+  "2026-10-31-pm": {
+    "status": "pending",
+    "at": "2026-10-31T18:41:50.458536+09:00",
+    "title": "건조대가 그릇장이 됐다면?",
+    "design_id": "canva-custom-export"
   }
 }
