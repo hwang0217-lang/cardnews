@@ -1,55 +1,116 @@
 {
-  "id": "2026-10-31-pm",
-  "date": "2026-10-31",
+  "id": "2026-11-01-am",
+  "date": "2026-11-01",
   "reviewed": true,
-  "design_status": "all_export_pages_reviewed",
+  "design_status": "editorial_all_pages_reviewed",
   "content": {
-    "cover_title": "건조대가 그릇장이 됐다면?",
-    "cover_sub": "마른 그릇부터 제자리로",
+    "cover_title": "장보기 가방은 문 옆 한 자리",
+    "cover_sub": "외출 준비를 가볍게 하는 배치",
     "slides": [
       {
-        "title": "먼저, 마른 것만 골라요",
-        "body": "그릇의 안팎과 바닥을 살펴봐요. 아직 물기가 있으면 더 말려요."
+        "title": "가방 자리부터 정해요",
+        "body": "문 가까운 집 안 선반에 장보기 가방 자리를 정해요. 문이 열리고 사람이 지나는 공간은 비워 둬요."
       },
       {
-        "title": "쓰는 자리로 돌려놓아요",
-        "body": "컵은 컵 자리로, 접시는 접시 자리로. 자주 쓰는 것은 꺼내기 쉬운 곳에 둬요."
+        "title": "열쇠·카드는 따로 모아요",
+        "body": "가방 안에서 찾기 어려운 작은 물건은 옆의 작은 쟁반에 모아 봐요. 외출할 때 가방과 함께 챙겨요."
       },
       {
-        "title": "건조대에는 여유를",
-        "body": "마른 그릇을 옮긴 뒤 다음 설거지를 놓을 공간을 남겨요."
+        "title": "나가기 전, 한 번만",
+        "body": "장보기 가방과 필요한 열쇠·카드를 확인해요. 돌아오면 같은 자리로 돌려놓아요."
       }
     ],
-    "caption": "건조대에 마른 그릇이 쌓여 있다면, 마른 컵 하나부터 제자리로 돌려놓아 보세요.\n\n그릇의 안팎과 바닥을 살피고, 아직 물기가 있으면 더 말려요. 컵과 접시는 쓰는 자리로 옮기고 다음 설거지를 놓을 여유를 남겨 둡니다.\n\n전부 한꺼번에 정리하지 않아도 괜찮아요. 오늘은 마른 것만 골라보세요.\n※ 사진·그래픽은 설명을 위한 연출 이미지입니다.",
+    "caption": "장보러 나갈 때 가방부터 찾고 있다면, 문 가까운 집 안에 가방 자리를 하나 정해 보세요.\n\n문이 열리고 사람이 지나는 공간은 비워 두고, 집에 있는 선반이나 수납장 한쪽을 활용해요. 열쇠·카드처럼 작은 물건은 옆의 쟁반에 모아 두었다가 함께 챙깁니다. 돌아오면 같은 자리로 돌려놓아요.\n\n새 수납용품을 사기 전에, 이미 있는 자리부터 정해 보세요.\n※ 사진은 배치를 설명하기 위한 AI 연출 이미지입니다.",
     "hashtags": [
-      "#자취주방",
-      "#설거지",
-      "#주방정리",
-      "#살림습관",
+      "#장보기준비",
+      "#장바구니",
+      "#현관정리",
+      "#자취살림",
       "#노르딕로그"
     ]
   },
-  "canva_design_id": "DAHZkWWY4Qg",
   "exported_assets": [
     {
-      "path": "images/2026-10-31-pm/01.png",
-      "sha256": "9486dcc8b67dd72f02adc96c357301fe44b5673dc302636809e4b401d59e7b37"
+      "path": "images/2026-11-01-am-editorial/01.png",
+      "sha256": "6024b8544b65a75102bc6ac5d70372672771b4c6849977e65c711971ba0f124b"
     },
     {
-      "path": "images/2026-10-31-pm/02.png",
-      "sha256": "1bc6b22f057cb1c84cee8412e799da67b4fee729758e0e527c91abbc241caf3a"
+      "path": "images/2026-11-01-am-editorial/02.png",
+      "sha256": "1426fb40e7ec5062910290392e609f82c1a0ded697aca73ce159781bca7040b9"
     },
     {
-      "path": "images/2026-10-31-pm/03.png",
-      "sha256": "267b6bd247bbc1a497c0719ed78832e64c3d5c46215fc9abea4ca2a35ac61744"
+      "path": "images/2026-11-01-am-editorial/03.png",
+      "sha256": "33584ab93e1cb2654feb3836c48eec16b9329f685ec6bae1a1ab408ad49b89e1"
     },
     {
-      "path": "images/2026-10-31-pm/04.png",
-      "sha256": "434b4f587104626f6b9c5bcabde6df967805bb017cdd5daf9da31a790264da1d"
+      "path": "images/2026-11-01-am-editorial/04.png",
+      "sha256": "8591b056976f6791e448834d50a27f5bf0e6266455474de1b1edf2b0b19557c1"
     },
     {
-      "path": "images/2026-10-31-pm/05.png",
-      "sha256": "112d4299fccbbb33e8ac1f56ac969c5270a785c3321ce01adb6f48dc88b1755e"
+      "path": "images/2026-11-01-am-editorial/05.png",
+      "sha256": "bed4d1451be60332be7cbd23829f5f2da992e47d7a6841faac69e6bd4a596856"
     }
-  ]
+  ],
+  "design_review": {
+    "renderer": "editorial-scene-v1",
+    "plan_sha256": "bebf051d353cb20fe09231982f8dfd09799e42a148e09ab8c1e727eb6e8b6638",
+    "quality_benchmark": "Canva DAHZkWWY4Qg, 2026-10-31 published 01.png and 03.png; compare original full-size photos, hierarchy, object explanations, whitespace and 390px readability",
+    "pages": [
+      {
+        "path": "images/2026-11-01-am-editorial/01.png",
+        "sha256": "6024b8544b65a75102bc6ac5d70372672771b4c6849977e65c711971ba0f124b",
+        "quality_notes": "장보기와 현관을 연결한 신규 정물사진을 제목 아래 배치해 최신 사진상단 표지와 구분. 사진 자체가 가방/열쇠 자리와 비워진 바닥을 설명하며 큰 제목·부제 위계와 절제된 색이 정상 Canva 기준에 부합.",
+        "text": true,
+        "no_obstruction": true,
+        "readable_390": true,
+        "facts": true,
+        "variety": true,
+        "canva_quality": true
+      },
+      {
+        "path": "images/2026-11-01-am-editorial/02.png",
+        "sha256": "1426fb40e7ec5062910290392e609f82c1a0ded697aca73ce159781bca7040b9",
+        "quality_notes": "세로 현관사진과 우측 설명을 분리. 사진에서 문과 통행 공간이 보이며 오른쪽 원고는 사진을 덮지 않음. Canva의 좌우 설명형 수준의 사진 활용과 정렬·가독성 확인.",
+        "text": true,
+        "no_obstruction": true,
+        "readable_390": true,
+        "facts": true,
+        "variety": true,
+        "canva_quality": true
+      },
+      {
+        "path": "images/2026-11-01-am-editorial/03.png",
+        "sha256": "33584ab93e1cb2654feb3836c48eec16b9329f685ec6bae1a1ab408ad49b89e1",
+        "quality_notes": "탑뷰 사진이 가방과 작은 소지품의 분리라는 정보 자체를 전달. 제목-탑뷰-본문 순서로 리듬 변화, 원고 정확/불필요한 선·배경 획 없음. 정상 Canva 물건배치형과 비교 통과.",
+        "text": true,
+        "no_obstruction": true,
+        "readable_390": true,
+        "facts": true,
+        "variety": true,
+        "canva_quality": true
+      },
+      {
+        "path": "images/2026-11-01-am-editorial/04.png",
+        "sha256": "8591b056976f6791e448834d50a27f5bf0e6266455474de1b1edf2b0b19557c1",
+        "quality_notes": "탑뷰의 작은 사진과 외출/귀가 확인순서를 연결한 편집. 숫자는 통계가 아닌3개 확인항목이며 원고를 시각적 순서로 정리. 색상박스 반복 없이 사진/타이포 위계 유지.",
+        "text": true,
+        "no_obstruction": true,
+        "readable_390": true,
+        "facts": true,
+        "variety": true,
+        "canva_quality": true
+      },
+      {
+        "path": "images/2026-11-01-am-editorial/05.png",
+        "sha256": "bed4d1451be60332be7cbd23829f5f2da992e47d7a6841faac69e6bd4a596856",
+        "quality_notes": "세로사진으로 가방이 지나치게 잘린 초기안을 반려한 뒤 제목상단·넓은 사진하단으로 전체 재출력. 마지막 사진은 선반과 쟁반 배치의 디테일 컷이며 사진 안 텍스트 없음. 명료한 종결 문장과 여백 확인.",
+        "text": true,
+        "no_obstruction": true,
+        "readable_390": true,
+        "facts": true,
+        "variety": true,
+        "canva_quality": true
+      }
+    ]
+  }
 }
