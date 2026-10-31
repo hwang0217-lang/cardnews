@@ -31,9 +31,10 @@
     "workflow_run_id": 41146465025
   },
   "2026-10-31-pm": {
-    "status": "pending",
+    "status": "published",
     "at": "2026-10-31T18:41:50.458536+09:00",
     "title": "건조대가 그릇장이 됐다면?",
-    "design_id": "canva-custom-export"
+    "design_id": "canva-custom-export",
+    "media_id": "18099943619550981"
   }
 }
