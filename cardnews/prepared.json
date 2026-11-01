@@ -1,65 +1,65 @@
 {
-  "id": "2026-11-01-am",
+  "id": "2026-11-01-pm",
   "date": "2026-11-01",
   "reviewed": true,
   "design_status": "editorial_all_pages_reviewed",
   "content": {
-    "cover_title": "장보기 가방은 문 옆 한 자리",
-    "cover_sub": "외출 준비를 가볍게 하는 배치",
+    "cover_title": "식탁 위에는 오늘 쓸 것만",
+    "cover_sub": "저녁 식사 전, 한쪽부터 비워요",
     "slides": [
       {
-        "title": "가방 자리부터 정해요",
-        "body": "문 가까운 집 안 선반에 장보기 가방 자리를 정해요. 문이 열리고 사람이 지나는 공간은 비워 둬요."
+        "title": "식사와 상관없는 것부터",
+        "body": "책과 우편물처럼 식사에 쓰지 않는 물건을 먼저 골라요. 식탁 전체를 한꺼번에 치우지 않아도 괜찮아요."
       },
       {
-        "title": "열쇠·카드는 따로 모아요",
-        "body": "가방 안에서 찾기 어려운 작은 물건은 옆의 작은 쟁반에 모아 봐요. 외출할 때 가방과 함께 챙겨요."
+        "title": "잠깐 모으는 자리를 만들어요",
+        "body": "집에 있는 쟁반에 작은 물건을 잠깐 모아요. 식사할 자리는 따로 비워 둬요."
       },
       {
-        "title": "나가기 전, 한 번만",
-        "body": "장보기 가방과 필요한 열쇠·카드를 확인해요. 돌아오면 같은 자리로 돌려놓아요."
+        "title": "먹고 난 뒤, 원래 자리로",
+        "body": "식사를 마치면 모아 둔 물건을 원래 자리로 돌려놓아요. 쟁반을 새 수납장처럼 쌓아 두지 않아요."
       }
     ],
-    "caption": "장보러 나갈 때 가방부터 찾고 있다면, 문 가까운 집 안에 가방 자리를 하나 정해 보세요.\n\n문이 열리고 사람이 지나는 공간은 비워 두고, 집에 있는 선반이나 수납장 한쪽을 활용해요. 열쇠·카드처럼 작은 물건은 옆의 쟁반에 모아 두었다가 함께 챙깁니다. 돌아오면 같은 자리로 돌려놓아요.\n\n새 수납용품을 사기 전에, 이미 있는 자리부터 정해 보세요.\n※ 사진은 배치를 설명하기 위한 AI 연출 이미지입니다.",
+    "caption": "저녁 먹을 자리에 책과 잡동사니가 놓여 있다면, 오늘 앉을 자리 한쪽부터 비워 보세요.\n\n식사와 상관없는 작은 물건은 집에 있는 쟁반에 잠깐 모아 둡니다. 식사를 마치면 각자의 자리로 돌려놓고, 쟁반이 새 물건 더미가 되지 않게 해요.\n\n큰 정리를 시작하기보다 오늘의 식사 자리를 만드는 작은 제안입니다.\n※ 사진은 물건 배치를 설명하기 위한 AI 연출 이미지입니다.",
     "hashtags": [
-      "#장보기준비",
-      "#장바구니",
-      "#현관정리",
-      "#자취살림",
+      "#식탁정리",
+      "#저녁준비",
+      "#자취주방",
+      "#살림습관",
       "#노르딕로그"
     ]
   },
   "exported_assets": [
     {
-      "path": "images/2026-11-01-am-editorial/01.png",
-      "sha256": "6024b8544b65a75102bc6ac5d70372672771b4c6849977e65c711971ba0f124b"
+      "path": "images/2026-11-01-pm-editorial/01.png",
+      "sha256": "04d3147a2cd070e01da6ec9532911d9cab62eb9239f46fb9c2835bd609f8d37f"
     },
     {
-      "path": "images/2026-11-01-am-editorial/02.png",
-      "sha256": "1426fb40e7ec5062910290392e609f82c1a0ded697aca73ce159781bca7040b9"
+      "path": "images/2026-11-01-pm-editorial/02.png",
+      "sha256": "a732ea3a3847298bdc780d5c4a0048fecb346fd664e5b7d30171615ca4598630"
     },
     {
-      "path": "images/2026-11-01-am-editorial/03.png",
-      "sha256": "33584ab93e1cb2654feb3836c48eec16b9329f685ec6bae1a1ab408ad49b89e1"
+      "path": "images/2026-11-01-pm-editorial/03.png",
+      "sha256": "bb1bb12aebdafd8d77570f0fb4fb470ad3de0bdce0e20d34a0d15648f6da8d87"
     },
     {
-      "path": "images/2026-11-01-am-editorial/04.png",
-      "sha256": "8591b056976f6791e448834d50a27f5bf0e6266455474de1b1edf2b0b19557c1"
+      "path": "images/2026-11-01-pm-editorial/04.png",
+      "sha256": "c7384d03811a6c651315e38faccdca5032f026d7d5e3c6897217f609df9d7b06"
     },
     {
-      "path": "images/2026-11-01-am-editorial/05.png",
-      "sha256": "bed4d1451be60332be7cbd23829f5f2da992e47d7a6841faac69e6bd4a596856"
+      "path": "images/2026-11-01-pm-editorial/05.png",
+      "sha256": "f8efc92e6790879b26fe4cee18f11ff54b93342c776b2968bed5aa5ce64ce3ee"
     }
   ],
   "design_review": {
     "renderer": "editorial-scene-v1",
-    "plan_sha256": "bebf051d353cb20fe09231982f8dfd09799e42a148e09ab8c1e727eb6e8b6638",
-    "quality_benchmark": "Canva DAHZkWWY4Qg, 2026-10-31 published 01.png and 03.png; compare original full-size photos, hierarchy, object explanations, whitespace and 390px readability",
+    "plan_sha256": "14bc15102c614f3cccf15ed3ac3d9443be4a4fc32aeebd5a4c873e39571879a1",
+    "quality_benchmark": "2026-10-31-pm/01.png 정상 Canva 정물 표지와 비교. 최근 실제9편의 주방 중심 이미지에서 식탁 공간·상부 배치로 주제를 전환. 원본1080x1350과5장390px를 직접 읽고 사진/본문 분리, 위계, 페이지 리듬 확인.",
     "pages": [
       {
-        "path": "images/2026-11-01-am-editorial/01.png",
-        "sha256": "6024b8544b65a75102bc6ac5d70372672771b4c6849977e65c711971ba0f124b",
-        "quality_notes": "장보기와 현관을 연결한 신규 정물사진을 제목 아래 배치해 최신 사진상단 표지와 구분. 사진 자체가 가방/열쇠 자리와 비워진 바닥을 설명하며 큰 제목·부제 위계와 절제된 색이 정상 Canva 기준에 부합.",
+        "path": "images/2026-11-01-pm-editorial/01.png",
+        "sha256": "04d3147a2cd070e01da6ec9532911d9cab62eb9239f46fb9c2835bd609f8d37f",
+        "quality_notes": "큰 식탁 사진과 하단 두 줄 제목을 분리해 정상 Canva 정물 표지와 비교했다. 글자 위 선 없고 접시·유리잔·쟁반 전체가 읽힌다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -68,9 +68,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-01-am-editorial/02.png",
-        "sha256": "1426fb40e7ec5062910290392e609f82c1a0ded697aca73ce159781bca7040b9",
-        "quality_notes": "세로 현관사진과 우측 설명을 분리. 사진에서 문과 통행 공간이 보이며 오른쪽 원고는 사진을 덮지 않음. Canva의 좌우 설명형 수준의 사진 활용과 정렬·가독성 확인.",
+        "path": "images/2026-11-01-pm-editorial/02.png",
+        "sha256": "a732ea3a3847298bdc780d5c4a0048fecb346fd664e5b7d30171615ca4598630",
+        "quality_notes": "사진 띠와 아래 설명으로 식사와 무관한 물건을 고르는 순서를 설명한다. 원본과390px에서 본문 세 줄을 읽었으며 사진과 분리돼 있다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -79,9 +79,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-01-am-editorial/03.png",
-        "sha256": "33584ab93e1cb2654feb3836c48eec16b9329f685ec6bae1a1ab408ad49b89e1",
-        "quality_notes": "탑뷰 사진이 가방과 작은 소지품의 분리라는 정보 자체를 전달. 제목-탑뷰-본문 순서로 리듬 변화, 원고 정확/불필요한 선·배경 획 없음. 정상 Canva 물건배치형과 비교 통과.",
+        "path": "images/2026-11-01-pm-editorial/03.png",
+        "sha256": "bb1bb12aebdafd8d77570f0fb4fb470ad3de0bdce0e20d34a0d15648f6da8d87",
+        "quality_notes": "위에서 본 접시와 쟁반을 좌우로 나누고 각 자리의 라벨을 붙였다. 물건 잘림 없이 식사 자리와 임시 모음의 차이가 보인다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -90,9 +90,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-01-am-editorial/04.png",
-        "sha256": "8591b056976f6791e448834d50a27f5bf0e6266455474de1b1edf2b0b19557c1",
-        "quality_notes": "탑뷰의 작은 사진과 외출/귀가 확인순서를 연결한 편집. 숫자는 통계가 아닌3개 확인항목이며 원고를 시각적 순서로 정리. 색상박스 반복 없이 사진/타이포 위계 유지.",
+        "path": "images/2026-11-01-pm-editorial/04.png",
+        "sha256": "c7384d03811a6c651315e38faccdca5032f026d7d5e3c6897217f609df9d7b06",
+        "quality_notes": "상단 설명과 하단 사진·세 단계 배열로 앞 장과 리듬을 바꿨다. 작은 사진과 단계 숫자도390px에서 읽히고 본문과 겹치지 않는다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -101,9 +101,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-01-am-editorial/05.png",
-        "sha256": "bed4d1451be60332be7cbd23829f5f2da992e47d7a6841faac69e6bd4a596856",
-        "quality_notes": "세로사진으로 가방이 지나치게 잘린 초기안을 반려한 뒤 제목상단·넓은 사진하단으로 전체 재출력. 마지막 사진은 선반과 쟁반 배치의 디테일 컷이며 사진 안 텍스트 없음. 명료한 종결 문장과 여백 확인.",
+        "path": "images/2026-11-01-pm-editorial/05.png",
+        "sha256": "f8efc92e6790879b26fe4cee18f11ff54b93342c776b2968bed5aa5ce64ce3ee",
+        "quality_notes": "마지막 행동 한 가지만 큰 제목으로 남기고 사진을 하단 띠로 배치했다. 강요나 효능 수치 없이 마감하며 계정명과 사진 여백이 확보됐다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
