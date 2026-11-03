@@ -1,65 +1,65 @@
 {
-  "id": "2026-11-02-pm",
-  "date": "2026-11-02",
+  "id": "2026-11-03-am",
+  "date": "2026-11-03",
   "reviewed": true,
   "design_status": "editorial_all_pages_reviewed",
   "content": {
-    "cover_title": "랩·호일, 긴 물건은 한 방향으로",
-    "cover_sub": "서랍에 넣기 전, 길이부터 살펴봐요",
+    "cover_title": "배달 수저, 또 받고 있나요?",
+    "cover_sub": "다음 주문 전, 남은 것부터",
     "slides": [
       {
-        "title": "먼저, 들어가는 방향부터",
-        "body": "긴 물건은 서랍의 가로와 세로에 각각 대어 봐요. 끝이 걸리지 않고 들어가는 방향을 골라요."
+        "title": "집에 남은 것부터 보기",
+        "body": "사용하지 않고 남겨 둔 수저가 있는지 살펴요. 여기저기 흩어져 있다면 한곳에 모아 확인해요."
       },
       {
-        "title": "비슷한 길이는 나란히",
-        "body": "길이가 비슷한 물건끼리 같은 방향으로 두어요. 하나를 꺼낼 때 옆 물건도 함께 움직이지 않는지 살펴요."
+        "title": "필요 없으면, 선택란 확인",
+        "body": "주문 화면에 수저 선택란이 있는지 살펴요. 필요하지 않은 주문이라면 받지 않는 쪽을 골라요."
       },
       {
-        "title": "닫기 전에 한 번 더",
-        "body": "물건이 위로 튀어나오지 않았는지 확인해요. 서랍을 천천히 닫아 걸리는 곳이 없는지 살펴요."
+        "title": "정리보다, 다음 선택부터",
+        "body": "보관할 통을 늘리기 전에 다음 주문에 수저가 필요한지 생각해요. 필요한 만큼 받는 작은 선택부터 시작해요."
       }
     ],
-    "caption": "랩이나 호일처럼 긴 물건 때문에 서랍이 복잡하다면, 들어가는 방향부터 살펴보세요.\n\n서랍의 가로와 세로에 대어 보고, 끝이 걸리지 않는 방향으로 나란히 둡니다. 하나를 꺼낼 때 다른 물건이 따라 움직이지 않는지도 확인해요.\n\n마지막에는 천천히 닫아 보기. 집에 있는 서랍에서 작은 배치부터 시작해 보세요.\n※ 사진은 배치를 설명하기 위한 AI 연출 이미지입니다.",
+    "caption": "배달 수저를 넣어 둔 곳이 점점 늘고 있다면, 다음 주문 전 집에 남은 것부터 살펴보세요.\n\n주문 화면에 수저 선택란이 있는지 확인하고, 필요하지 않다면 받지 않는 쪽을 고릅니다. 선택 항목과 표현은 이용하는 서비스에서 직접 확인해 주세요.\n\n더 큰 수납통을 찾기 전에, 이번 주문에 정말 필요한지부터.\n※ 사진은 배치를 설명하기 위한 AI 연출 이미지입니다.",
     "hashtags": [
-      "#주방정리",
-      "#서랍정리",
       "#자취주방",
+      "#배달수저",
+      "#일회용품줄이기",
       "#살림습관",
       "#노르딕로그"
     ]
   },
   "exported_assets": [
     {
-      "path": "images/2026-11-02-pm-editorial/01.png",
-      "sha256": "38bf3b3f350c7451a3733d99af933b82e055aeb62afc07bd23201f80fc57db98"
+      "path": "images/2026-11-03-am-editorial/01.png",
+      "sha256": "9211d914955dd852740e7c614582faf9592942dedc43a1f7d5b6e184cef0d299"
     },
     {
-      "path": "images/2026-11-02-pm-editorial/02.png",
-      "sha256": "6f1c1d77553e09250d8e847329785bd9ac3c40dfd363fe27027590f26f656608"
+      "path": "images/2026-11-03-am-editorial/02.png",
+      "sha256": "4be551cd75e2df7a581a6c19766bfd80867d0cb6643c611f471a4524b08e0886"
     },
     {
-      "path": "images/2026-11-02-pm-editorial/03.png",
-      "sha256": "af12cbbe26c94a1f8fb2aa1e437a41a8d553553a6ae8e49657ac145f9a877439"
+      "path": "images/2026-11-03-am-editorial/03.png",
+      "sha256": "543e5717aaffcd27eff3e7449070251f15f3bf7942569aca727cece39abd115a"
     },
     {
-      "path": "images/2026-11-02-pm-editorial/04.png",
-      "sha256": "b3d89775811b2e73ab7e495c3e7564258383fdc2b41d92decf3c53dc348fe46e"
+      "path": "images/2026-11-03-am-editorial/04.png",
+      "sha256": "ca8ad1955e8fada88ab088680f8e790234decec71b1e67df32c7c32f96dccccb"
     },
     {
-      "path": "images/2026-11-02-pm-editorial/05.png",
-      "sha256": "d74e31c3897b458e60c00d67c1230c0f1f3ca381f15f117660bef0c5e04422ba"
+      "path": "images/2026-11-03-am-editorial/05.png",
+      "sha256": "64bc9bc36daa0a1048b34ee9d387397330935bd9e0082cf25788b1b0305d046d"
     }
   ],
   "design_review": {
     "renderer": "editorial-scene-v1",
-    "plan_sha256": "38fb35c98faf1393b4573217148e986437976ff72e587464df796488745e3981",
-    "quality_benchmark": "정상 Canva cardnews/images/2026-10-31-pm/01.png 정물 표지와 비교. 실제26편/최근9개 표지에서 공간사진·차콜 한쌍과 구분하여 긴 물건의 방향/탑뷰/점검순서로 구성. 모든1080x1350 원본과390px 개별 페이지를 직접 읽었다.",
+    "plan_sha256": "1081735a045d798883445e370aa8a0da11676280d6cefb95916359769367481c",
+    "quality_benchmark": "정상 Canva cardnews/images/2026-10-31-pm/01.png와 비교. 최근 실제 게시에 사용한9편 표지를 recent9.png로 나란히 확인(11/02pm·am,11/01pm·am,10/31pm,10/30pm·am,10/29·10/28). 새 수저 정물과 사진옆 질문/주문전 선택/차콜마감을 구성. 모든 원본1080x1350과개별390px를 직접 읽었다.",
     "pages": [
       {
-        "path": "images/2026-11-02-pm-editorial/01.png",
-        "sha256": "38bf3b3f350c7451a3733d99af933b82e055aeb62afc07bd23201f80fc57db98",
-        "quality_notes": "큰 두 줄 제목과 낮은 채도의 서랍 정물 사진으로 들어가는 방향이라는 주제를 연결했다. 세 롤 전체가 보이고 글자/사진 경계24px 이상 분리 및 계정명 여백을 원본과390px에서 확인했다.",
+        "path": "images/2026-11-03-am-editorial/01.png",
+        "sha256": "9211d914955dd852740e7c614582faf9592942dedc43a1f7d5b6e184cef0d299",
+        "quality_notes": "큰 질문형 제목과 대각선 수저 정물을 분리해 이전 공간/방향/한쌍 표지와 다른 물건 유입 문제를 제시한다. 흰 종이와 투명포장의 세부가 보이고 부제·계정명·수저 전체가 잘리지 않았으며 원본/390px 읽힘 확인.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -68,9 +68,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-02-pm-editorial/02.png",
-        "sha256": "6f1c1d77553e09250d8e847329785bd9ac3c40dfd363fe27027590f26f656608",
-        "quality_notes": "사진을 먼저 보여주고 그 아래에 방향을 고르는 질문과 두 문장 설명을 배치했다. 서랍과 롤의 끝이 잘리지 않고 그림 내부의 선이 본문 위로 지나가지 않는다.390px 두 줄 본문까지 읽었다.",
+        "path": "images/2026-11-03-am-editorial/02.png",
+        "sha256": "4be551cd75e2df7a581a6c19766bfd80867d0cb6643c611f471a4524b08e0886",
+        "quality_notes": "쟁반 사진 옆 좁은 질문으로 남은 위치를 생각하게 한다. 사진 속 젓가락/숟가락과 본문이 맞고 식품안전/미개봉 여부나 실제 수량효과를 주장하지 않았다. 두 규격에서 본문/질문/계정명이 읽힌다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -79,9 +79,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-02-pm-editorial/03.png",
-        "sha256": "af12cbbe26c94a1f8fb2aa1e437a41a8d553553a6ae8e49657ac145f9a877439",
-        "quality_notes": "세 롤을 같은 방향으로 나란히 둔 탑뷰로 본문을 직접 설명한다. 본문 공간이 부족한 초기안을 반려해 사진 높이와 본문 영역을 조정, 전체 재출력한5장을 다시 확인했다.",
+        "path": "images/2026-11-03-am-editorial/03.png",
+        "sha256": "543e5717aaffcd27eff3e7449070251f15f3bf7942569aca727cece39abd115a",
+        "quality_notes": "실제 앱 화면을 흉내내지 않고 주문 전 필요한지를 묻는 정보 구역으로 구성했다. 특정 앱의 버튼 위치나 모든 서비스 제공을 단정하지 않으며 텍스트/패널 간격과390px 본문 전부를 확인했다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -90,9 +90,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-02-pm-editorial/04.png",
-        "sha256": "b3d89775811b2e73ab7e495c3e7564258383fdc2b41d92decf3c53dc348fe46e",
-        "quality_notes": "닫기 전 높이와 간섭을 살피는 두 단계를 사진 옆에 분리했다. 실제 개선효과를 입증한 전후사진으로 꾸미지 않았고 문장/계정명/단계숫자 모두 두 규격에서 읽힌다.",
+        "path": "images/2026-11-03-am-editorial/04.png",
+        "sha256": "ca8ad1955e8fada88ab088680f8e790234decec71b1e67df32c7c32f96dccccb",
+        "quality_notes": "수납통 확대 대신 다음 주문 선택을 질문과 정물 사진으로 연결했다. 제목·사진옆 질문·아래 본문의 위계가 구분되며 문장/포장선이 본문과 겹치지 않고 작은 화면에서도 읽힌다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -101,9 +101,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-02-pm-editorial/05.png",
-        "sha256": "d74e31c3897b458e60c00d67c1230c0f1f3ca381f15f117660bef0c5e04422ba",
-        "quality_notes": "새 물건 구매 대신 한 종류부터 배치를 살피자는 행동으로 마무리했다. 호일의 반사와 투명 롤의 경계가 보이며 하단사진·계정명 잘림과 겹침 없이 원본/390px 확인했다.",
+        "path": "images/2026-11-03-am-editorial/05.png",
+        "sha256": "64bc9bc36daa0a1048b34ee9d387397330935bd9e0082cf25788b1b0305d046d",
+        "quality_notes": "차콜 마감과 밝은 수저 사진으로 페이지 리듬을 바꿨다. 초기 사진 위 잘림을 반려하고 원래 비율로 고친 뒤 전체5장을 다시 출력·검수했다. 최종 젓가락/포장 끝과 계정명 모두 온전히 보인다.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
