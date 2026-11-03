@@ -1,65 +1,71 @@
 {
-  "id": "2026-11-03-am",
-  "date": "2026-11-03",
+  "id": "2026-11-04-am",
+  "date": "2026-11-04",
   "reviewed": true,
-  "design_status": "editorial_all_pages_reviewed",
+  "design_status": "canva_final_all_pages_reviewed",
+  "canva_design_id": "DAHZ3X7N3tw",
+  "canva_design_url": "https://www.canva.com/d/pedS_oyydHOoYjN",
   "content": {
-    "cover_title": "배달 수저, 또 받고 있나요?",
-    "cover_sub": "다음 주문 전, 남은 것부터",
+    "cover_title": "행주, 겹쳐 두고 있나요?",
+    "cover_sub": "새 제품보다 먼저 바꿀 건 놓는 자리",
     "slides": [
       {
-        "title": "집에 남은 것부터 보기",
-        "body": "사용하지 않고 남겨 둔 수저가 있는지 살펴요. 여기저기 흩어져 있다면 한곳에 모아 확인해요."
+        "title": "쌓는 자리에서, 펼치는 자리로",
+        "body": "둘 곳이 좁아도 한 장씩 펼칠 공간부터 찾아보세요."
       },
       {
-        "title": "필요 없으면, 선택란 확인",
-        "body": "주문 화면에 수저 선택란이 있는지 살펴요. 필요하지 않은 주문이라면 받지 않는 쪽을 골라요."
+        "title": "쓰는 곳 가까이에 한 자리",
+        "body": "쓰는 곳 찾기. 한 장을 펼칠 자리를 정하고 다른 물건과 겹치지 않게 자리를 나눠요."
       },
       {
-        "title": "정리보다, 다음 선택부터",
-        "body": "보관할 통을 늘리기 전에 다음 주문에 수저가 필요한지 생각해요. 필요한 만큼 받는 작은 선택부터 시작해요."
+        "title": "작은 자리도, 한 장씩",
+        "body": "걸어두거나 펼쳐두거나. 우리 주방에서 가능한 쪽을 골라요."
+      },
+      {
+        "title": "오늘은 한 장의 자리만",
+        "body": "지금 포개진 행주가 있나요? 한 장씩 펼칠 공간이 있나요? 저장해두고 설거지 후 자리를 바꿔보세요."
       }
     ],
-    "caption": "배달 수저를 넣어 둔 곳이 점점 늘고 있다면, 다음 주문 전 집에 남은 것부터 살펴보세요.\n\n주문 화면에 수저 선택란이 있는지 확인하고, 필요하지 않다면 받지 않는 쪽을 고릅니다. 선택 항목과 표현은 이용하는 서비스에서 직접 확인해 주세요.\n\n더 큰 수납통을 찾기 전에, 이번 주문에 정말 필요한지부터.\n※ 사진은 배치를 설명하기 위한 AI 연출 이미지입니다.",
+    "caption": "행주가 포개져 있다면, 새 제품을 고르기 전에 놓는 자리부터 살펴보세요.\n\n설거지하는 곳 가까이에서 한 장을 펼칠 공간을 찾고, 다른 물건과 겹치지 않게 자리를 나눠요. 걸어둘지 펼쳐둘지는 우리 주방에서 가능한 쪽으로 고르면 됩니다.\n\n오늘은 한 장의 자리만 바꿔보세요. 저장해두고 다음 설거지 후 확인해요.\n\n※ 생활 배치를 설명하는 AI 연출 이미지이며 실제 사용 실험이나 특정 상품 추천이 아닙니다.",
     "hashtags": [
       "#자취주방",
-      "#배달수저",
-      "#일회용품줄이기",
+      "#행주정리",
+      "#주방정리",
       "#살림습관",
       "#노르딕로그"
     ]
   },
   "exported_assets": [
     {
-      "path": "images/2026-11-03-am-editorial/01.png",
-      "sha256": "9211d914955dd852740e7c614582faf9592942dedc43a1f7d5b6e184cef0d299"
+      "path": "images/2026-11-04-am-canva/01.png",
+      "sha256": "9798e552f620d1d7c1dc959d8539476e41d4a6ab56332e721d1bb4735a717ef8"
     },
     {
-      "path": "images/2026-11-03-am-editorial/02.png",
-      "sha256": "4be551cd75e2df7a581a6c19766bfd80867d0cb6643c611f471a4524b08e0886"
+      "path": "images/2026-11-04-am-canva/02.png",
+      "sha256": "cef7cf40a71fea121ee0e74867614ade5286667b384519e0b8aa513419b47a20"
     },
     {
-      "path": "images/2026-11-03-am-editorial/03.png",
-      "sha256": "543e5717aaffcd27eff3e7449070251f15f3bf7942569aca727cece39abd115a"
+      "path": "images/2026-11-04-am-canva/03.png",
+      "sha256": "1c960124414cc0f64fe85dda85ac56ee96e670fc337dd1a51b5e5e6df3c3c0a9"
     },
     {
-      "path": "images/2026-11-03-am-editorial/04.png",
-      "sha256": "ca8ad1955e8fada88ab088680f8e790234decec71b1e67df32c7c32f96dccccb"
+      "path": "images/2026-11-04-am-canva/04.png",
+      "sha256": "29c2e3b4133db8bdc37393aba5f0a17fd698ea095577583166dace7f75054701"
     },
     {
-      "path": "images/2026-11-03-am-editorial/05.png",
-      "sha256": "64bc9bc36daa0a1048b34ee9d387397330935bd9e0082cf25788b1b0305d046d"
+      "path": "images/2026-11-04-am-canva/05.png",
+      "sha256": "ac17cdd804cc36242764556f1ee1a88e8e0ad917fe305de2a6644ff89a612a18"
     }
   ],
   "design_review": {
-    "renderer": "editorial-scene-v1",
-    "plan_sha256": "1081735a045d798883445e370aa8a0da11676280d6cefb95916359769367481c",
-    "quality_benchmark": "정상 Canva cardnews/images/2026-10-31-pm/01.png와 비교. 최근 실제 게시에 사용한9편 표지를 recent9.png로 나란히 확인(11/02pm·am,11/01pm·am,10/31pm,10/30pm·am,10/29·10/28). 새 수저 정물과 사진옆 질문/주문전 선택/차콜마감을 구성. 모든 원본1080x1350과개별390px를 직접 읽었다.",
+    "renderer": "canva-custom-export",
+    "canva_design_id": "DAHZ3X7N3tw",
+    "quality_benchmark": "Approved Canva kitchen-cloth design, user drawer benchmark, two references pages1-3 and9 recent production full-page sets compared on Nov4.",
     "pages": [
       {
-        "path": "images/2026-11-03-am-editorial/01.png",
-        "sha256": "9211d914955dd852740e7c614582faf9592942dedc43a1f7d5b6e184cef0d299",
-        "quality_notes": "큰 질문형 제목과 대각선 수저 정물을 분리해 이전 공간/방향/한쌍 표지와 다른 물건 유입 문제를 제시한다. 흰 종이와 투명포장의 세부가 보이고 부제·계정명·수저 전체가 잘리지 않았으며 원본/390px 읽힘 확인.",
+        "path": "images/2026-11-04-am-canva/01.png",
+        "sha256": "9798e552f620d1d7c1dc959d8539476e41d4a6ab56332e721d1bb4735a717ef8",
+        "quality_notes": "Large kitchen scene with title in clear upper margin; simulated lifestyle image disclosed.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -68,9 +74,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-03-am-editorial/02.png",
-        "sha256": "4be551cd75e2df7a581a6c19766bfd80867d0cb6643c611f471a4524b08e0886",
-        "quality_notes": "쟁반 사진 옆 좁은 질문으로 남은 위치를 생각하게 한다. 사진 속 젓가락/숟가락과 본문이 맞고 식품안전/미개봉 여부나 실제 수량효과를 주장하지 않았다. 두 규격에서 본문/질문/계정명이 읽힌다.",
+        "path": "images/2026-11-04-am-canva/02.png",
+        "sha256": "cef7cf40a71fea121ee0e74867614ade5286667b384519e0b8aa513419b47a20",
+        "quality_notes": "Separate folded/spread cloth photos; comparison is a layout proposal, not a hygiene experiment.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -79,9 +85,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-03-am-editorial/03.png",
-        "sha256": "543e5717aaffcd27eff3e7449070251f15f3bf7942569aca727cece39abd115a",
-        "quality_notes": "실제 앱 화면을 흉내내지 않고 주문 전 필요한지를 묻는 정보 구역으로 구성했다. 특정 앱의 버튼 위치나 모든 서비스 제공을 단정하지 않으며 텍스트/패널 간격과390px 본문 전부를 확인했다.",
+        "path": "images/2026-11-04-am-canva/03.png",
+        "sha256": "1c960124414cc0f64fe85dda85ac56ee96e670fc337dd1a51b5e5e6df3c3c0a9",
+        "quality_notes": "Three short annotations; typo corrected; arrows removed; second paragraph moved below counter edge and shortened.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -90,9 +96,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-03-am-editorial/04.png",
-        "sha256": "ca8ad1955e8fada88ab088680f8e790234decec71b1e67df32c7c32f96dccccb",
-        "quality_notes": "수납통 확대 대신 다음 주문 선택을 질문과 정물 사진으로 연결했다. 제목·사진옆 질문·아래 본문의 위계가 구분되며 문장/포장선이 본문과 겹치지 않고 작은 화면에서도 읽힌다.",
+        "path": "images/2026-11-04-am-canva/04.png",
+        "sha256": "29c2e3b4133db8bdc37393aba5f0a17fd698ea095577583166dace7f75054701",
+        "quality_notes": "Hook and cloth close-up with hand detail; larger body/footer text.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -101,9 +107,9 @@
         "canva_quality": true
       },
       {
-        "path": "images/2026-11-03-am-editorial/05.png",
-        "sha256": "64bc9bc36daa0a1048b34ee9d387397330935bd9e0082cf25788b1b0305d046d",
-        "quality_notes": "차콜 마감과 밝은 수저 사진으로 페이지 리듬을 바꿨다. 초기 사진 위 잘림을 반려하고 원래 비율로 고친 뒤 전체5장을 다시 출력·검수했다. 최종 젓가락/포장 끝과 계정명 모두 온전히 보인다.",
+        "path": "images/2026-11-04-am-canva/05.png",
+        "sha256": "ac17cdd804cc36242764556f1ee1a88e8e0ad917fe305de2a6644ff89a612a18",
+        "quality_notes": "Charcoal closing page, still-life, two questions and save CTA.",
         "text": true,
         "no_obstruction": true,
         "readable_390": true,
@@ -112,5 +118,7 @@
         "canva_quality": true
       }
     ]
-  }
+  },
+  "editorial_note": "Created and approved Nov3; never published or assigned to an attempted slot. Evergreen placement proposal selected for current Nov4 AM, not a missed-slot catch-up. Final PNG pixels unchanged.",
+  "sources": []
 }
