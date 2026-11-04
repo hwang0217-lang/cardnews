@@ -83,6 +83,27 @@ def reviewed_exports(p):
     return paths
 
 
+def enforce_nordic_daily_limit(now, journal, recent_posts=()):
+    """Count every format against one KST-day limit, including uncertain attempts."""
+    day = now.astimezone(KST).date()
+
+    def post_day(timestamp):
+        parsed = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+        if parsed.tzinfo is None:
+            raise ValueError('Publication timestamp must include timezone')
+        return parsed.astimezone(KST).date()
+
+    for slot, entry in journal.items():
+        if slot.startswith(day.isoformat() + '-') or (
+                entry.get('at') and post_day(entry['at']) == day):
+            raise RuntimeError('Nordic daily limit: publication already attempted on ' + day.isoformat())
+    for post in recent_posts:
+        if not post.get('timestamp'):
+            raise RuntimeError('Cannot verify Nordic daily limit without live timestamps')
+        if post_day(post['timestamp']) == day:
+            raise RuntimeError('Nordic daily limit: live post already exists: ' + post.get('permalink', post.get('id', 'unknown')))
+
+
 def main():
     import requests
     from publish import publish_carousel
@@ -95,6 +116,8 @@ def main():
     journal = json.loads(journal_path.read_text()) if journal_path.exists() else {}
     if not dry and p['id'] in journal:
         raise RuntimeError('Slot already attempted; reconcile Instagram before retry')
+    if not dry and kind == 'nordic':
+        enforce_nordic_daily_limit(now, journal)
     if not dry and os.environ.get('PUBLISH_PAUSED', '1') != '0':
         raise RuntimeError('Publishing paused pending account review')
     c = p['content']
@@ -126,6 +149,8 @@ def main():
         'access_token': token}, timeout=30).json()
     if 'data' not in recent:
         raise RuntimeError('Cannot reconcile recent Instagram posts')
+    if kind == 'nordic':
+        enforce_nordic_daily_limit(now, journal, recent['data'])
     normalized = lambda text: ''.join(text.split())
     for post in recent['data']:
         if normalized(post.get('caption', '')) == normalized(caption):
