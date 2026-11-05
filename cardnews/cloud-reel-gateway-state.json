@@ -11,5 +11,11 @@
     "status": "success",
     "published": false,
     "gateway_run_id": "41959669992"
+  },
+  "nordic-cloud-41961729417": {
+    "request_id": "nordic-cloud-41961729417",
+    "design_id": "DAHaAwA7Ff8",
+    "status": "dispatching",
+    "published": false
   }
 }
