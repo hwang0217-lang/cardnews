@@ -351,7 +351,7 @@
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 4,
+    "gemini_calls": 5,
     "canva_generations": 2,
     "pc_media_downloads": 0,
     "topic": "텀블러 건조대 자리 배치",
@@ -501,6 +501,16 @@
     "edit_segments": 5,
     "canva_visual_source": true,
     "full_decode": true,
-    "pc_video_download": false
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "revise",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": true,
+      "meaningful_motion": false,
+      "notes": "The video consists of five static photos of equal duration with basic zoom effects, which violates the requirement that motion must animate an actual information relationship with enough reading hold; photos plus zoom alone cannot pass."
+    }
   }
 }
