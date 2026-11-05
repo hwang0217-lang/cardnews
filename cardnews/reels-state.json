@@ -1,0 +1,45 @@
+{
+  "2026-11-05-motion": {
+    "account": "nordic_log",
+    "status": "published_verified",
+    "at": "2026-11-05T10:51:12.707687+09:00",
+    "title": "같은 1스푼? 단위부터 확인해요",
+    "format": "motion_reel",
+    "file_name": "nordiclog-measuring-spoons-23s.mp4",
+    "sha256": "a69dddabbc0d5242891cee18cd88c5818d194f403deddc506caaac90b19d188a",
+    "duration_seconds": 23,
+    "canva_design_id": "DAHaAQuCphI",
+    "canva_export_version": 12,
+    "source": "User explicitly approved exact 23 second revision and requested upload",
+    "path": "web_reel_composer",
+    "share_attempts": 1,
+    "preflight": {
+      "public_managed_state_today_absent": true,
+      "public_actions_none_running": true,
+      "live_profile_posts": 29,
+      "live_latest_permalink": "https://www.instagram.com/p/DfTFBRdiSZI/",
+      "live_profile_account": "nordic_log",
+      "ai_label": true,
+      "facebook_crosspost": false,
+      "sound": true,
+      "duration_unchanged": true,
+      "cover_percent": 9.224836349487305
+    },
+    "share_requested_at": "2026-11-05T01:52:25.469991+00:00",
+    "permalink": "https://www.instagram.com/reel/DfV5LGso44Y/",
+    "shortcode": "DfV5LGso44Y",
+    "media_id": null,
+    "media_id_note": "Graph-scoped ID not queried; public permalink and playing video verified",
+    "verified_at": "2026-11-05T01:54:29.351233+00:00",
+    "verification": "Profile 29 to 30; exact new Reel and full caption/AI label/original audio verified; video playing currentTime 11.550281, duration 23.018666,720x1280 transcode",
+    "published_playback": {
+      "duration": 23.018666,
+      "width": 720,
+      "height": 1280,
+      "paused": false,
+      "readyState": 4
+    },
+    "source_audio_approval": "User explicitly approved this exact 23 second revision and requested publication; no claim of agent listening",
+    "additional_video_downloads_this_turn": 0
+  }
+}
