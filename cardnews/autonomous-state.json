@@ -531,6 +531,33 @@
     "format": "reel",
     "stage": "editing",
     "published": false,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "detail_crop_review": {
+      "scene_indices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "crops": [
+        {
+          "page": 2,
+          "x": 133,
+          "y": 305,
+          "w": 748,
+          "h": 579,
+          "observations": "tumbler body and lid on a blue ribbed mat"
+        },
+        {
+          "page": 4,
+          "x": 42,
+          "y": 249,
+          "w": 932,
+          "h": 605,
+          "observations": "white dish rack with plates, bowls, and cutlery holder"
+        }
+      ]
+    }
   }
 }
