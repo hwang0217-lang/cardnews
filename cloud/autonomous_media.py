@@ -30,7 +30,7 @@ def render_video(pages, draft, directory, day):
     durations = [max(3.5, min(7, (len(s['title']) + len(s.get('body', ''))) / 7 + 1.5)) for s in draft['sections']]
     if sum(durations) > 29: raise RuntimeError('Too much text; edit the script instead of speeding up cuts')
     music, track = approved_music(draft.get('music_mood', 'clean'), directory, day)
-    clips = []
+    clips = []; insert_seconds = 0; inserts = 0
     for n, (page, seconds) in enumerate(zip(pages, durations)):
         clip = directory / f'clip-{n:02d}.mp4'
         frames = round(seconds * 30)
@@ -53,10 +53,22 @@ def render_video(pages, draft, directory, day):
                         '-r','30','-frames:v',str(frames),'-c:v', 'libx264', '-preset', 'fast', '-crf', '20', '-threads', '2', str(clip)],
                        check=True, capture_output=True)
         clips.append(clip)
+        crop = draft['sections'][n].get('detail_crop')
+        if crop and inserts < 2 and n < len(pages)-1:
+            x,y,w,h=[crop.get(k) for k in ('x','y','w','h')]
+            if (any(type(v) not in (int,float) for v in (x,y,w,h)) or
+                    not (0<=x<x+w<=1080 and 0<=y<y+h<=1920 and w>=120 and h>=120)):
+                raise RuntimeError('Detail crop must identify an actual photo rectangle')
+            detail=directory/f'detail-{n:02d}.mp4'
+            subprocess.run([FFMPEG,'-v','error','-y','-loop','1','-i',str(page),'-t','1',
+                '-vf',f'crop={round(w)}:{round(h)}:{round(x)}:{round(y)},scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,format=yuv420p',
+                '-r','30','-c:v','libx264','-threads','2','-preset','fast','-crf','20',str(detail)],check=True,capture_output=True)
+            clips.append(detail);inserts+=1;insert_seconds+=1
+
     listing = directory / 'concat.txt'
     listing.write_text('\n'.join("file '" + p.name + "'" for p in clips))
     target = directory / 'server-only.mp4'
-    total = sum(round(s * 30) / 30 for s in durations)
+    total = sum(round(s * 30) / 30 for s in durations) + insert_seconds
     subprocess.run([FFMPEG, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(listing),
                     '-i', str(music), '-filter_complex',
                     f'[1:a]volume=0.5,afade=t=in:d=0.2,afade=t=out:st={total-1}:d=1[a]',
@@ -65,7 +77,7 @@ def render_video(pages, draft, directory, day):
     subprocess.run([FFMPEG, '-v', 'error', '-i', str(target), '-f', 'null', '-'], check=True, capture_output=True)
     return target, {'duration_seconds': total, 'scene_seconds': durations, 'music_track': track,
                     'video_sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
-                    'canva_visual_source': True, 'full_decode': True, 'pc_video_download': False}
+                    'edit_segments': len(clips), 'canva_visual_source': True, 'full_decode': True, 'pc_video_download': False}
 
 def require_upload_target(uri, container_id):
     u = urlparse(uri)

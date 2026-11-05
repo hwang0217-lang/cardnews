@@ -100,7 +100,7 @@ def review_images(draft, new_images, references, kind):
         'using pixel coordinates on1080x1920, flat background hex, at_seconds0.5-1.5; only regions whose '
         'sequential reveal explains the diagram. Never cover a full paragraph or fabricate regions. '
         'If meaningful diagram motion cannot be made, verdict must revise. '\
-        'All content must remain readable after reveal. Kind=' + kind + '. Editorial plan JSON=' + json.dumps(draft, ensure_ascii=False))
+        'For photo reel pages, also return detail_crop:{x,y,w,h} on at least two pages, identifying an ACTUAL photo-only area without text for a one-second object detail cut. All content must remain readable after reveal. Kind=' + kind + '. Editorial plan JSON=' + json.dumps(draft, ensure_ascii=False))
     review, usage = generate_json(prompt, new_images + references)
     validate_visual_review(review, len(new_images))
     if review.get('quality_score', 0) < 8.5: review['verdict'] = 'revise'
@@ -136,14 +136,22 @@ def main():
             if url:
                 _, image, _ = fetch_image(url); image.thumbnail((540, 675)); buf = io.BytesIO(); image.convert('RGB').save(buf, 'JPEG'); references.append(buf.getvalue())
         if len(references) < 9: raise RuntimeError('Nine actual recent post images required for variety QA')
+        # Include every available carousel body page from the same nine real posts.
+        for post in posts:
+            for child in post.get('children', {}).get('data', [])[1:]:
+                _, image, _ = fetch_image(child['media_url']); image.thumbnail((540, 675))
+                buf = io.BytesIO(); image.convert('RGB').save(buf, 'JPEG'); references.append(buf.getvalue())
         captions = [p.get('caption', '')[:600] for p in posts]
-        prompt = draft_prompt(captions) + '\nFormat=' + kind + '. ' + (
+        benchmark_path = ROOT / 'research/channel-benchmark-2026-11-03/DESIGN-BRIEFS.md'
+        benchmark = benchmark_path.read_text(encoding='utf-8')[:12000] if benchmark_path.exists() else ''
+        if not benchmark: raise RuntimeError('Existing fifty-channel design research missing')
+        prompt = draft_prompt(captions) + '\nExisting channel research (adapt principles, never copy text or designs):\n' + benchmark + '\nFormat=' + kind + '. ' + (
             'Use 5 pages, each a premium full-height1080x1920 video composition with large text; '
-            'brief title and at most35 Korean body characters per scene; page durations4-6sec. '
+            'brief title and at most18 Korean body characters per scene and titles under12 characters; page durations4-6sec. '
             'Motion format needs real sequence/comparison/diagram content, not photo slides.' if kind != 'carousel'
             else 'Use 5 portrait1080x1350 editorial pages.')
         draft, usage = generate_json(prompt); row['gemini_calls'] += 1; validate_draft(draft)
-        row.update(stage='drafted', topic=draft.get('topic'), model=MODEL, recent_posts_compared=len(references), draft_usage=usage); persist()
+        row.update(stage='drafted', topic=draft.get('topic'), model=MODEL, recent_posts_compared=len(posts),reference_images_compared=len(references), draft_usage=usage); persist()
         result = None; review = None; pages = []; hashes = []
         for version in (1, 2):
             request_id = 'nordic-auto-' + os.environ['GITHUB_RUN_ID'] + '-v' + str(version)
@@ -160,7 +168,7 @@ def main():
                 hashes.append(hashlib.sha256(data).hexdigest()); images.append(jpeg)
                 image.thumbnail((390, 693)); image.save(OUT / f'page-{n:02d}.png')
             review, usage = review_images(draft, images, references, kind); row['gemini_calls'] += 1
-            row.update(stage='visual_review', visual_review=review, canva_design_id=result['designId'], page_sha256=hashes); persist()
+            row.update(stage='visual_review', visual_review=review, canva_design_id=result['designId'], canva_page_design_ids=result.get('designIds',[]), page_sha256=hashes); persist()
             if review['verdict'] == 'pass': break
             if version == 2 or review['verdict'] == 'reject': raise RuntimeError('Canva quality below benchmark; publication blocked')
             draft['canva_brief'] = (draft['canva_brief'][:3300] + '\nCorrect the actual failed export: ' + json.dumps(review.get('corrections', ''), ensure_ascii=False)[:1000])
@@ -183,6 +191,9 @@ def main():
                     regions = page_review.get('reveal_regions', [])
                     if not regions: raise RuntimeError('Motion requires actual semantic reveal regions, not repeated photo zooms')
                     section['reveal_regions'] = regions
+            if kind == 'reel':
+                for section, page_review in zip(draft['sections'], review['pages']):
+                    section['detail_crop'] = page_review.get('detail_crop')
             video, details = render_video(pages, draft, OUT, day)
             row.update(details); row['stage']='video_review'; persist()
             if video.stat().st_size > 19_000_000: raise RuntimeError('Video exceeds bounded direct vision review input')
