@@ -18,6 +18,11 @@
       "purpose": "diagnostic",
       "active": true,
       "page_count": 5
+    },
+    "DAHaBD_nLqw": {
+      "active": true,
+      "purpose": "diagnostic",
+      "format": "mp4"
     }
   }
 }
