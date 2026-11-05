@@ -1,11 +1,11 @@
 {
   "preview-41965263294": {
-    "stage": "canva_generating",
+    "stage": "visual_review",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 2,
+    "gemini_calls": 3,
     "canva_generations": 2,
     "pc_media_downloads": 0,
     "topic": "머그와 잔 보관 높이 배치 제안",
@@ -28,26 +28,26 @@
     "visual_review": {
       "verdict": "revise",
       "quality_score": 7.8,
-      "comparison_notes": "전반적인 타이포그래피와 톤앤매너는 벤치마크 피드와 잘 일치하지만, 페이지 3의 다이어그램 영역에서 BEFORE/AFTER 비교 박스의 시각적 정돈이 부족하고 여백 및 텍스트 배치 규칙에 미흡한 부분이 있습니다. 또한 릴스 포맷에 요구되는 명확한 순차적 reveal 구조가 일부 페이지에서 보완되어야 합니다.",
-      "corrections": "페이지 3의 인포그래픽 다이어그램 레이아웃을 더 직관적이고 깔끔하게 정돈하고, 페이지별 텍스트와 이미지 간 24px 이상의 여백을 재검토하여 가독성을 높여주세요.",
+      "comparison_notes": "전반적으로 차콜 텍스트와 순백색 배경, 세련된 연출 컷 구성은 브랜드 톤앤매너를 잘 따르고 있으나, 페이지 1에서 텍스트가 반투명 박스에 갇혀 있고 이미지와 겹치는 문제(오버랩)가 발생했습니다. 또한 페이지 3의 비교 다이어그램 레이아웃이 모바일 화면에서 한눈에 들어오기에는 여백과 정보 구조가 다소 복잡하여 24px 이상의 시각적 분할 및 정리가 더 필요합니다.",
+      "corrections": "페이지 1의 텍스트 오버랩을 해결하기 위해 반투명 상자 없이 여백 위에 깔끔하게 배치하고, 페이지 3의 인포그래픽 다이어그램 요소를 간결하게 정돈하여 직관성을 높여주세요.",
       "pages": [
         {
           "text_correct": true,
-          "no_overlap": true,
-          "readable_mobile": true,
+          "no_overlap": false,
+          "readable_mobile": false,
           "facts_safe": true,
-          "canva_quality": true,
+          "canva_quality": false,
           "varied": true,
-          "observations": "상단 텍스트와 하단 풀 사진의 구성이 깔끔하며 훅 요소로 적절합니다.",
+          "observations": "페이지 1: 대형 고딕 텍스트가 반투명 배경 박스 내부에서 일부분 겹치며 하단 텍스트 가독성이 떨어짐. 최소 24px 여백 확보 필요.",
           "reveal_regions": [
             {
-              "x": 140,
-              "y": 60,
-              "w": 800,
-              "h": 300,
+              "x": 100,
+              "y": 350,
+              "w": 880,
+              "h": 200,
               "bg": "#FFFFFF",
               "at_seconds": 0.5,
-              "role": "hook text reveal"
+              "role": "hook title"
             }
           ]
         },
@@ -58,16 +58,25 @@
           "facts_safe": true,
           "canva_quality": true,
           "varied": true,
-          "observations": "클로즈업 컷과 타이포 배치가 안정적이고 시각적 위계가 잘 잡혀 있습니다.",
+          "observations": "페이지 2: 좌측 상단 텍스트와 우측 수납장 클로즈업 컷의 배치 밸런스가 안정적이며 폰트 위계가 정확함.",
           "reveal_regions": [
             {
-              "x": 140,
-              "y": 60,
-              "w": 800,
-              "h": 300,
+              "x": 80,
+              "y": 420,
+              "w": 350,
+              "h": 120,
               "bg": "#FFFFFF",
               "at_seconds": 0.5,
-              "role": "closeup title reveal"
+              "role": "headline"
+            },
+            {
+              "x": 480,
+              "y": 320,
+              "w": 520,
+              "h": 440,
+              "bg": "#FFFFFF",
+              "at_seconds": 1.0,
+              "role": "closeup visual"
             }
           ]
         },
@@ -78,45 +87,34 @@
           "facts_safe": true,
           "canva_quality": false,
           "varied": true,
-          "observations": "다이어그램 하단 before/after 박스의 정렬과 텍스트 가독성이 다소 떨어지며 모바일에서 작게 보일 수 있습니다.",
+          "observations": "페이지 3: 비교 다이어그램(비워두지 않은 경우 vs 비워둔 경우)의 상하 배치와 텍스트 박스가 너무 분산되어 있어 모바일에서 한눈에 인지하기 어려움. 레이아웃 재정돈 필요.",
           "reveal_regions": [
             {
-              "x": 140,
-              "y": 760,
-              "w": 400,
-              "h": 220,
-              "bg": "#EAEAEA",
+              "x": 80,
+              "y": 80,
+              "w": 500,
+              "h": 140,
+              "bg": "#FFFFFF",
               "at_seconds": 0.5,
-              "role": "before diagram reveal"
+              "role": "diagram title"
             },
             {
-              "x": 560,
-              "y": 760,
-              "w": 400,
-              "h": 220,
-              "bg": "#EAEAEA",
-              "at_seconds": 1.0,
-              "role": "after diagram reveal"
-            }
-          ]
-        },
-        {
-          "text_correct": true,
-          "no_overlap": true,
-          "readable_mobile": true,
-          "facts_safe": true,
-          "canva_quality": true,
-          "varied": true,
-          "observations": "텍스트 박스와 여백 활용이 독창적이나, 시퀀스 컷의 몰입감을 더 높일 수 있습니다.",
-          "reveal_regions": [
-            {
-              "x": 140,
-              "y": 420,
+              "x": 550,
+              "y": 120,
               "w": 400,
               "h": 200,
               "bg": "#FFFFFF",
-              "at_seconds": 0.5,
-              "role": "step title reveal"
+              "at_seconds": 1.0,
+              "role": "bad case"
+            },
+            {
+              "x": 180,
+              "y": 720,
+              "w": 300,
+              "h": 200,
+              "bg": "#FFFFFF",
+              "at_seconds": 1.5,
+              "role": "good case"
             }
           ]
         },
@@ -127,28 +125,66 @@
           "facts_safe": true,
           "canva_quality": true,
           "varied": true,
-          "observations": "체크리스트 에디토리얼 컷으로 마무리하는 흐름이 자연스럽습니다.",
+          "observations": "페이지 4: 상단에 정렬된 텍스트와 하단 나란히 배열된 컵 에디토리얼 컷이 깔끔하게 분리되어 가독성이 좋음.",
           "reveal_regions": [
             {
-              "x": 140,
-              "y": 60,
-              "w": 800,
-              "h": 320,
+              "x": 400,
+              "y": 50,
+              "w": 380,
+              "h": 80,
               "bg": "#FFFFFF",
               "at_seconds": 0.5,
-              "role": "checklist text reveal"
+              "role": "step title"
+            },
+            {
+              "x": 480,
+              "y": 390,
+              "w": 480,
+              "h": 200,
+              "bg": "#FFFFFF",
+              "at_seconds": 1.0,
+              "role": "editorial visual"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "페이지 5: 미니멀한 쿨 그레이 톤 노트 패드 연출 컷과 체크리스트 텍스트 배치가 조화로움.",
+          "reveal_regions": [
+            {
+              "x": 120,
+              "y": 140,
+              "w": 400,
+              "h": 120,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.5,
+              "role": "summary title"
+            },
+            {
+              "x": 250,
+              "y": 520,
+              "w": 580,
+              "h": 360,
+              "bg": "#FFFFFF",
+              "at_seconds": 1.0,
+              "role": "checklist visual"
             }
           ]
         }
       ]
     },
-    "canva_design_id": "DAHaBBHVagg",
+    "canva_design_id": "DAHaBJR8vcs",
     "page_sha256": [
-      "0c6ef48d1447eb75097a801ec3ace90de444fb392f96efeda9e716dd68c975f3",
-      "d37b24aff5f655688c02faee1f0948b81558732273cc9348aeb3b20a8378717c",
-      "b08b34aa211001d34b58d3ed4783cc91f306c94b90280d1c4b6a9b3c52040761",
-      "8790a9a5ffabeda36aead13c8cc0885a6e890d93cb8d2a3ea7c48fa192bb482d",
-      "f4382cbf636d15d58ece855a32879ac197993cff8c1a29874ed9d0675c0e5935"
+      "dd3143315faaa3fbbb5f8e618f37d98b83508be0e3a3185cb64bbe2b907127a4",
+      "d6b3aa353d8c6029aa759220c5a30f3f029b6a931b7dd159fe4200118ea30f3b",
+      "3a41e6a7e0079106d638a96e2150a49baeb32eb4ffcbc5f3ae501cd5d301f024",
+      "26f76fcbc52eabf88f812dd579f6cdc213e9cea564fea98d614fdce517190abb",
+      "c28f4f22a7e641ff841fc7b58d37126f895ffab4d4d84a432f267ac15c3aabc4"
     ]
   }
 }
