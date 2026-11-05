@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "project": "nordic",
+  "account": "nordic_log",
+  "designs": {
+    "DAHaAQuCphI": {
+      "format": "mp4",
+      "purpose": "diagnostic",
+      "active": true
+    },
+    "DAHaAwA7Ff8": {
+      "format": "mp4",
+      "purpose": "diagnostic",
+      "active": true
+    },
+    "DAHZ3X7N3tw": {
+      "format": "jpg",
+      "purpose": "diagnostic",
+      "active": true,
+      "page_count": 5
+    }
+  }
+}

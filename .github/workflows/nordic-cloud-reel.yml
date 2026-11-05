@@ -8,6 +8,10 @@ on:
         type: choice
         options: [export-check, delivery-check, publish]
         default: export-check
+      plan_path:
+        description: Saved plan path; blank selects today KST cloud/plans/YYYY-MM-DD.json
+        required: false
+        type: string
       gateway_run_id:
         description: Optional existing gateway receipt; leave both references empty for cloud orchestration
         required: false
@@ -29,13 +33,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests imageio-ffmpeg
+      - run: pip install requests imageio-ffmpeg Pillow
       - run: python cloud/cloud_reel.py
         env:
           GITHUB_TOKEN: ${{ github.token }}
           CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
+          CLOUD_PLAN_PATH: ${{ inputs.plan_path }}
           CLOUD_REEL_MODE: ${{ inputs.mode }}
           CANVA_GATEWAY_RUN_ID: ${{ inputs.gateway_run_id }}
           CANVA_GATEWAY_REQUEST_ID: ${{ inputs.gateway_request_id }}
@@ -46,4 +51,5 @@ jobs:
           path: |
             cloud-reports/connection.json
             cloud-reports/scene-*.png
+            cloud-reports/page-*.png
           retention-days: 3

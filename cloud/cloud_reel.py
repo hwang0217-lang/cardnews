@@ -17,6 +17,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 import requests
 import imageio_ffmpeg
+from design_policy import load_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 KST = timezone(timedelta(hours=9))
@@ -44,8 +45,8 @@ def require_export_url(url):
 
 def enforce_publish(plan, digest, media, journals, now):
     day = now.astimezone(KST).date().isoformat()
-    if (plan.get('approved') is not True or plan.get('date') != day or
-            plan.get('approved_video_sha256') != digest or
+    if (plan.get('purpose') != 'production' or plan.get('approved') is not True or plan.get('date') != day or
+            plan.get('approved_assets_sha256' if plan.get('export_format') == 'jpg' else 'approved_video_sha256') != digest or
             plan.get('review', {}).get('all_scenes_readable') is not True):
         raise RuntimeError('Today hash-bound reviewed approval required')
     for journal in journals:
@@ -89,7 +90,7 @@ class GitHub:
         state.put(path,request_id,record,absent=True)
         response=requests.post('https://api.github.com/repos/'+GATEWAY_REPO+
             '/actions/workflows/canva-export-gateway.yml/dispatches',headers=self.headers,
-            json={'ref':'main','inputs':{'design_id':design_id,'request_id':request_id}},timeout=45)
+            json={'ref':'main','inputs':{'design_id':design_id,'request_id':request_id,'registry_revision':os.environ['GITHUB_SHA']}},timeout=45)
         if response.status_code!=204:
             record.update(status='dispatch_rejected',http_status=response.status_code);state.put(path,request_id,record)
             raise RuntimeError('Canva gateway dispatch HTTP '+str(response.status_code)+'; do not repeat automatically')
@@ -150,9 +151,7 @@ def save_report(report):
 def run():
     mode = os.environ.get('CLOUD_REEL_MODE', 'export-check')
     if mode not in ('export-check', 'delivery-check', 'publish'): raise RuntimeError('Invalid mode')
-    plan = json.loads((ROOT / 'cloud/reel-plan.json').read_text(encoding='utf-8'))
-    if plan['account'] != 'nordic_log' or plan['canva_design_id'] != 'DAHaAQuCphI':
-        raise RuntimeError('Design outside explicitly approved gateway scope')
+    plan = load_plan(ROOT, os.environ.get('CLOUD_PLAN_PATH', ''), datetime.now(KST).date().isoformat())
     gateway=GitHub(os.environ['CANVA_GATEWAY_GH_TOKEN'])
     run_id = os.environ.get('CANVA_GATEWAY_RUN_ID',''); request_id = os.environ.get('CANVA_GATEWAY_REQUEST_ID','')
     if not run_id and not request_id:
@@ -161,10 +160,14 @@ def run():
         raise RuntimeError('Invalid gateway receipt reference')
     result = gateway.artifact(run_id, request_id)
     if (result.get('status') != 'success' or result['designId'] != plan['canva_design_id'] or
-            result['requestId'] != request_id or result.get('project') != 'nordic' or len(result.get('urls', [])) != 1):
+            result['requestId'] != request_id or result.get('project') != 'nordic' or result.get('format') != plan.get('export_format', 'mp4') or not re.fullmatch(r'[0-9a-f]{40}', result.get('registryRevision', ''))):
         raise RuntimeError('Mismatched Canva export receipt')
     if datetime.fromisoformat(result['expiresAt'].replace('Z', '+00:00')) <= datetime.now(timezone.utc):
         raise RuntimeError('Canva export expired; no blind retry')
+    if plan.get('export_format') == 'jpg':
+        from cloud_carousel import run_carousel
+        return run_carousel(mode, plan, result, run_id)
+    if len(result.get('urls', [])) != 1: raise RuntimeError('Expected one MP4 URL')
     url = require_export_url(result['urls'][0])
     print('::add-mask::' + url)
     OUT.mkdir(exist_ok=True); video = OUT / 'server-only.mp4'
@@ -190,7 +193,7 @@ def run():
         subprocess.run([FFMPEG, '-v', 'error', '-y', '-ss', str(second), '-i', str(video), '-frames:v', '1',
                         '-vf', 'scale=390:-1', str(OUT / f'scene-{index:02d}.png')], check=True)
     report = {'mode': mode, 'design_id': plan['canva_design_id'], 'gateway_run_id': run_id,
-        'export_job_id': result['jobId'], 'design_updated_at': result.get('designUpdatedAt'),
+        'registry_revision': result['registryRevision'], 'export_job_id': result['jobId'], 'design_updated_at': result.get('designUpdatedAt'),
         'video_sha256': digest, 'duration_seconds': duration, 'width':visual['width'], 'height':visual['height'],
         'audio_streams': audio, 'audio_peak_db':audio_peak, 'full_decode': True, 'pc_video_download': False,
         'scene_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(OUT.glob('scene-*.png'))},
@@ -204,7 +207,7 @@ def run():
     if os.environ.get('PUBLISH_PAUSED', '1') != '0': raise RuntimeError('Account publishing paused; no delivery')
     if mode == 'publish':
         posts = graph('GET', 'me/media?fields=id,permalink,timestamp&limit=15').get('data', [])
-        journals = [json.loads((ROOT / 'cardnews' / name).read_text(encoding='utf-8')) for name in ('managed-state.json', 'reels-state.json')]
+        journals = [PublicationState().read('cardnews/' + name)[0] for name in ('managed-state.json', 'reels-state.json')]
         enforce_publish(plan, digest, posts, journals, datetime.now(KST))
     state=PublicationState();ledger='cardnews/cloud-reel-delivery-state.json';key=mode+'-'+run_id
     records,_=state.read(ledger)
@@ -212,10 +215,10 @@ def run():
         # A rerun must not create a second container after an ambiguous request.
         raise RuntimeError('Delivery already attempted; reconcile recorded container instead of repeating')
     report['container_status']='creating';save_report(report);state.put(ledger,key,report,absent=True)
-    pubkey=datetime.now(KST).date().isoformat()+'-cloud-motion'
+    pubkey=datetime.now(KST).date().isoformat()+'-cloud'
     if mode=='publish':
         state.put('cardnews/managed-state.json',pubkey,{'status':'pending','at':datetime.now(KST).isoformat(),
-            'format':'motion_reel','canva_design_id':plan['canva_design_id'],'sha256':digest},absent=True)
+            'format':plan.get('format', 'reel'),'canva_design_id':plan['canva_design_id'],'sha256':digest},absent=True)
     # No automatic POST retry: one request creates the unpublished container.
     try:
         container=graph('POST',identity['id']+'/media',{'media_type':'REELS','video_url':url,
@@ -247,7 +250,7 @@ def run():
         raise RuntimeError('Publication result requires reconciliation; never repeat')
     report.update(published=True, publication_status='published_verified', permalink=actual['permalink'])
     save_report(report);state.put(ledger,key,report)
-    entry={'status':'published','at':actual['timestamp'],'format':'motion_reel','account':'nordic_log',
+    entry={'status':'published','at':actual['timestamp'],'format':plan.get('format', 'reel'),'account':'nordic_log',
         'canva_design_id':plan['canva_design_id'],'sha256':digest,'media_id':actual['id'],'permalink':actual['permalink']}
     state.put('cardnews/managed-state.json',pubkey,entry)
     state.put('cardnews/reels-state.json',pubkey,{**entry,'status':'published_verified'})
