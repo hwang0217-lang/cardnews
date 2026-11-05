@@ -1,0 +1,36 @@
+{
+  "request": {
+    "account": "nordic_log",
+    "request_id": "nordic-auto-41966547445-v2",
+    "purpose": "preview",
+    "height": 1920,
+    "brief": "캔바 캐러셀 5페이지 구성. 전체 화이트, 차콜, 쿨 그레이 톤온톤 적용. 1080x1920 세로형, 상단 대형 한국어 타이포그래피. 모든 페이지 하단에 @nordic_log 푸터와 '생활 배치 제안 · 연출 이미지' 표기. 본문 위 가선 절대 금지.\nCorrect the actual failed export: \"1. 2번째 페이지 하단 본문 영역과 수평선 간격 24px 이상 확보 및 겹침 현상 제거.\\n2. 3번째 페이지의 단순 사진을 실제 수직 단차 배치 및 동선 비교가 가능한 다이어그램 또는 시퀀스 구조로 수정.\\n3. 각 페이지별 명확한 detail_crop 영역 재지정.\"",
+    "sections": [
+      {
+        "title": "컵, 어디에 두나요?",
+        "body": "손이 닿는 높이부터 확인해요",
+        "visual_role": "full_photo"
+      },
+      {
+        "title": "자주 쓰는 컵은",
+        "body": "눈높이와 허리 사이에",
+        "visual_role": "comparison"
+      },
+      {
+        "title": "가끔 쓰는 텀블러는",
+        "body": "선반 위아래 칸에 나란히",
+        "visual_role": "diagram"
+      },
+      {
+        "title": "꺼내는 동선",
+        "body": "하나를 꺼낼 때 다른 컵이 흔들리지 않게",
+        "visual_role": "closeup"
+      },
+      {
+        "title": "오늘의 정리",
+        "body": "매일 쓰는 컵 하나만 제자리에",
+        "visual_role": "editorial_spacing"
+      }
+    ]
+  }
+}
