@@ -801,7 +801,7 @@
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 0,
+    "gemini_calls": 1,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "design_policy": "impeccable-real-photo-v1",
@@ -1073,6 +1073,40 @@
         ],
         "photo_relation": "The empty surface beside a sink is the useful outcome and a gentle action to save."
       }
-    ]
+    ],
+    "literal_inventory": {
+      "pages": [
+        {
+          "literal_subject": "Kitchen counter organization guidelines",
+          "main_objects": "Wooden cutting boards, utensils in a holder, a pitcher, and a stovetop on a wooden counter with light walls.",
+          "visible_text": "조리대,\n덜어내는 법\n@nordic_log\n사진 Cup of Couple / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "Kitchen utensils organization",
+          "main_objects": "Wooden spoons and spatulas inside a white and grey ceramic holder on a kitchen counter.",
+          "visible_text": "매일 쓰면\n가까이\n손이 가는 도구만\n한곳에 모아요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "Kitchen storage for less frequently used items",
+          "main_objects": "Kitchen shelves stocked with bottles, jars, a small plush toy, and various cooking ingredients.",
+          "visible_text": "가끔 쓰면\n안쪽으로\n병과 통은\n사용 빈도로 나눠요\n@nordic_log\n사진 stayhereforu / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "Grouped kitchen items organization",
+          "main_objects": "Green wooden cabinets, a shelf with tea, coffee, and sugar jars, cutting boards, and kitchen utensils.",
+          "visible_text": "꺼낼 것만\n한자리에\n함께 쓰는것끼리\n모아두세요\nTEA\nCOFFEE\nSUGAR\n@nordic_log\n사진 Georgie Devlin / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "Minimalist kitchen counter workspace",
+          "main_objects": "A white kitchen counter with a sink faucet, wooden cutting boards, and a utensil holder.",
+          "visible_text": "정리보다\n쓸 자리\n오늘은 조리대\n한 칸만 비워요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false
+        }
+      ]
+    }
   }
 }
