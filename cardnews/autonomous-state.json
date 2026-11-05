@@ -1117,7 +1117,7 @@
     "format": "reel",
     "published": false,
     "gemini_calls": 0,
-    "canva_generations": 0,
+    "canva_generations": 1,
     "pc_media_downloads": 0,
     "design_policy": "impeccable-real-photo-v1",
     "source_plan_date": "2026-11-06",
@@ -1128,6 +1128,187 @@
     "draft_usage": {
       "source": "saved bespoke editorial plan",
       "inference_calls": 0
+    },
+    "editorial_draft": {
+      "design_policy": "impeccable-real-photo-v1",
+      "account": "nordic_log",
+      "topic": "조리대, 다 치우지 말고 쓸 자리 남기기",
+      "claims_mode": "practical_suggestions_only",
+      "visual_differences": "Full counter scene → utensil closeup left with right headline → wide contextual photo over explanation → tray photo offset below copy → sink-side photo right with closing text. All photos are genuine separately sourced homes; no same-home before/after claim.",
+      "canva_brief": "Impeccable Read mode: authentic household photographs and precise Korean hierarchy. White/charcoal/cool gray, restrained blue footer; no ornamental lines, labels or repeated boxes. Keep the full frame of each real photograph with contain; all text sits in separate whitespace. Native1080x1920; safe area top210/bottom340; exact Korean copy and 24px separations. Each page conveys one practical suggestion.",
+      "caption": "조리대를 다 비우는 대신, 내가 쓸 자리를 먼저 남겨보세요.\n\n매일 쓰는 도구는 가까이, 가끔 쓰는 병과 통은 안쪽으로. 함께 꺼내는 것은 한곳에 모아두는 방법을 제안해요. 집과 사용 습관에 맞게 골라 적용해보세요.\n\n사진은 서로 다른 공간의 실제 스톡 촬영본이며 동일 주방의 정리 전후가 아닙니다. 사진: Cup of Couple, PNW Production, stayhereforu, Georgie Devlin / Pexels. 기획·편집에 AI를 활용했습니다.\n\n#노르딕로그 #주방정리 #조리대정리 #살림팁",
+      "sections": [
+        {
+          "title": "조리대,\n덜어내는 법",
+          "body": "",
+          "visual_role": "A complete counter scene establishes usable work space, not an invented before/after.",
+          "image_prompt_en": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug.",
+          "required_visual_objects": [
+            "counter",
+            "board"
+          ],
+          "photo_id": "7303767",
+          "photo_relation": "A complete counter scene establishes usable work space, not an invented before/after.",
+          "layout": {
+            "photo": [
+              72,
+              500,
+              936,
+              1060
+            ],
+            "title": [
+              72,
+              220,
+              936,
+              240
+            ],
+            "body": [
+              72,
+              0,
+              936,
+              100
+            ],
+            "title_size": 88,
+            "body_size": 46
+          }
+        },
+        {
+          "title": "매일 쓰면\n가까이",
+          "body": "손이 가는 도구만\n한곳에 모아요",
+          "visual_role": "Actual closeup demonstrates gathering frequently used utensils, not an item recommendation.",
+          "image_prompt_en": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls.",
+          "required_visual_objects": [
+            "spoon",
+            "utensil"
+          ],
+          "photo_id": "8251825",
+          "photo_relation": "Actual closeup demonstrates gathering frequently used utensils, not an item recommendation.",
+          "layout": {
+            "photo": [
+              72,
+              230,
+              520,
+              900
+            ],
+            "title": [
+              636,
+              290,
+              380,
+              300
+            ],
+            "body": [
+              72,
+              1210,
+              936,
+              200
+            ],
+            "title_size": 72,
+            "body_size": 48
+          }
+        },
+        {
+          "title": "가끔 쓰면\n안쪽으로",
+          "body": "병과 통은\n사용 빈도로 나눠요",
+          "visual_role": "Existing bottles and containers explain sorting by frequency. Photo is contextual, not evidence of a tested transformation.",
+          "image_prompt_en": "A small kitchen countertop with bottles, containers and a spice shelf.",
+          "required_visual_objects": [
+            "bottle",
+            "container"
+          ],
+          "photo_id": "13684937",
+          "photo_relation": "Existing bottles and containers explain sorting by frequency. Photo is contextual, not evidence of a tested transformation.",
+          "layout": {
+            "photo": [
+              72,
+              260,
+              936,
+              660
+            ],
+            "title": [
+              72,
+              1020,
+              936,
+              230
+            ],
+            "body": [
+              72,
+              1360,
+              936,
+              160
+            ],
+            "title_size": 82,
+            "body_size": 46
+          }
+        },
+        {
+          "title": "꺼낼 것만\n한자리에",
+          "body": "함께 쓰는 것끼리\n모아두세요",
+          "visual_role": "The real tray and cup grouping illustrates keeping related items together.",
+          "image_prompt_en": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards.",
+          "required_visual_objects": [
+            "jar",
+            "utensil"
+          ],
+          "photo_id": "11385963",
+          "photo_relation": "Actual tea, coffee and sugar jars are grouped on the same kitchen shelf. This contextual stock photograph illustrates grouping related objects; it is not a same-home before/after.",
+          "layout": {
+            "photo": [
+              72,
+              660,
+              640,
+              890
+            ],
+            "title": [
+              72,
+              220,
+              936,
+              230
+            ],
+            "body": [
+              72,
+              490,
+              936,
+              140
+            ],
+            "title_size": 82,
+            "body_size": 46
+          }
+        },
+        {
+          "title": "정리보다\n쓸 자리",
+          "body": "오늘은 조리대\n한 칸만 비워요",
+          "visual_role": "The empty surface beside a sink is the useful outcome and a gentle action to save.",
+          "image_prompt_en": "White sink-side counter with wooden utensils in a ceramic jar.",
+          "required_visual_objects": [
+            "sink",
+            "utensil"
+          ],
+          "photo_id": "8251790",
+          "photo_relation": "The empty surface beside a sink is the useful outcome and a gentle action to save.",
+          "layout": {
+            "photo": [
+              480,
+              260,
+              536,
+              950
+            ],
+            "title": [
+              72,
+              310,
+              360,
+              310
+            ],
+            "body": [
+              72,
+              1330,
+              936,
+              180
+            ],
+            "title_size": 76,
+            "body_size": 48
+          }
+        }
+      ]
     }
   }
 }
