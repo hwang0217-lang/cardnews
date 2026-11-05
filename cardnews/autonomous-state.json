@@ -579,6 +579,17 @@
     "edit_segments": 7,
     "canva_visual_source": true,
     "full_decode": true,
-    "pc_video_download": false
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "pass",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": "good",
+      "meaningful_motion": true,
+      "literal_subjects": true,
+      "notes": "The video is a well-paced photo reel showing kitchen organization tips with clear text, appropriate display durations, background music, and smooth transitions."
+    }
   }
 }
