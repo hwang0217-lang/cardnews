@@ -1,12 +1,27 @@
 {
   "preview-41965263294": {
-    "stage": "starting",
+    "stage": "drafted",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 0,
+    "gemini_calls": 1,
     "canva_generations": 0,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "topic": "머그와 잔 보관 높이 배치 제안",
+    "model": "gemini-3.5-flash-lite",
+    "recent_posts_compared": 9,
+    "draft_usage": {
+      "promptTokenCount": 1746,
+      "candidatesTokenCount": 1101,
+      "totalTokenCount": 2847,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 1746
+        }
+      ],
+      "serviceTier": "standard"
+    }
   }
 }
