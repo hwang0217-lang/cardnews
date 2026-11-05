@@ -792,7 +792,7 @@
     "transport": "temporary-cloudflare-url",
     "transport_expires_ms": 1793864916691,
     "transport_sha256": "8ad919dd10642266c015a2743c54b687e080279b36bd4ab3d4a5184d6e08daa6",
-    "upload_status": "processing",
+    "upload_status": "FINISHED",
     "container_id": "18113764337078061"
   }
 }
