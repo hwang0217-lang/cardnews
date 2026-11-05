@@ -351,7 +351,7 @@
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 2,
+    "gemini_calls": 3,
     "canva_generations": 2,
     "pc_media_downloads": 0,
     "topic": "텀블러 건조대 자리 배치",
@@ -375,32 +375,32 @@
     "literal_inventory": {
       "pages": [
         {
-          "literal_subject": "tumbler, where do you put it?",
-          "main_objects": "tumbler, lid, straw, dish drying rack, plates, kitchen sink faucet",
+          "literal_subject": "A stainless steel tumbler, lid, and a blue bowl placed inside a black drying rack on a kitchen counter.",
+          "main_objects": "Stainless steel tumbler, tumbler lid, blue bowl, black drying rack, kitchen counter",
           "visible_text": "텀블러, 어디에 두시나요?\n새 제품보다 먼저 바꿀 건 건조대 놓는 자리\n@nordic_log\n연출 이미지",
           "gibberish_text": false
         },
         {
-          "literal_subject": "lid and body separation",
-          "main_objects": "tumbler body, tumbler lid, drying mat",
-          "visible_text": "뚜껑과 본체 분리\n뚜껑은 담지 말고 젖에 따로 두기\n@nordic_log\n연출 이미지",
+          "literal_subject": "A stainless steel tumbler and its disassembled lid sitting on a blue ribbed silicone drying mat.",
+          "main_objects": "Stainless steel tumbler, tumbler lid, blue silicone drying mat, kitchen counter",
+          "visible_text": "뚜껑과 본체 분리\n뚜껑은 닫지 말고 곁에 따로 두기\n@nordic_log\n연출 이미지",
           "gibberish_text": false
         },
         {
-          "literal_subject": "side by side without overlapping",
-          "main_objects": "mugs, cups, drying tray",
+          "literal_subject": "Six different cups and bowls arranged neatly inside a white dish drying rack.",
+          "main_objects": "Two mugs, two bowls, one glass, one fluted bowl, white dish drying rack, blue cloth",
           "visible_text": "겹치지 않게 나란히\n다른 그릇과 닿지 않는 간격 만들기\n@nordic_log\n연출 이미지",
           "gibberish_text": false
         },
         {
-          "literal_subject": "wind passing interval",
-          "main_objects": "dish rack, plates, bowls, glasses, cutlery holder, spoon, chopsticks",
+          "literal_subject": "Plates, bowls, cutlery in a holder, and a blue mug organized in a white dish drying rack on a blue cloth.",
+          "main_objects": "Two plates, one dark bowl, one blue mug, cutlery holder, knife, spoon, white dish drying rack, blue drying mat",
           "visible_text": "바람 통하는 간격\n안쪽까지 마를 수 있는 여유 두기\n@nordic_log\n연출 이미지",
           "gibberish_text": false
         },
         {
-          "literal_subject": "change just one section today",
-          "main_objects": "kitchen drawer with dish rack, plates, bowls, spoons, chopsticks",
+          "literal_subject": "Dark background with Korean text overlay and a button label.",
+          "main_objects": "Dark background, text box, text",
           "visible_text": "연출 이미지\n오늘 한 칸만 바꾸기\n저장해두고 설거지 후 적용하기\n@nordic_log",
           "gibberish_text": false
         }
