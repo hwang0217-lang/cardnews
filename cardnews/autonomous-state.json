@@ -1111,7 +1111,7 @@
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   },
   "preview-42026064408": {
-    "stage": "visual_review",
+    "stage": "video_review",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
@@ -1630,6 +1630,27 @@
           }
         }
       ]
-    }
+    },
+    "duration_seconds": 29.566666666666666,
+    "scene_seconds": [
+      3.583333333333333,
+      6.083333333333333,
+      6.083333333333333,
+      5.916666666666667,
+      5.916666666666667
+    ],
+    "music_track": "bright-02",
+    "video_sha256": "03da7ed175380835c525cf51ebe2b3b7ab230637e4fb081dd7de3de577e04452",
+    "selected_original_pages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "edit_segments": 7,
+    "canva_visual_source": true,
+    "full_decode": true,
+    "pc_video_download": false
   }
 }
