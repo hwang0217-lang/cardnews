@@ -1,6 +1,6 @@
 {
   "preview-41965263294": {
-    "stage": "visual_review",
+    "stage": "blocked",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -185,6 +185,7 @@
       "3a41e6a7e0079106d638a96e2150a49baeb32eb4ffcbc5f3ae501cd5d301f024",
       "26f76fcbc52eabf88f812dd579f6cdc213e9cea564fea98d614fdce517190abb",
       "c28f4f22a7e641ff841fc7b58d37126f895ffab4d4d84a432f267ac15c3aabc4"
-    ]
+    ],
+    "error": "Canva quality below benchmark; publication blocked"
   }
 }
