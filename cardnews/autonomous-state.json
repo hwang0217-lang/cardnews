@@ -1111,7 +1111,7 @@
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   },
   "preview-42026064408": {
-    "stage": "drafted",
+    "stage": "canva_dispatching",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
@@ -1309,6 +1309,7 @@
           }
         }
       ]
-    }
+    },
+    "request_id": "nordic-auto-42026064408-v1"
   }
 }
