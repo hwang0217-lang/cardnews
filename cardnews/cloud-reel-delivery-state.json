@@ -49,7 +49,7 @@
     },
     "published": false,
     "unpublished_container_created": true,
-    "container_status": "processing",
+    "container_status": "FINISHED",
     "container_id": "18113742017078061"
   }
 }
