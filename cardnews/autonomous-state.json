@@ -1,11 +1,11 @@
 {
   "preview-41965263294": {
-    "stage": "canva_generating",
+    "stage": "visual_review",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 1,
+    "gemini_calls": 2,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "topic": "머그와 잔 보관 높이 배치 제안",
@@ -24,6 +24,131 @@
       "serviceTier": "standard"
     },
     "request_id": "nordic-auto-41965263294-v1",
-    "canva_run_id": "41965319192"
+    "canva_run_id": "41965319192",
+    "visual_review": {
+      "verdict": "revise",
+      "quality_score": 7.8,
+      "comparison_notes": "전반적인 타이포그래피와 톤앤매너는 벤치마크 피드와 잘 일치하지만, 페이지 3의 다이어그램 영역에서 BEFORE/AFTER 비교 박스의 시각적 정돈이 부족하고 여백 및 텍스트 배치 규칙에 미흡한 부분이 있습니다. 또한 릴스 포맷에 요구되는 명확한 순차적 reveal 구조가 일부 페이지에서 보완되어야 합니다.",
+      "corrections": "페이지 3의 인포그래픽 다이어그램 레이아웃을 더 직관적이고 깔끔하게 정돈하고, 페이지별 텍스트와 이미지 간 24px 이상의 여백을 재검토하여 가독성을 높여주세요.",
+      "pages": [
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "상단 텍스트와 하단 풀 사진의 구성이 깔끔하며 훅 요소로 적절합니다.",
+          "reveal_regions": [
+            {
+              "x": 140,
+              "y": 60,
+              "w": 800,
+              "h": 300,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.5,
+              "role": "hook text reveal"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "클로즈업 컷과 타이포 배치가 안정적이고 시각적 위계가 잘 잡혀 있습니다.",
+          "reveal_regions": [
+            {
+              "x": 140,
+              "y": 60,
+              "w": 800,
+              "h": 300,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.5,
+              "role": "closeup title reveal"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": false,
+          "readable_mobile": false,
+          "facts_safe": true,
+          "canva_quality": false,
+          "varied": true,
+          "observations": "다이어그램 하단 before/after 박스의 정렬과 텍스트 가독성이 다소 떨어지며 모바일에서 작게 보일 수 있습니다.",
+          "reveal_regions": [
+            {
+              "x": 140,
+              "y": 760,
+              "w": 400,
+              "h": 220,
+              "bg": "#EAEAEA",
+              "at_seconds": 0.5,
+              "role": "before diagram reveal"
+            },
+            {
+              "x": 560,
+              "y": 760,
+              "w": 400,
+              "h": 220,
+              "bg": "#EAEAEA",
+              "at_seconds": 1.0,
+              "role": "after diagram reveal"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "텍스트 박스와 여백 활용이 독창적이나, 시퀀스 컷의 몰입감을 더 높일 수 있습니다.",
+          "reveal_regions": [
+            {
+              "x": 140,
+              "y": 420,
+              "w": 400,
+              "h": 200,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.5,
+              "role": "step title reveal"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "체크리스트 에디토리얼 컷으로 마무리하는 흐름이 자연스럽습니다.",
+          "reveal_regions": [
+            {
+              "x": 140,
+              "y": 60,
+              "w": 800,
+              "h": 320,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.5,
+              "role": "checklist text reveal"
+            }
+          ]
+        }
+      ]
+    },
+    "canva_design_id": "DAHaBBHVagg",
+    "page_sha256": [
+      "0c6ef48d1447eb75097a801ec3ace90de444fb392f96efeda9e716dd68c975f3",
+      "d37b24aff5f655688c02faee1f0948b81558732273cc9348aeb3b20a8378717c",
+      "b08b34aa211001d34b58d3ed4783cc91f306c94b90280d1c4b6a9b3c52040761",
+      "8790a9a5ffabeda36aead13c8cc0885a6e890d93cb8d2a3ea7c48fa192bb482d",
+      "f4382cbf636d15d58ece855a32879ac197993cff8c1a29874ed9d0675c0e5935"
+    ]
   }
 }
