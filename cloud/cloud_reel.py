@@ -91,7 +91,8 @@ class GitHub:
             '/actions/workflows/canva-export-gateway.yml/dispatches',headers=self.headers,
             json={'ref':'main','inputs':{'design_id':design_id,'request_id':request_id}},timeout=45)
         if response.status_code!=204:
-            raise RuntimeError('Canva gateway dispatch not confirmed; do not repeat automatically')
+            record.update(status='dispatch_rejected',http_status=response.status_code);state.put(path,request_id,record)
+            raise RuntimeError('Canva gateway dispatch HTTP '+str(response.status_code)+'; do not repeat automatically')
         run_id=None
         for _ in range(80):
             if run_id is None:
@@ -152,7 +153,7 @@ def run():
     plan = json.loads((ROOT / 'cloud/reel-plan.json').read_text(encoding='utf-8'))
     if plan['account'] != 'nordic_log' or plan['canva_design_id'] != 'DAHaAQuCphI':
         raise RuntimeError('Design outside explicitly approved gateway scope')
-    gateway=GitHub(os.environ['GH_PAT'])
+    gateway=GitHub(os.environ['CANVA_GATEWAY_GH_TOKEN'])
     run_id = os.environ.get('CANVA_GATEWAY_RUN_ID',''); request_id = os.environ.get('CANVA_GATEWAY_REQUEST_ID','')
     if not run_id and not request_id:
         run_id,request_id=gateway.export_design(plan['canva_design_id'])

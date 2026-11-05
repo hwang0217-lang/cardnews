@@ -33,7 +33,7 @@ jobs:
       - run: python cloud/cloud_reel.py
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          GH_PAT: ${{ secrets.GH_PAT }}
+          CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           CLOUD_REEL_MODE: ${{ inputs.mode }}
