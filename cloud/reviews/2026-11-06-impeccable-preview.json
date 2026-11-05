@@ -21,7 +21,7 @@
       "adapt"
     ],
     "application": "Read mode; meaningful real photography, Korean hierarchy, separate photo/text regions, varied per-page composition, mobile readability. Not a frontend-engine execution.",
-    "recent_nine": "Server fetched9 posts/37 actual reference images. Independent comparison rerun will be recorded separately."
+    "recent_nine": "The exports match the Impeccable real-photo guidelines closely. The photos are genuine separately sourced stock photography maintaining high quality and neutral palettes without fake before/after claims. Text and photo framing maintain strict separation, ample whitespace, and correct Korean typography hierarchy without ornamental clutter."
   },
   "pages": [
     {
@@ -218,5 +218,273 @@
       "run": "42026064408",
       "reason": "Human rejected glyph contour overlap holes despite model pass"
     }
-  ]
+  ],
+  "server_review_run": "42028184801",
+  "server_review": {
+    "source_nordic_run": "42026914781",
+    "canva_run_id": "42027000365",
+    "canva_design_id": "DAHaDNfEbPM",
+    "published": false,
+    "instagram_writes": 0,
+    "canva_creations": 0,
+    "pc_video_downloads": 0,
+    "stage": "ready_preview",
+    "literal_inventory": {
+      "pages": [
+        {
+          "literal_subject": "A kitchen counter surface with a stovetop, a wooden cutting board, a utensil holder with cooking utensils, and a ceramic mug against a plain wall.",
+          "main_objects": [
+            "stovetop",
+            "wooden cutting board",
+            "utensil holder",
+            "ceramic mug",
+            "kitchen counter"
+          ],
+          "visible_text": "조리대,\n덜어내는 법\n@nordic_log\n사진 Cup of Couple / Pexels",
+          "gibberish_text": false,
+          "photo_text": null
+        },
+        {
+          "literal_subject": "Close-up of a container holding wooden spoons and spatulas on a kitchen counter, with wooden bowls and plates blurred in the background.",
+          "main_objects": [
+            "utensil holder",
+            "wooden spoons",
+            "spatulas",
+            "wooden bowls",
+            "plates"
+          ],
+          "visible_text": "매일 쓰면\n가까이\n손이 가는 도구만\n한곳에 모아요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false,
+          "photo_text": null
+        },
+        {
+          "literal_subject": "A busy kitchen shelf and counter filled with various spice jars, bottles, a hanging basket, a plastic food container with greens, and a yellow dispenser.",
+          "main_objects": [
+            "shelves",
+            "spice jars",
+            "bottles",
+            "hanging basket",
+            "food container",
+            "yellow dispenser"
+          ],
+          "visible_text": "가끔 쓰면\n안쪽으로\n병과 통은\n사용 빈도로 나눠요\n@nordic_log\n사진 stayhereforu / Pexels",
+          "gibberish_text": false,
+          "photo_text": "HONG TẠI LÒNG AN"
+        },
+        {
+          "literal_subject": "A green kitchen counter featuring a multi-tier wooden shelf with tea, coffee, and sugar containers, alongside cutting boards, a utensil holder, and a wall lamp.",
+          "main_objects": [
+            "green kitchen counter",
+            "wooden shelf",
+            "tea coffee sugar jars",
+            "cutting boards",
+            "wall lamp"
+          ],
+          "visible_text": "꺼낼 것만\n한자리에\n함께 쓰는 것끼리\n모아두세요\n@nordic_log\n사진 Georgie Devlin / Pexels",
+          "gibberish_text": false,
+          "photo_text": "TEA COFFEE SUGAR"
+        },
+        {
+          "literal_subject": "A clean white kitchen sink area with a chrome faucet, a concrete-textured utensil holder with wooden spoons, and cutting boards against white tiled walls.",
+          "main_objects": [
+            "kitchen sink",
+            "chrome faucet",
+            "utensil holder",
+            "wooden spoons",
+            "cutting boards",
+            "white tiles"
+          ],
+          "visible_text": "정리보다\n쓸 자리\n오늘은 조리대\n한 칸만 비워요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false,
+          "photo_text": null
+        }
+      ]
+    },
+    "visual_review": {
+      "verdict": "pass",
+      "quality_score": 9.2,
+      "comparison_notes": "The exports match the Impeccable real-photo guidelines closely. The photos are genuine separately sourced stock photography maintaining high quality and neutral palettes without fake before/after claims. Text and photo framing maintain strict separation, ample whitespace, and correct Korean typography hierarchy without ornamental clutter.",
+      "corrections": [
+        "Ensure all mobile layouts retain 24px minimum separation between headline text blocks and imagery.",
+        "Verify that tiny footer notes remain legible or are omitted cleanly on smaller mobile viewports."
+      ],
+      "pages": [
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Full counter setup establishes usable workspace effectively without fake transformation claims.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Clean top alignment with generous whitespace; typography scales well to 390px width.",
+          "detail_crop": {
+            "x": 172,
+            "y": 260,
+            "w": 650,
+            "h": 500
+          }
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Closeup utensil jar accurately communicates grouping frequently used items.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Clear left-to-right hierarchy preserves text legibility at mobile scale.",
+          "detail_crop": {
+            "x": 66,
+            "y": 150,
+            "w": 480,
+            "h": 350
+          }
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Contextual bottle shelf layout clearly illustrates frequency sorting.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Good breathing room above and below the image frame."
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Tray and jar grouping demonstrates keeping related items together.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Balanced composition; text is well-separated from the photographic frame."
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Sink-side counter shot cleanly conveys the final practical takeaway.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Final slide maintains consistent branding and clean typography."
+        }
+      ]
+    },
+    "reference_images_compared": 37,
+    "page_sha256": [
+      "0ec062e31a58d440cbac6ee91816dd62250fdc35c6b81b0480ed1032e59be89a",
+      "cda9ca3d36b354eb27ec6c7748fe2a5a6cb14da80caedd9838392acd38924e63",
+      "add6a0a48545b3c7070c5280ffe019c7f9b4a7cd7424337f3f2ebcf47e4a7997",
+      "58ae783f064064cbed6ddbb35e83dc7977ac8d38d91a10b11b41830d2f841599",
+      "d5292c43fcdb30a8f31127ebab504f0dea491b32aecb03f2fcdee6cc4299ffd8"
+    ],
+    "detail_crop_review": {
+      "scene_indices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "story_selection": {
+        "choice": "choice_4",
+        "safe": true,
+        "reason": "All pages (1 to 5) contain essential sequential steps for organizing the countertop by frequency of use without omitting necessary instructions."
+      },
+      "crops": [
+        {
+          "page": 1,
+          "normalized": {
+            "x": 173,
+            "y": 260,
+            "w": 653,
+            "h": 551,
+            "observations": "A photograph showing a modern kitchen counter with a stovetop, a small cutting board, utensils in a cup, and a mug against a plain wall."
+          },
+          "pixels": {
+            "x": 186.84,
+            "y": 499.2,
+            "w": 705.24,
+            "h": 1057.92
+          }
+        },
+        {
+          "page": 2,
+          "normalized": {
+            "x": 67,
+            "y": 151,
+            "w": 481,
+            "h": 407,
+            "observations": "A close-up photograph of wooden kitchen utensils stored in a white ceramic holder, with bowls and plates in the background."
+          },
+          "pixels": {
+            "x": 72.36,
+            "y": 289.92,
+            "w": 519.48,
+            "h": 781.44
+          }
+        }
+      ]
+    },
+    "duration_seconds": 29.566666666666666,
+    "scene_seconds": [
+      3.583333333333333,
+      6.083333333333333,
+      6.083333333333333,
+      5.916666666666667,
+      5.916666666666667
+    ],
+    "music_track": "bright-01",
+    "video_sha256": "95f000a7da7a898d99daceb7488f35b4dde172c899a5ba45ad8ec907afaab9e0",
+    "selected_original_pages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "edit_segments": 7,
+    "canva_visual_source": true,
+    "full_decode": true,
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "pass",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": true,
+      "meaningful_motion": true,
+      "literal_subjects": [
+        "kitchen counters",
+        "wooden utensils",
+        "jars and containers",
+        "shelves"
+      ],
+      "notes": "The video is well-edited, with clear Korean text captions and appropriate photo cutaways illustrating kitchen organization tips. Music is present and the pacing is good."
+    }
+  }
 }
