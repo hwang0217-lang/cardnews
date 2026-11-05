@@ -610,6 +610,53 @@
     "format": "reel",
     "stage": "editing",
     "published": false,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "detail_crop_review": {
+      "scene_indices": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "story_selection": {
+        "choice": "choice_2",
+        "safe": true,
+        "reason": "Choice 2 preserves the necessary steps including separating the lid, ensuring spacing for air circulation, and maintaining the hook and CTA."
+      },
+      "crops": [
+        {
+          "page": 1,
+          "normalized": {
+            "x": 139,
+            "y": 388,
+            "w": 724,
+            "h": 328,
+            "observations": "A metal tray holding a steel tumbler, its lid, and a small blue bowl."
+          },
+          "pixels": {
+            "x": 150.12,
+            "y": 744.96,
+            "w": 781.92,
+            "h": 629.76
+          }
+        },
+        {
+          "page": 2,
+          "normalized": {
+            "x": 0,
+            "y": 305,
+            "w": 1000,
+            "h": 554,
+            "observations": "A stainless steel tumbler with a black rim and its separate lid placed on a blue ribbed silicone drying mat."
+          },
+          "pixels": {
+            "x": 0.0,
+            "y": 585.6,
+            "w": 1080.0,
+            "h": 1063.68
+          }
+        }
+      ]
+    }
   }
 }
