@@ -1871,13 +1871,23 @@
     }
   },
   "preview-42026914781": {
-    "stage": "starting",
+    "stage": "drafted",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
     "gemini_calls": 0,
     "canva_generations": 0,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "design_policy": "impeccable-real-photo-v1",
+    "source_plan_date": "2026-11-06",
+    "topic": "조리대, 다 치우지 말고 쓸 자리 남기기",
+    "model": "gemini-3.5-flash-lite",
+    "recent_posts_compared": 9,
+    "reference_images_compared": 37,
+    "draft_usage": {
+      "source": "saved bespoke editorial plan",
+      "inference_calls": 0
+    }
   }
 }
