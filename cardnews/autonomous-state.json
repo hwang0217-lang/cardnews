@@ -592,5 +592,14 @@
       "notes": "The video is a well-paced photo reel showing kitchen organization tips with clear text, appropriate display durations, background music, and smooth transitions."
     },
     "error": "Diagnostic edit/delivery failed: RuntimeError"
+  },
+  "edit-preview-41973179613": {
+    "source_nordic_run": "41968918668",
+    "canva_run_id": "41969457084",
+    "canva_design_id": "DAHaBD_nLqw",
+    "format": "reel",
+    "stage": "editing",
+    "published": false,
+    "pc_media_downloads": 0
   }
 }
