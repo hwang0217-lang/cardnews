@@ -558,6 +558,27 @@
           "observations": "white dish rack with plates, bowls, and cutlery holder"
         }
       ]
-    }
+    },
+    "duration_seconds": 30.666666666666664,
+    "scene_seconds": [
+      6.928571428571429,
+      5.357142857142858,
+      5.642857142857143,
+      5.357142857142858,
+      5.357142857142858
+    ],
+    "music_track": "warm-02",
+    "video_sha256": "846484364d1108e1f1a83f83d79e2848b51635b2660286baa76967b3b10e33b7",
+    "selected_original_pages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "edit_segments": 7,
+    "canva_visual_source": true,
+    "full_decode": true,
+    "pc_video_download": false
   }
 }
