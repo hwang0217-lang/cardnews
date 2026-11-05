@@ -705,6 +705,53 @@
     "format": "reel",
     "stage": "editing",
     "published": false,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "detail_crop_review": {
+      "scene_indices": [
+        1,
+        2,
+        3,
+        5
+      ],
+      "story_selection": {
+        "choice": "choice_1",
+        "safe": true,
+        "reason": "Choice 1 effectively captures the essential drying steps (disassembly, spacing, and airflow) while maintaining the hook on page 1 and the CTA on page 5, omitting only redundant supporting elaboration."
+      },
+      "crops": [
+        {
+          "page": 1,
+          "normalized": {
+            "x": 133,
+            "y": 381,
+            "w": 732,
+            "h": 328,
+            "observations": "A metal tray holding a steel tumbler, its lid, and a blue bowl."
+          },
+          "pixels": {
+            "x": 143.64,
+            "y": 731.52,
+            "w": 790.56,
+            "h": 629.76
+          }
+        },
+        {
+          "page": 2,
+          "normalized": {
+            "x": 0,
+            "y": 427,
+            "w": 1000,
+            "h": 435,
+            "observations": "A steel tumbler and its lid resting separately on a ribbed blue drying mat."
+          },
+          "pixels": {
+            "x": 0.0,
+            "y": 819.84,
+            "w": 1080.0,
+            "h": 835.2
+          }
+        }
+      ]
+    }
   }
 }
