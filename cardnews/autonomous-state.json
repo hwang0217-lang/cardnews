@@ -1871,7 +1871,7 @@
     }
   },
   "preview-42026914781": {
-    "stage": "drafted",
+    "stage": "canva_dispatching",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
@@ -2069,6 +2069,7 @@
           }
         }
       ]
-    }
+    },
+    "request_id": "nordic-auto-42026914781-v1"
   }
 }
