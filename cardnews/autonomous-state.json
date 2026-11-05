@@ -794,5 +794,15 @@
     "transport_sha256": "8ad919dd10642266c015a2743c54b687e080279b36bd4ab3d4a5184d6e08daa6",
     "upload_status": "FINISHED",
     "container_id": "18113764337078061"
+  },
+  "preview-42024918561": {
+    "stage": "starting",
+    "mode": "preview",
+    "day": "2026-11-05",
+    "format": "reel",
+    "published": false,
+    "gemini_calls": 0,
+    "canva_generations": 0,
+    "pc_media_downloads": 0
   }
 }
