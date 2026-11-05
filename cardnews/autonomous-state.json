@@ -218,7 +218,7 @@
     "error": "Canva production failed; reconcile saved run"
   },
   "preview-41966547445": {
-    "stage": "visual_review",
+    "stage": "blocked",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -342,6 +342,7 @@
       "a6213b7eec51e743946ef1a352fdcbeda1aa28b5d35f341b5193027da6640c1c",
       "b4dcd406991d474ca08b87019641f39096d2ef007fce282f74451cc2f17765ae",
       "dae5d4382d94e54f3717185b32c007b299af580a45261781ffd2be54c5ee1207"
-    ]
+    ],
+    "error": "Canva quality below benchmark; publication blocked"
   }
 }
