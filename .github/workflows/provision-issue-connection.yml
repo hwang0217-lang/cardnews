@@ -1,0 +1,35 @@
+name: Encrypt existing server connection for issue account
+on:
+  workflow_dispatch:
+permissions: {}
+jobs:
+  seal:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pynacl
+      - name: Encrypt only for fixed issue-cards Actions destination
+        env:
+          CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
+          ISSUE_APPROVED_MUSIC: ${{ secrets.NORDIC_APPROVED_MUSIC }}
+        run: |
+          python - <<'PY'
+          import os,json,base64
+          from pathlib import Path
+          from nacl.public import PublicKey,SealedBox
+          key=PublicKey(base64.b64decode('RndZiaDs9FPTrAiKarOTJNOqPJmM0WnmqxPv88AQ4iw='))
+          out={'repository':'hwang0217-lang/issue-cards','key_id':'3380204578043523366','secrets':{}}
+          for name in ('CANVA_GATEWAY_GH_TOKEN','ISSUE_APPROVED_MUSIC'):
+              value=os.environ[name]
+              if not value:raise RuntimeError('Existing server connection missing')
+              out['secrets'][name]=base64.b64encode(SealedBox(key).encrypt(value.encode())).decode()
+          Path('sealed.json').write_text(json.dumps(out))
+          print('Encrypted for fixed issue-cards public key; no plaintext emitted')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue-connection-sealed
+          path: sealed.json
+          retention-days: 1
