@@ -1,0 +1,36 @@
+{
+  "request": {
+    "account": "nordic_log",
+    "request_id": "nordic-auto-41966195076-v1",
+    "purpose": "preview",
+    "height": 1920,
+    "brief": "전체 5페이지, 1080x1920 세로형 릴스 구성. 화이트(#FFFFFF) 배경과 딥 차콜(#222222) 타이포그래피. 1페이지: '텀블러 뚜껑, 어디 두나요?' 상단 여백 넉넉한 대형 타이포, 텀블러 본체와 분리된 뚜껑의 측면 미니멀 연출 이미지. 2페이지: 눕혀두기와 세워두기의 건조 상태 비교 다이어그램(연출 이미지). 3페이지: 물기 고임 방지를 위한 기울기 배치 다이어그램과 3단계 짧은 텍스트. 4페이지: 컵과 뚜껑을 한 쌍으로 두는 동선 클로즈업 사진(연출 이미지). 5페이지: '오늘 한 쌍만' 차콜 박스 없는 깔끔한 텍스트 리스트와 @nordic_log 푸터.",
+    "sections": [
+      {
+        "title": "뚜껑 자리",
+        "body": "텀블러 뚜껑, 어디 두나요?",
+        "visual_role": "full_photo"
+      },
+      {
+        "title": "건조 방향",
+        "body": "눕히지 말고 세워두기",
+        "visual_role": "diagram"
+      },
+      {
+        "title": "물기 비움",
+        "body": "1. 씻은 직후 2. 물기 털기 3. 나란히 두기",
+        "visual_role": "closeup"
+      },
+      {
+        "title": "짝 맞추기",
+        "body": "본체와 뚜껑은 한 쌍으로",
+        "visual_role": "closeup"
+      },
+      {
+        "title": "오늘의 제안",
+        "body": "오늘은 텀블러 한 쌍만",
+        "visual_role": "editorial_spacing"
+      }
+    ]
+  }
+}
