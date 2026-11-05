@@ -21,7 +21,8 @@
       "scene-05.png": "9746b5741bcd5025871b6b68ac163fac2912f6dce2e2125b75223a510f3519bd"
     },
     "published": false,
-    "unpublished_container_created": false,
-    "container_status": "creating"
+    "unpublished_container_created": true,
+    "container_status": "processing",
+    "container_id": "18113738786078061"
   }
 }
