@@ -136,6 +136,8 @@ def render_video(pages, draft, directory, day):
         pages=[pages[i-1] for i in selected]
         draft={**draft,'sections':[draft['sections'][i-1] for i in selected]}
     durations = [max(3.5, min(7, (len(s['title']) + len(s.get('body', ''))) / 7 + 1.5)) for s in draft['sections']]
+    if draft.get('design_policy') == 'impeccable-real-photo-v1':
+        durations=[max(4.5 if s.get('body') else 3.5,min(7,(len(s['title'])+len(s.get('body','')))/6+1.75)) for s in draft['sections']]
     if sum(durations) > 29: raise RuntimeError('Too much text; edit the script instead of speeding up cuts')
     mood=draft.get('music_mood')
     if mood not in ('warm','bright','playful','calm','clean'):
@@ -150,6 +152,9 @@ def render_video(pages, draft, directory, day):
         # Final motion suitability is reviewed on the whole encoded video, never inferred here.
         vf = ("scale=1080:1920,zoompan=z='if(lte(on,24),1.06-0.0025*on,1)':"
               "x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=" + str(frames) + ":s=1080x1920:fps=30,format=yuv420p")
+        if draft.get('design_policy') == 'impeccable-real-photo-v1':
+            # Keep the complete Canva composition visible; zooming a whole card clips its photo/text.
+            vf='scale=1080:1920,loop=loop='+str(frames-1)+':size=1:start=0,setpts=N/(30*TB),format=yuv420p'
         regions=draft['sections'][n].get('reveal_regions',[])
         if regions:
             vf='scale=1080:1920,loop=loop='+str(frames-1)+':size=1:start=0,setpts=N/(30*TB),format=yuv420p'

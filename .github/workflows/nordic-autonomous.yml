@@ -16,6 +16,9 @@ on:
         type: choice
         options: [carousel, reel, motion_reel]
         default: carousel
+      plan_date:
+        type: string
+        required: false
 permissions:
   contents: write
 concurrency:
@@ -72,6 +75,7 @@ jobs:
           NORDIC_AUTONOMOUS_ACTIVE: ${{ vars.NORDIC_AUTONOMOUS_ACTIVE || '0' }}
           NORDIC_MODE: ${{ inputs.mode || 'operate' }}
           NORDIC_PREVIEW_FORMAT: ${{ inputs.format || 'carousel' }}
+          NORDIC_PLAN_DATE: ${{ inputs.plan_date }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

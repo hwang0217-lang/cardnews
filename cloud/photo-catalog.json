@@ -1,0 +1,52 @@
+{
+  "7303767": {
+    "kind": "real_photograph",
+    "source_page": "https://www.pexels.com/photo/variety-of-items-at-the-kitchen-counter-7303767/",
+    "url": "https://images.pexels.com/photos/7303767/pexels-photo-7303767.jpeg?w=1600",
+    "author": "Cup of Couple",
+    "license_url": "https://www.pexels.com/license/",
+    "verified_on": "2026-11-05",
+    "sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+    "description": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug."
+  },
+  "8251825": {
+    "kind": "real_photograph",
+    "source_page": "https://www.pexels.com/photo/white-and-gray-concrete-utensil-holder-on-white-white-kitchen-countertop-8251825/",
+    "url": "https://images.pexels.com/photos/8251825/pexels-photo-8251825.jpeg?w=1600",
+    "author": "PNW Production",
+    "license_url": "https://www.pexels.com/license/",
+    "verified_on": "2026-11-05",
+    "sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+    "description": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls."
+  },
+  "13684937": {
+    "kind": "real_photograph",
+    "source_page": "https://www.pexels.com/photo/items-on-a-small-kitchen-counter-13684937/",
+    "url": "https://images.pexels.com/photos/13684937/pexels-photo-13684937.jpeg?w=1600",
+    "author": "stayhereforu",
+    "license_url": "https://www.pexels.com/license/",
+    "verified_on": "2026-11-05",
+    "sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+    "description": "A small kitchen countertop with bottles, containers and a spice shelf."
+  },
+  "11385963": {
+    "kind": "real_photograph",
+    "source_page": "https://www.pexels.com/photo/kitchenware-on-a-counter-top-11385963/",
+    "url": "https://images.pexels.com/photos/11385963/pexels-photo-11385963.jpeg?w=1600",
+    "author": "Georgie Devlin",
+    "license_url": "https://www.pexels.com/license/",
+    "verified_on": "2026-11-05",
+    "sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+    "description": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards."
+  },
+  "8251790": {
+    "kind": "real_photograph",
+    "source_page": "https://www.pexels.com/photo/wooden-spoon-in-jar-on-kitchen-counter-8251790/",
+    "url": "https://images.pexels.com/photos/8251790/pexels-photo-8251790.jpeg?w=1600",
+    "author": "PNW Production",
+    "license_url": "https://www.pexels.com/license/",
+    "verified_on": "2026-11-05",
+    "sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+    "description": "White sink-side counter with wooden utensils in a ceramic jar."
+  }
+}
