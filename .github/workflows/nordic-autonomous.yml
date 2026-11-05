@@ -7,8 +7,11 @@ on:
     inputs:
       mode:
         type: choice
-        options: [preflight, draft-check, preview, delivery-check, operate]
+        options: [preflight, draft-check, vision-probe, preview, delivery-check, operate]
         default: preflight
+      source_run:
+        type: string
+        required: false
       format:
         type: choice
         options: [carousel, reel, motion_reel]
@@ -36,6 +39,12 @@ jobs:
         if: inputs.mode == 'draft-check'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - run: python cloud/vision_probe.py
+        if: inputs.mode == 'vision-probe'
+        env:
+          CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          VISION_SOURCE_RUN: ${{ inputs.source_run }}
       - name: Fresh design, visual QA, server editing and official delivery
         if: github.event_name == 'schedule' || inputs.mode == 'preview' || inputs.mode == 'delivery-check' || inputs.mode == 'operate'
         run: python cloud/autonomous.py

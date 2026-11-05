@@ -34,6 +34,7 @@ def published_or_pending_today(state, day, posts):
 
 def fetch_image(url, bound=8_000_000):
     if not isinstance(url, str) or not url.startswith('https://'): raise RuntimeError('Invalid image URL')
+    print('::add-mask::' + url)
     r = requests.get(url, timeout=45, allow_redirects=False)
     if not r.ok or len(r.content) > bound: raise RuntimeError('QA image unavailable')
     image = Image.open(io.BytesIO(r.content)); image.load()
@@ -95,12 +96,16 @@ def review_images(draft, new_images, references, kind):
         'lines over text and at least24px separation. Return JSON verdict pass/revise/reject, '
         'quality_score 0-10, comparison_notes, corrections, pages:[{text_correct,no_overlap,readable_mobile,'
         'facts_safe,canva_quality,varied,observations}]. Pass requires every boolean true and >=8.5. '
-        'For motion_reel, each page must contain an actual meaningful comparison/sequence/relationship '
-        'diagram, not just a photo. For each such page also return reveal_regions:[{x,y,w,h,bg,at_seconds,role}] '
-        'using pixel coordinates on1080x1920, flat background hex, at_seconds0.5-1.5; only regions whose '
-        'sequential reveal explains the diagram. Never cover a full paragraph or fabricate regions. '
-        'If meaningful diagram motion cannot be made, verdict must revise. '\
-        'For photo reel pages, also return detail_crop:{x,y,w,h} on at least two pages, identifying an ACTUAL photo-only area without text for a one-second object detail cut. All content must remain readable after reveal. Kind=' + kind + '. Editorial plan JSON=' + json.dumps(draft, ensure_ascii=False))
+        'All content must be readable. Editorial plan JSON=' + json.dumps(draft, ensure_ascii=False))
+    if kind == 'motion_reel':
+        prompt += (' This is INFORMATION MOTION, not a photo Reel. Require meaningful comparison/sequence/relationship '
+            'diagrams. For every page return reveal_regions:[{x,y,w,h,bg,at_seconds,role}] on1080x1920, '
+            'using flat background hex and reveal delay0.5-1.5 sec. Reject photos with zoom alone.')
+    elif kind == 'reel':
+        prompt += (' This is a PHOTO/USE-SCENE REEL, NOT information motion. Photographs and closeups are the correct '
+            'visual form; do NOT require diagrams on a photo page or reject it solely for lacking animation. '
+            'Judge information roles as specified in each section. Return detail_crop:{x,y,w,h} on at least two '
+            'actual photo areas without text on1080x1920 for one-second object-detail inserts. Do not invent crops.')
     review, usage = generate_json(prompt, new_images + references)
     validate_visual_review(review, len(new_images))
     if review.get('quality_score', 0) < 8.5: review['verdict'] = 'revise'
@@ -176,11 +181,11 @@ def main():
         qa = {k: True for k in ('text','no_obstruction','readable','facts','rights','variety','canva_quality','all_scenes_readable')}
         qa.update(export_sha256=digest, quality_benchmark='Nine actual feed images supplied to Gemini; score >=8.5',
                   recent_nine_comparison=review.get('comparison_notes'), page_or_scene_notes=review['pages'])
-        plan = {'account':'nordic_log','canva_design_id':result['designId'],'purpose':'production','approved':True,
+        plan = {'account':'nordic_log','canva_design_id':result['designId'],'purpose':'production' if mode=='operate' else 'diagnostic','approved':True,
                 'date':day,'format':kind,'export_format':'jpg' if kind=='carousel' else 'mp4',
                 'page_count':len(pages),'caption':draft['caption'],'approved_assets_sha256':digest,'review':qa}
         registry, _ = state.read('cloud/design-registry.json')
-        registry.setdefault('designs', {})[result['designId']] = {'active':True,'purpose':'production',
+        registry.setdefault('designs', {})[result['designId']] = {'active':True,'purpose':plan['purpose'],
             'format':plan['export_format'],**({'page_count':len(pages)} if kind=='carousel' else {})}
         # State-only registry mutation; no generated code. PublicationState preserves existing keys.
         state.put('cloud/design-registry.json','designs',registry['designs'])
@@ -223,7 +228,9 @@ def main():
         else: deliver_video(video,plan,publish_mode,row,persist)
         row['stage']='published_verified' if row.get('published') else 'unpublished_FINISHED';persist()
     except Exception as exc:
-        row.update(stage='blocked',error=re.sub(r'https?://\S+','[url]',str(exc))[:400]);persist();raise RuntimeError(row['error']) from None
+        message = ('Network operation failed at '+row['stage']+'; inspect existing receipt, no blind retry'
+                   if isinstance(exc,requests.RequestException) else re.sub(r'https?://\S+','[url]',str(exc))[:400])
+        row.update(stage='blocked',error=message);persist();raise RuntimeError(row['error']) from None
 
 if __name__ == '__main__':
     try: main()

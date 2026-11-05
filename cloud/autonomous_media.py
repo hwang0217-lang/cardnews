@@ -19,6 +19,7 @@ def approved_music(mood, directory, day):
     u = urlparse(track['url'])
     if u.scheme != 'https' or u.username or u.password or u.port or not u.hostname:
         raise RuntimeError('Invalid approved music URL')
+    print('::add-mask::' + track['url'])
     r = requests.get(track['url'], timeout=90, allow_redirects=False)
     if not r.ok or len(r.content) > 20_000_000 or hashlib.sha256(r.content).hexdigest() != track['sha256']:
         raise RuntimeError('Approved music bytes unavailable or changed; no generation fallback')
@@ -29,7 +30,11 @@ def render_video(pages, draft, directory, day):
     """Canva is the final visual source; only cropping/reveal/edit/music happen here."""
     durations = [max(3.5, min(7, (len(s['title']) + len(s.get('body', ''))) / 7 + 1.5)) for s in draft['sections']]
     if sum(durations) > 29: raise RuntimeError('Too much text; edit the script instead of speeding up cuts')
-    music, track = approved_music(draft.get('music_mood', 'clean'), directory, day)
+    mood=draft.get('music_mood')
+    if mood not in ('warm','bright','playful','calm','clean'):
+        text=json.dumps(draft,ensure_ascii=False)
+        mood=next((m for m,words in [('calm',('휴식','저녁')),('playful',('실수','공감')),('clean',('비교','단위')),('bright',('정리','수납','동선'))] if any(w in text for w in words)),'warm')
+    music, track = approved_music(mood, directory, day)
     clips = []; insert_seconds = 0; inserts = 0
     for n, (page, seconds) in enumerate(zip(pages, durations)):
         clip = directory / f'clip-{n:02d}.mp4'
@@ -122,10 +127,19 @@ def deliver_video(file, plan, mode, row, persist):
     row['upload_status'] = 'publishing'; persist()
     media = graph('POST', identity['id'] + '/media_publish', {'creation_id': session['id']})
     row['media_id'] = media['id']; persist()
-    actual = graph('GET', media['id'] + '?fields=id,permalink,media_product_type,timestamp')
+    actual = graph('GET', media['id'] + '?fields=id,permalink,media_product_type,timestamp,media_url')
     if actual.get('media_product_type') != 'REELS' or not actual.get('permalink'):
         raise RuntimeError('Public result uncertain; never repeat')
     row.update(published=True, permalink=actual['permalink'], upload_status='published_verified'); persist()
     entry = {'status': 'published', 'at': actual['timestamp'], 'canva_design_id': plan['canva_design_id'],
              'format': plan['format'], 'sha256': digest, 'permalink': actual['permalink'], 'media_id': media['id']}
     for name in ('managed-state.json', 'reels-state.json'): state.put('cardnews/' + name, key, entry)
+    # Public result verification happens after durable publication recording. A playback
+    # error can never cause a second publish, and the media never reaches the user's PC.
+    if not actual.get('media_url'): raise RuntimeError('Published ID recorded; playback URL verification unavailable')
+    print('::add-mask::' + actual['media_url'])
+    r=requests.get(actual['media_url'],timeout=120,allow_redirects=False)
+    if not r.ok or len(r.content)>150_000_000: raise RuntimeError('Published media recorded; playback retrieval needs review')
+    verified=file.with_name('public-transcode-check.mp4');verified.write_bytes(r.content)
+    subprocess.run([FFMPEG,'-v','error','-i',str(verified),'-f','null','-'],check=True,capture_output=True)
+    row['public_playback_decode_verified']=True;persist()
