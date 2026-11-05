@@ -76,6 +76,43 @@ def video_review_prompt(kind):
     return common+('This is an INFORMATION MOTION graphic. Require an actual diagram/sequence/comparison '
         'relationship to be progressively revealed with adequate reading hold. Photos plus zoom alone cannot pass.')
 
+def ensure_motion_regions(pages, draft):
+    """Bind each detection to its actual body page; hook/CTA need not be diagrams."""
+    from gemini_editor import generate_json
+    from PIL import Image
+    import io
+    schema={'type':'object','required':['can_animate','notes','regions'],'properties':{
+        'can_animate':{'type':'boolean'},'notes':{'type':'string'},
+        'regions':{'type':'array','maxItems':4,'items':{'type':'object',
+            'required':['x','y','w','h','bg','at_seconds','role'],'properties':{
+                **{k:{'type':'number','minimum':0,'maximum':1000} for k in ('x','y','w','h')},
+                'bg':{'type':'string'},'at_seconds':{'type':'number','minimum':0.5,'maximum':1.5},'role':{'type':'string'}}}}}}
+    reviews=[];animated=0
+    for index in range(1,len(pages)-1):
+        image=Image.open(pages[index]).convert('RGB');buffer=io.BytesIO();image.save(buffer,'JPEG',quality=90)
+        review,_=generate_json('Inspect this ONE actual finished information graphic. Can parts of an '
+            'actual comparison/sequence/relationship be revealed in order to explain meaning? Photos or '
+            'a title alone do not qualify. If no real diagram or no flat matching background, can_animate=false. '
+            'Otherwise return2-4 rectangles for actual diagram parts, not paragraphs, with NORMALIZED0-1000 '
+            'coordinates, exact flat background hex, meaningful role and reveal delay0.5-1.5sec. No invented regions.',
+            [buffer.getvalue()],schema=schema)
+        reviews.append({'page':index+1,**review})
+        if review.get('can_animate') is not True:continue
+        regions=review.get('regions',[])
+        if len(regions)<2:raise RuntimeError('An information sequence requires at least two real diagram regions')
+        converted=[]
+        for region in regions:
+            values=[region.get(k) for k in ('x','y','w','h','at_seconds')]
+            if any(type(v) not in (int,float) for v in values):raise RuntimeError('Numeric diagram coordinates required')
+            x,y,w,h,delay=values
+            if (not (0<=x<x+w<=1000 and 0<=y<y+h<=1000 and w>0 and h>0 and 0.5<=delay<=1.5) or
+                    not re.fullmatch(r'#[0-9a-fA-F]{6}',region.get('bg','')) or not region.get('role')):
+                raise RuntimeError('Invalid observed diagram region')
+            converted.append({**region,'x':x*1080/1000,'y':y*1920/1000,'w':w*1080/1000,'h':h*1920/1000})
+        draft['sections'][index]['reveal_regions']=converted;animated+=1
+    if animated<2:raise RuntimeError('At least two actual information-motion body pages required; no photo-zoom substitute')
+    return reviews
+
 def approved_music(mood, directory, day):
     tracks = json.loads(os.environ.get('NORDIC_APPROVED_MUSIC', '[]'))
     if len(tracks) != 10: raise RuntimeError('Approved ten-track server library missing')

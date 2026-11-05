@@ -158,6 +158,7 @@ def main():
             'brief title and at most18 Korean body characters per scene and titles under12 characters; page durations4-6sec. First hook page body MUST be an empty string, headline only. Final CTA body at most10 Korean characters. '
             'Motion format needs real sequence/comparison/diagram content, not photo slides.' if kind != 'carousel'
             else 'Use 5 portrait1080x1350 editorial pages.')
+        if kind=='motion_reel':prompt+=' The THREE middle pages must be intentional premium white-background information diagrams with identifiable component relationships/arrows, not photo-only pages. Hook and CTA may be simpler. No fake charts or numeric claims.'
         draft, usage = generate_json(prompt); row['gemini_calls'] += 1; validate_draft(draft)
         row.update(stage='drafted', topic=draft.get('topic'), model=MODEL, recent_posts_compared=len(posts),reference_images_compared=len(references), draft_usage=usage); persist()
         result = None; review = None; pages = []; hashes = []
@@ -216,12 +217,10 @@ def main():
         # State-only registry mutation; no generated code. PublicationState preserves existing keys.
         state.put('cloud/design-registry.json','designs',registry['designs'])
         if kind != 'carousel':
-            from autonomous_media import render_video, deliver_video, ensure_detail_crops, video_review_prompt
+            from autonomous_media import render_video, deliver_video, ensure_detail_crops, ensure_motion_regions, video_review_prompt
             if kind == 'motion_reel':
-                for section, page_review in zip(draft['sections'], review['pages']):
-                    regions = page_review.get('reveal_regions', [])
-                    if not regions: raise RuntimeError('Motion requires actual semantic reveal regions, not repeated photo zooms')
-                    section['reveal_regions'] = regions
+                row['motion_region_review']=ensure_motion_regions(pages,draft)
+                row['gemini_calls']+=len(pages)-2;persist()
             if kind == 'reel':
                 for section, page_review in zip(draft['sections'], review['pages']):
                     section['detail_crop'] = page_review.get('detail_crop')
