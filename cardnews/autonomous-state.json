@@ -2227,6 +2227,77 @@
     "instagram_writes": 0,
     "canva_creations": 0,
     "pc_video_downloads": 0,
-    "stage": "reviewing_existing"
+    "stage": "reviewing_existing",
+    "literal_inventory": {
+      "pages": [
+        {
+          "literal_subject": "A kitchen counter surface with a stovetop, a wooden cutting board, a utensil holder with cooking utensils, and a ceramic mug against a plain wall.",
+          "main_objects": [
+            "stovetop",
+            "wooden cutting board",
+            "utensil holder",
+            "ceramic mug",
+            "kitchen counter"
+          ],
+          "visible_text": "조리대,\n덜어내는 법\n@nordic_log\n사진 Cup of Couple / Pexels",
+          "gibberish_text": false,
+          "photo_text": null
+        },
+        {
+          "literal_subject": "Close-up of a container holding wooden spoons and spatulas on a kitchen counter, with wooden bowls and plates blurred in the background.",
+          "main_objects": [
+            "utensil holder",
+            "wooden spoons",
+            "spatulas",
+            "wooden bowls",
+            "plates"
+          ],
+          "visible_text": "매일 쓰면\n가까이\n손이 가는 도구만\n한곳에 모아요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false,
+          "photo_text": null
+        },
+        {
+          "literal_subject": "A busy kitchen shelf and counter filled with various spice jars, bottles, a hanging basket, a plastic food container with greens, and a yellow dispenser.",
+          "main_objects": [
+            "shelves",
+            "spice jars",
+            "bottles",
+            "hanging basket",
+            "food container",
+            "yellow dispenser"
+          ],
+          "visible_text": "가끔 쓰면\n안쪽으로\n병과 통은\n사용 빈도로 나눠요\n@nordic_log\n사진 stayhereforu / Pexels",
+          "gibberish_text": false,
+          "photo_text": "HONG TẠI LÒNG AN"
+        },
+        {
+          "literal_subject": "A green kitchen counter featuring a multi-tier wooden shelf with tea, coffee, and sugar containers, alongside cutting boards, a utensil holder, and a wall lamp.",
+          "main_objects": [
+            "green kitchen counter",
+            "wooden shelf",
+            "tea coffee sugar jars",
+            "cutting boards",
+            "wall lamp"
+          ],
+          "visible_text": "꺼낼 것만\n한자리에\n함께 쓰는 것끼리\n모아두세요\n@nordic_log\n사진 Georgie Devlin / Pexels",
+          "gibberish_text": false,
+          "photo_text": "TEA COFFEE SUGAR"
+        },
+        {
+          "literal_subject": "A clean white kitchen sink area with a chrome faucet, a concrete-textured utensil holder with wooden spoons, and cutting boards against white tiled walls.",
+          "main_objects": [
+            "kitchen sink",
+            "chrome faucet",
+            "utensil holder",
+            "wooden spoons",
+            "cutting boards",
+            "white tiles"
+          ],
+          "visible_text": "정리보다\n쓸 자리\n오늘은 조리대\n한 칸만 비워요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false,
+          "photo_text": null
+        }
+      ]
+    }
   }
 }
