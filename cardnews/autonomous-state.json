@@ -1871,7 +1871,7 @@
     }
   },
   "preview-42026914781": {
-    "stage": "canva_generating",
+    "stage": "blocked",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
@@ -2216,6 +2216,7 @@
           "gibberish_text": false
         }
       ]
-    }
+    },
+    "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   }
 }
