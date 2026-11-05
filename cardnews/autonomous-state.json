@@ -513,5 +513,14 @@
       "notes": "The video consists of five static photos of equal duration with basic zoom effects, which violates the requirement that motion must animate an actual information relationship with enough reading hold; photos plus zoom alone cannot pass."
     },
     "error": "Final encoded video failed real model QA; no publication"
+  },
+  "edit-preview-41971092391": {
+    "source_nordic_run": "41968918668",
+    "canva_run_id": "41969457084",
+    "canva_design_id": "DAHaBD_nLqw",
+    "format": "reel",
+    "stage": "editing",
+    "published": false,
+    "pc_media_downloads": 0
   }
 }
