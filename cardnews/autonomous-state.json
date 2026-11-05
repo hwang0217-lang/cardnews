@@ -676,6 +676,24 @@
     "edit_segments": 6,
     "canva_visual_source": true,
     "full_decode": true,
-    "pc_video_download": false
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "pass",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": true,
+      "meaningful_motion": true,
+      "literal_subjects": [
+        "tumbler",
+        "dish drying rack",
+        "plate",
+        "cup",
+        "bowl",
+        "cutlery"
+      ],
+      "notes": "The video is a well-edited photo reel showcasing kitchen organizers and tumblers with clear, readable Korean text and appropriate pacing. All requirements for a photo reel are fully met."
+    }
   }
 }
