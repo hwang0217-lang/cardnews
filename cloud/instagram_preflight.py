@@ -19,10 +19,10 @@ def main():
     identity = get('/me', {'fields': 'username'})
     if identity.get('username') != 'nordic_log':
         raise RuntimeError('Wrong account; no publication attempted')
-    if os.environ.get('GH_PAT'):
+    if os.environ.get('CANVA_GATEWAY_GH_TOKEN'):
         # Status codes and scope names only; no private repository content/artifact.
         r=requests.get('https://api.github.com/repos/hwang0217-lang/korea-firsttrip/actions/workflows/canva-export-gateway.yml',
-                       headers={'Authorization':'Bearer '+os.environ['GH_PAT']},timeout=40,allow_redirects=False)
+                       headers={'Authorization':'Bearer '+os.environ['CANVA_GATEWAY_GH_TOKEN']},timeout=40,allow_redirects=False)
         scopes=r.headers.get('X-OAuth-Scopes','fine-grained-or-unavailable')
         print('Canva gateway workflow visibility HTTP '+str(r.status_code)+'; GitHub token scopes: '+scopes)
     # No account metadata, tokens, media list or quota is persisted or emitted.
