@@ -2,6 +2,8 @@
 import base64
 import json
 import os
+import re
+import unicodedata
 import requests
 
 MODEL = 'gemini-3.5-flash-lite'
@@ -38,7 +40,7 @@ def validate_draft(draft):
             not draft.get('caption') or not draft.get('visual_differences')):
         raise RuntimeError('Incomplete editorial structure')
     for page in sections:
-        if not isinstance(page, dict) or not page.get('title') or not page.get('visual_role'):
+        if not isinstance(page, dict) or not page.get('title') or not page.get('visual_role') or not page.get('image_prompt_en') or not page.get('required_visual_objects'):
             raise RuntimeError('Missing page content or visual planning')
     if draft.get('claims_mode') != 'practical_suggestions_only':
         raise RuntimeError('Unverified factual claims require external source checking')
@@ -58,7 +60,11 @@ diagram and editorial spacing according to content; never repeated text/color bo
 without brands, photos identified as 연출 이미지. Account footer @nordic_log. No lines over body text.
 Return JSON with topic, claims_mode="practical_suggestions_only", visual_differences, canva_brief
 (under4500 chars, exact Korean wording plus detailed photo/layout directions per page), caption,
-sections:[{title,body,visual_role}]. Include concise AI-assisted illustration disclosure in caption.
+sections:[{title,body,visual_role,image_prompt_en,required_visual_objects}].
+image_prompt_en must be a short ENGLISH description of the literal household objects and composition
+for that one page, not a series prompt. required_visual_objects is 2-4 simple English object nouns or
+synonyms, at least one of which must actually appear in the image. Never use people/faces/newspapers
+or generic foliage instead of the actual household object. Include concise AI-assisted disclosure.
 Prior captions JSON:\n''' + json.dumps(recent_captions, ensure_ascii=False)
 
 def validate_visual_review(review, image_count):
@@ -72,6 +78,29 @@ def validate_visual_review(review, image_count):
         if any(any(p.get(k) is not True for k in checks) for p in pages):
             raise RuntimeError('A failed page cannot pass the complete design')
     return review
+
+def normalized_text(value):
+    return re.sub(r'[^\w가-힣]', '', unicodedata.normalize('NFC', value).casefold()).replace('_','')
+
+def validate_literal_inventory(inventory, sections):
+    """Image-only OCR/object evidence is obtained BEFORE the editorial brief is revealed."""
+    pages=inventory.get('pages',[])
+    if len(pages)!=len(sections): raise RuntimeError('Literal inventory must cover every final image')
+    for page,section in zip(pages,sections):
+        text=page.get('visible_text', '')
+        if isinstance(text,list): text=' '.join(text)
+        observed=normalized_text(text)
+        for field in ('title','body'):
+            expected=normalized_text(section.get(field,''))
+            if expected and expected not in observed:
+                raise RuntimeError('Actual image OCR does not match the exact approved '+field)
+        objects=json.dumps(page.get('main_objects',[]),ensure_ascii=False).casefold()
+        required=section.get('required_visual_objects',[])
+        if not required or not any(str(word).casefold() in objects for word in required):
+            raise RuntimeError('Actual depicted objects do not match the editorial subject')
+        if page.get('gibberish_text') is not False:
+            raise RuntimeError('Unreadable or nonsensical generated lettering; reject')
+    return inventory
 
 def generate_video_json(prompt, video):
     """Gemini receives the complete encoded video; do not pretend image QA was playback."""

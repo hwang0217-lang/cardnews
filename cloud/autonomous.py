@@ -13,7 +13,7 @@ import requests
 from PIL import Image
 from cloud_reel import GitHub, PublicationState, graph, KST, OUT, require_export_url
 from cloud_carousel import assets_digest, run_carousel
-from gemini_editor import MODEL, generate_json, draft_prompt, validate_draft, validate_visual_review
+from gemini_editor import MODEL, generate_json, draft_prompt, validate_draft, validate_visual_review, validate_literal_inventory
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER = 'cardnews/autonomous-state.json'
@@ -172,6 +172,19 @@ def main():
                 path = OUT / f'canva-{n:02d}.jpg'; path.write_bytes(data); pages.append(path)
                 hashes.append(hashlib.sha256(data).hexdigest()); images.append(jpeg)
                 image.thumbnail((390, 693)); image.save(OUT / f'page-{n:02d}.png')
+            inventory,_=generate_json('Look ONLY at these actual new images in order. No topic or desired result is provided. '
+                'Return JSON pages:[{literal_subject,main_objects,visible_text,gibberish_text}]. Describe the objects '
+                'in English and copy ALL visible text exactly, without correcting or inventing Korean letters. '
+                'Set gibberish_text=true for nonsensical or unreadable lettering. Never infer an intended subject.',images)
+            row['gemini_calls']+=1;row['literal_inventory']=inventory;persist()
+            try:
+                validate_literal_inventory(inventory,draft['sections'])
+            except RuntimeError as evidence_error:
+                review={'verdict':'revise','quality_score':0,'corrections':str(evidence_error),'pages':inventory.get('pages',[])}
+                row.update(stage='literal_QA_rejected',visual_review=review,canva_design_id=result['designId']);persist()
+                if version==2:raise
+                draft['canva_brief']=(draft['canva_brief'][:3300]+'\nActual image evidence failed: '+str(evidence_error)+'. Exact Korean text and intended objects are mandatory.')
+                continue
             review, usage = review_images(draft, images, references, kind); row['gemini_calls'] += 1
             row.update(stage='visual_review', visual_review=review, canva_design_id=result['designId'], canva_page_design_ids=result.get('designIds',[]), page_sha256=hashes); persist()
             if review['verdict'] == 'pass': break
