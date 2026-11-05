@@ -1109,5 +1109,15 @@
       ]
     },
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
+  },
+  "preview-42026064408": {
+    "stage": "starting",
+    "mode": "preview",
+    "day": "2026-11-05",
+    "format": "reel",
+    "published": false,
+    "gemini_calls": 0,
+    "canva_generations": 0,
+    "pc_media_downloads": 0
   }
 }
