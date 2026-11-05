@@ -1869,5 +1869,15 @@
       "accepted": false,
       "reason": "Original full-size and390px inspection found glyph contour overlap holes; PDF nonzero fill corrected. Model pass is not human acceptance. No Instagram calls were made."
     }
+  },
+  "preview-42026914781": {
+    "stage": "starting",
+    "mode": "preview",
+    "day": "2026-11-05",
+    "format": "reel",
+    "published": false,
+    "gemini_calls": 0,
+    "canva_generations": 0,
+    "pc_media_downloads": 0
   }
 }
