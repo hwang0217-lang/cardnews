@@ -608,7 +608,7 @@
     "canva_run_id": "41969457084",
     "canva_design_id": "DAHaBD_nLqw",
     "format": "reel",
-    "stage": "editing",
+    "stage": "blocked",
     "published": false,
     "pc_media_downloads": 0,
     "detail_crop_review": {
@@ -695,6 +695,7 @@
       ],
       "notes": "The video is a well-edited photo reel showcasing kitchen organizers and tumblers with clear, readable Korean text and appropriate pacing. All requirements for a photo reel are fully met."
     },
-    "upload_status": "creating"
+    "upload_status": "creating",
+    "error": "Diagnostic edit/delivery failed: RuntimeError"
   }
 }
