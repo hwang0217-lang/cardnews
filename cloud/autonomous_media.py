@@ -18,25 +18,29 @@ def ensure_detail_crops(pages, draft):
     import io
     for p in pages:
         image=Image.open(p).convert('RGB');buffer=io.BytesIO();image.save(buffer,'JPEG',quality=90);images.append(buffer.getvalue())
-    schema={'type':'object','required':['scene_indices','crops'],'properties':{
-        'scene_indices':{'type':'array','minItems':4,'maxItems':5,'items':{'type':'integer','minimum':1,'maximum':len(pages)}},
+    all_seconds=sum(max(3.5,min(7,(len(s['title'])+len(s.get('body','')))/7+1.5)) for s in draft['sections'])+2
+    maximum_pages=4 if all_seconds>27 else 5
+    schema={'type':'object','required':['coordinate_space','scene_indices','crops'],'properties':{
+        'coordinate_space':{'type':'string','enum':['normalized_1000']},
+        'scene_indices':{'type':'array','minItems':4,'maxItems':maximum_pages,'items':{'type':'integer','minimum':1,'maximum':len(pages)}},
         'crops':{'type':'array','minItems':2,'maxItems':2,'items':{'type':'object',
             'required':['page','x','y','w','h','observations'],'properties':{
                 'page':{'type':'integer','minimum':1,'maximum':len(pages)-1},
-                **{k:{'type':'number'} for k in ('x','y','w','h')},'observations':{'type':'string'}}}}}}
+                **{k:{'type':'number','minimum':0,'maximum':1000} for k in ('x','y','w','h')},'observations':{'type':'string'}}}}}}
     result,_=generate_json('Inspect ONLY these actual finished page images in order. First select FOUR OR FIVE '
         'strongest pages for a concise photo Reel, in original reading order, preserving every essential action, the first hook '
         'and final CTA. Remove a page only when it repeats another explanation. Return scene_indices:[1,2,3,5] '
         '(example only; choose from the actual content). Identify TWO photo-only '
         'rectangles on DIFFERENT pages for one-second object detail cutaways. Do not include lettering, '
-        'blank areas or invented objects. Coordinates are pixels on1080x1920. Return JSON crops:[{page:1,'
+        'blank areas or invented objects. Coordinates MUST be NORMALIZED0-1000 relative to the whole image, '
+        'NOT pixels. Use coordinate_space=normalized_1000. Return JSON crops:[{page:1,'
         'x:0,y:0,w:0,h:0,observations:"specific actual objects inside this rectangle"}]. '
         'Choose interior regions well inside actual photos ON THE SELECTED PAGES. Do not choose the final CTA.',images,schema=schema)
     from cloud_reel import OUT
     OUT.mkdir(exist_ok=True)
     (OUT/'autonomous-crop-response.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     selected=result.get('scene_indices',[])
-    if (len(selected) not in (4,5) or any(type(i) is not int for i in selected) or selected!=sorted(set(selected)) or
+    if (result.get('coordinate_space')!='normalized_1000' or len(selected) not in range(4,maximum_pages+1) or any(type(i) is not int for i in selected) or selected!=sorted(set(selected)) or
             selected[0]!=1 or selected[-1]!=len(pages)):
         raise RuntimeError('Four or five actual story pages in order, preserving hook, essential actions and CTA, required')
     draft['scene_indices']=selected
@@ -47,8 +51,8 @@ def ensure_detail_crops(pages, draft):
             raise RuntimeError('Detail cuts require distinct actual photo pages and observations')
         if any(type(v) not in (int,float) for v in values):raise RuntimeError('Actual photo coordinates required')
         x,y,w,h=values
-        if not (0<=x<x+w<=1080 and 0<=y<y+h<=1920 and w>=120 and h>=120):raise RuntimeError('Photo crop outside final page')
-        draft['sections'][page-1]['detail_crop']={k:crop[k] for k in ('x','y','w','h')};seen.add(page)
+        if not (0<=x<x+w<=1000 and 0<=y<y+h<=1000 and w>=120 and h>=120):raise RuntimeError('Photo crop outside final page')
+        draft['sections'][page-1]['detail_crop']={'x':x*1080/1000,'y':y*1920/1000,'w':w*1080/1000,'h':h*1920/1000};seen.add(page)
     if len(seen)<2:raise RuntimeError('Two real photo details required; do not export a five-card slideshow')
     return result
 
