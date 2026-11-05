@@ -602,5 +602,14 @@
     "published": false,
     "pc_media_downloads": 0,
     "error": "Diagnostic edit/delivery failed: RuntimeError"
+  },
+  "edit-preview-41975079041": {
+    "source_nordic_run": "41968918668",
+    "canva_run_id": "41969457084",
+    "canva_design_id": "DAHaBD_nLqw",
+    "format": "reel",
+    "stage": "editing",
+    "published": false,
+    "pc_media_downloads": 0
   }
 }
