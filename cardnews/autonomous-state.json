@@ -224,7 +224,7 @@
     "format": "reel",
     "published": false,
     "gemini_calls": 1,
-    "canva_generations": 0,
+    "canva_generations": 1,
     "pc_media_downloads": 0,
     "topic": "머그컵과 텀블러, 보관하는 높이의 기준",
     "model": "gemini-3.5-flash-lite",
