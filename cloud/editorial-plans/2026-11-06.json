@@ -115,11 +115,11 @@
       "visual_role": "The real tray and cup grouping illustrates keeping related items together.",
       "image_prompt_en": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards.",
       "required_visual_objects": [
-        "cup",
-        "tray"
+        "jar",
+        "utensil"
       ],
       "photo_id": "11385963",
-      "photo_relation": "The real tray and cup grouping illustrates keeping related items together.",
+      "photo_relation": "Actual tea, coffee and sugar jars are grouped on the same kitchen shelf. This contextual stock photograph illustrates grouping related objects; it is not a same-home before/after.",
       "layout": {
         "photo": [
           72,

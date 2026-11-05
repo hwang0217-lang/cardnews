@@ -1,0 +1,15 @@
+{
+  "source_run": "42024918561",
+  "page": 4,
+  "change": "Only required_visual_objects and semantic photo_relation corrected; text, photo, geometry and all final pixels unchanged.",
+  "old_keywords": [
+    "cup",
+    "tray"
+  ],
+  "new_keywords": [
+    "jar",
+    "utensil"
+  ],
+  "human_observation": "The full real photograph contains a TEA/COFFEE/SUGAR jar shelf, kitchen utensils and a wooden tray. The independently observed primary nouns are jars and utensils. No unrelated image has been accepted.",
+  "reviewed_actual_canva_exports": true
+}
