@@ -73,7 +73,8 @@
     "pc_media_download": false,
     "published": false,
     "unpublished_container_created": false,
-    "container_status": "creating",
-    "child_container_ids": []
+    "container_status": "creating_child",
+    "child_container_ids": [],
+    "creating_page": 1
   }
 }
