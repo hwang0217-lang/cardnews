@@ -346,12 +346,12 @@
     "error": "Canva quality below benchmark; publication blocked"
   },
   "preview-41968918668": {
-    "stage": "canva_generating",
+    "stage": "visual_review",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 3,
+    "gemini_calls": 4,
     "canva_generations": 2,
     "pc_media_downloads": 0,
     "topic": "텀블러 건조대 자리 배치",
@@ -407,42 +407,86 @@
       ]
     },
     "visual_review": {
-      "verdict": "revise",
-      "quality_score": 0,
-      "corrections": "Actual image OCR does not match the exact approved body",
+      "verdict": "pass",
+      "quality_score": 9.2,
+      "comparison_notes": "All pages strictly follow photo/use-scene reel styling with clean typography, well-aligned margins, and proper Korean formatting. No overlapping elements or weak vector diagrams present.",
+      "corrections": "None required.",
       "pages": [
         {
-          "literal_subject": "tumbler, where do you put it?",
-          "main_objects": "tumbler, lid, straw, dish drying rack, plates, kitchen sink faucet",
-          "visible_text": "텀블러, 어디에 두시나요?\n새 제품보다 먼저 바꿀 건 건조대 놓는 자리\n@nordic_log\n연출 이미지",
-          "gibberish_text": false
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Page 1 clean vertical video layout with bold Korean typography and ample whitespace."
         },
         {
-          "literal_subject": "lid and body separation",
-          "main_objects": "tumbler body, tumbler lid, drying mat",
-          "visible_text": "뚜껑과 본체 분리\n뚜껑은 담지 말고 젖에 따로 두기\n@nordic_log\n연출 이미지",
-          "gibberish_text": false
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Page 2 close-up object framing showcases tumbler body and lid cleanly."
         },
         {
-          "literal_subject": "side by side without overlapping",
-          "main_objects": "mugs, cups, drying tray",
-          "visible_text": "겹치지 않게 나란히\n다른 그릇과 닿지 않는 간격 만들기\n@nordic_log\n연출 이미지",
-          "gibberish_text": false
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Page 3 top-down structural layout provides clear visual spacing context."
         },
         {
-          "literal_subject": "wind passing interval",
-          "main_objects": "dish rack, plates, bowls, glasses, cutlery holder, spoon, chopsticks",
-          "visible_text": "바람 통하는 간격\n안쪽까지 마를 수 있는 여유 두기\n@nordic_log\n연출 이미지",
-          "gibberish_text": false
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Page 4 balanced editorial composition with clear separation of elements."
         },
         {
-          "literal_subject": "change just one section today",
-          "main_objects": "kitchen drawer with dish rack, plates, bowls, spoons, chopsticks",
-          "visible_text": "연출 이미지\n오늘 한 칸만 바꾸기\n저장해두고 설거지 후 적용하기\n@nordic_log",
-          "gibberish_text": false
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Page 5 solid charcoal background ensures high contrast and clear call-to-action."
+        }
+      ],
+      "detail_crops": [
+        {
+          "x": 500,
+          "y": 500,
+          "w": 300,
+          "h": 300
+        },
+        {
+          "x": 200,
+          "y": 600,
+          "w": 400,
+          "h": 400
         }
       ]
     },
-    "canva_design_id": "DAHaBBh3p_Y"
+    "canva_design_id": "DAHaBD_nLqw",
+    "canva_page_design_ids": [
+      "DAHaBD_nLqw",
+      "DAHaBIs3SP4",
+      "DAHaBIoRxqU",
+      "DAHaBAw-wWs",
+      "DAHaBJA4WcE"
+    ],
+    "page_sha256": [
+      "ba6eabf4760051d5481d823513bfaaf024249fab8b181683068ed745f14975f1",
+      "738f635a00bf33ca1fa43e0ca907bc026227a2d8869e90e3a0b692d2b629e993",
+      "6a6d0e6eeea47dd12306bd99a56e25451ed562b08edfb50676b705e87d470ed8",
+      "43c335cb75ad14f04e3bd3f45b8213722646f6c44815985561b7787abe8a2350",
+      "39e71003a87c6330217ff0b046abe0d08c3c154346e67f2bb71e3bbf42c8271e"
+    ]
   }
 }
