@@ -1111,7 +1111,7 @@
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   },
   "preview-42026064408": {
-    "stage": "ready",
+    "stage": "human_rejected",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
@@ -1673,7 +1673,7 @@
       "account": "nordic_log",
       "canva_design_id": "DAHaDBloZO4",
       "purpose": "diagnostic",
-      "approved": true,
+      "approved": false,
       "date": "2026-11-05",
       "format": "reel",
       "export_format": "mp4",
@@ -1864,6 +1864,10 @@
         "full_playback": true
       },
       "approved_video_sha256": "03da7ed175380835c525cf51ebe2b3b7ab230637e4fb081dd7de3de577e04452"
+    },
+    "human_review": {
+      "accepted": false,
+      "reason": "Original full-size and390px inspection found glyph contour overlap holes; PDF nonzero fill corrected. Model pass is not human acceptance. No Instagram calls were made."
     }
   }
 }
