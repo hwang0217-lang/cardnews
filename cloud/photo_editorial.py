@@ -118,7 +118,7 @@ def make_pdf(draft, catalog, height, destination, cache):
         for char in text:
             glyph=cmap.get(ord(char))
             if glyph is None:raise RuntimeError('Unsupported actual glyph')
-            path=c.beginPath();glyphs[glyph].draw(CanvasPen(glyphs,path));c.drawPath(path,fill=1,stroke=0)
+            path=c.beginPath();glyphs[glyph].draw(CanvasPen(glyphs,path));c.drawPath(path,fill=1,stroke=0,fillMode=1)
             c.translate(font['hmtx'][glyph][0],0)
         c.restoreState()
     evidence = []

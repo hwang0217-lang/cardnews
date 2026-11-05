@@ -1,0 +1,222 @@
+{
+  "source_run": "42026914781",
+  "canva_run_id": "42027000365",
+  "canva_design_id": "DAHaDNfEbPM",
+  "design_policy": "impeccable-real-photo-v1",
+  "status": "visual_preview_human_reviewed",
+  "published": false,
+  "native_and_390_human_review": true,
+  "native_size": [
+    1080,
+    1920
+  ],
+  "mobile_width": 390,
+  "review_scope": "All actual Canva final native pages and390px versions inspected directly. Physical-phone device test and human full-video listening not performed.",
+  "quality_benchmark": {
+    "official_skill": "https://github.com/pbakaus/impeccable",
+    "references": [
+      "new-work",
+      "craft-floor",
+      "typeset",
+      "adapt"
+    ],
+    "application": "Read mode; meaningful real photography, Korean hierarchy, separate photo/text regions, varied per-page composition, mobile readability. Not a frontend-engine execution.",
+    "recent_nine": "Server fetched9 posts/37 actual reference images. Independent comparison rerun will be recorded separately."
+  },
+  "pages": [
+    {
+      "page": 1,
+      "sha256": "0ec062e31a58d440cbac6ee91816dd62250fdc35c6b81b0480ed1032e59be89a",
+      "phone_sha256": "6bbec63a8dd1e28148296aacf23d6f4a0380acac9fc7fd3b49cc45f35fb208bb",
+      "text": true,
+      "no_obstruction": true,
+      "readable_390": true,
+      "photo_frame_preserved": true,
+      "facts": "Practical organizational suggestions; different homes explicitly disclosed, not an actual before/after.",
+      "quality_notes": "전체 조리대 원본프레임 유지. 제목 두 줄의 굵기/자모 결합 정상, 사진과 제목30px 이상 분리. 사진속 빈 벽은 원본 장면이며 본문겹침 없음."
+    },
+    {
+      "page": 2,
+      "sha256": "cda9ca3d36b354eb27ec6c7748fe2a5a6cb14da80caedd9838392acd38924e63",
+      "phone_sha256": "486dd077ecd9be392aee1889f9c9360958c0a5f470bf4024b478471533e308e2",
+      "text": true,
+      "no_obstruction": true,
+      "readable_390": true,
+      "photo_frame_preserved": true,
+      "facts": "Practical organizational suggestions; different homes explicitly disclosed, not an actual before/after.",
+      "quality_notes": "왼쪽 조리도구통의 숟가락/뒤집개와 우측 제목을 분리. 하단 행동문구 두 줄은390px에서 확대 없이 읽힘. 주요 조리도구 잘림 없음."
+    },
+    {
+      "page": 3,
+      "sha256": "add6a0a48545b3c7070c5280ffe019c7f9b4a7cd7424337f3f2ebcf47e4a7997",
+      "phone_sha256": "4a246aad7ffac4c927343010b3f9c2379f872202d5791f2d9d8e5bea6228d363",
+      "text": true,
+      "no_obstruction": true,
+      "readable_390": true,
+      "photo_frame_preserved": true,
+      "facts": "Practical organizational suggestions; different homes explicitly disclosed, not an actual before/after.",
+      "quality_notes": "상단 실제 병/보관통 장면과 하단 사용빈도 제안을 분리. 제품라벨은 원본 사진 일부로 가려져 있으며 작성 자막과 구분. 한글본문은 정확하고 자모깨짐 없음."
+    },
+    {
+      "page": 4,
+      "sha256": "58ae783f064064cbed6ddbb35e83dc7977ac8d38d91a10b11b41830d2f841599",
+      "phone_sha256": "ba92ad025e60ce45148040929a42af212c45b2b97443a72f8720253c8548e3df",
+      "text": true,
+      "no_obstruction": true,
+      "readable_390": true,
+      "photo_frame_preserved": true,
+      "facts": "Practical organizational suggestions; different homes explicitly disclosed, not an actual before/after.",
+      "quality_notes": "TEA/COFFEE/SUGAR 보관통을 함께 모은 실제 장면에 맞춰 역할 설명을 교정. 제목/설명/사진 순서와 여백 정상. 화분은 원본의 부수 대상이며 별도 장식 추가 아님."
+    },
+    {
+      "page": 5,
+      "sha256": "d5292c43fcdb30a8f31127ebab504f0dea491b32aecb03f2fcdee6cc4299ffd8",
+      "phone_sha256": "0b1a7d469b9864f4af8b0170893b594e72bfb11d6fe38ff2213da6a13d8682e4",
+      "text": true,
+      "no_obstruction": true,
+      "readable_390": true,
+      "photo_frame_preserved": true,
+      "facts": "Practical organizational suggestions; different homes explicitly disclosed, not an actual before/after.",
+      "quality_notes": "우측 싱크대·도구통 사진 전체프레임, 좌측 제목과 아래 행동문구를 분리. 글자와 주요대상 크롭/겹침 없음."
+    }
+  ],
+  "photography": [
+    {
+      "photo_id": "7303767",
+      "source_page": "https://www.pexels.com/photo/variety-of-items-at-the-kitchen-counter-7303767/",
+      "author": "Cup of Couple",
+      "license_url": "https://www.pexels.com/license/",
+      "source_sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+      "crop": "contain: entire original photograph",
+      "photo_frame": [
+        186.66666666666669,
+        500,
+        706.6666666666666,
+        1060
+      ],
+      "typography": "Exact700/450 glyph outlines; not editable text layers",
+      "photo_relation": "A complete counter scene establishes usable work space, not an invented before/after."
+    },
+    {
+      "photo_id": "8251825",
+      "source_page": "https://www.pexels.com/photo/white-and-gray-concrete-utensil-holder-on-white-white-kitchen-countertop-8251825/",
+      "author": "PNW Production",
+      "license_url": "https://www.pexels.com/license/",
+      "source_sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+      "crop": "contain: entire original photograph",
+      "photo_frame": [
+        72,
+        290,
+        520,
+        780
+      ],
+      "typography": "Exact700/450 glyph outlines; not editable text layers",
+      "photo_relation": "Actual closeup demonstrates gathering frequently used utensils, not an item recommendation."
+    },
+    {
+      "photo_id": "13684937",
+      "source_page": "https://www.pexels.com/photo/items-on-a-small-kitchen-counter-13684937/",
+      "author": "stayhereforu",
+      "license_url": "https://www.pexels.com/license/",
+      "source_sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+      "crop": "contain: entire original photograph",
+      "photo_frame": [
+        72,
+        270.2975,
+        936,
+        639.405
+      ],
+      "typography": "Exact700/450 glyph outlines; not editable text layers",
+      "photo_relation": "Existing bottles and containers explain sorting by frequency. Photo is contextual, not evidence of a tested transformation."
+    },
+    {
+      "photo_id": "11385963",
+      "source_page": "https://www.pexels.com/photo/kitchenware-on-a-counter-top-11385963/",
+      "author": "Georgie Devlin",
+      "license_url": "https://www.pexels.com/license/",
+      "source_sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+      "crop": "contain: entire original photograph",
+      "photo_frame": [
+        74.14285714285717,
+        660,
+        635.7142857142857,
+        890
+      ],
+      "typography": "Exact700/450 glyph outlines; not editable text layers",
+      "photo_relation": "Actual tea, coffee and sugar jars are grouped on the same kitchen shelf. This contextual stock photograph illustrates grouping related objects; it is not a same-home before/after."
+    },
+    {
+      "photo_id": "8251790",
+      "source_page": "https://www.pexels.com/photo/wooden-spoon-in-jar-on-kitchen-counter-8251790/",
+      "author": "PNW Production",
+      "license_url": "https://www.pexels.com/license/",
+      "source_sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+      "crop": "contain: entire original photograph",
+      "photo_frame": [
+        480,
+        333,
+        536,
+        804
+      ],
+      "typography": "Exact700/450 glyph outlines; not editable text layers",
+      "photo_relation": "The empty surface beside a sink is the useful outcome and a gentle action to save."
+    }
+  ],
+  "typography_pixel_comparison": [
+    {
+      "page": 1,
+      "block": "title",
+      "mean_abs_rgb_error": 0.3701
+    },
+    {
+      "page": 2,
+      "block": "title",
+      "mean_abs_rgb_error": 0.4389
+    },
+    {
+      "page": 2,
+      "block": "body",
+      "mean_abs_rgb_error": 0.2699
+    },
+    {
+      "page": 3,
+      "block": "title",
+      "mean_abs_rgb_error": 0.3056
+    },
+    {
+      "page": 3,
+      "block": "body",
+      "mean_abs_rgb_error": 0.3178
+    },
+    {
+      "page": 4,
+      "block": "title",
+      "mean_abs_rgb_error": 0.3794
+    },
+    {
+      "page": 4,
+      "block": "body",
+      "mean_abs_rgb_error": 0.3627
+    },
+    {
+      "page": 5,
+      "block": "title",
+      "mean_abs_rgb_error": 0.5233
+    },
+    {
+      "page": 5,
+      "block": "body",
+      "mean_abs_rgb_error": 0.288
+    }
+  ],
+  "rejected_versions": [
+    {
+      "run": "42024918561",
+      "reason": "Incorrect planned object nouns; Canva Thin font substitution"
+    },
+    {
+      "run": "42026064408",
+      "reason": "Human rejected glyph contour overlap holes despite model pass"
+    }
+  ]
+}

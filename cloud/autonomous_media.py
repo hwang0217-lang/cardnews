@@ -67,7 +67,7 @@ def video_review_prompt(kind):
     common=('Inspect the COMPLETE actual encoded video including music; do not infer its content from an '
         'intended script. Return JSON verdict pass/revise, readable, no_overlap, full_video_checked, '
         'music_present, edit_quality, meaningful_motion, literal_subjects, notes. Read actual screen text '
-        'and verify enough time remains to read each message. Reject black/blank/unrelated frames or cropped text. ')
+        'and verify enough time remains to read each authored message. Natural package labels inside genuine photographs may be occluded; distinguish them from authored captions. Reject malformed/cropped authored text, black/blank/unrelated frames. ')
     if kind=='reel':
         return common+('This is a PHOTO/USE-SCENE REEL. Object photographs, closeups, detail cutaways and '
             'subtle reframing are the intended format. It is NOT an information motion graphic, so animated '

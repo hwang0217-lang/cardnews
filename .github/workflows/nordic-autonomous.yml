@@ -7,7 +7,7 @@ on:
     inputs:
       mode:
         type: choice
-        options: [preflight, draft-check, vision-probe, edit-verified-preview, preview, delivery-check, operate]
+        options: [preflight, draft-check, vision-probe, edit-verified-preview, review-existing-photo, preview, delivery-check, operate]
         default: preflight
       source_run:
         type: string
@@ -60,6 +60,17 @@ jobs:
           NORDIC_MEDIA_BASE: ${{ vars.NORDIC_MEDIA_BASE }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           VISION_SOURCE_RUN: ${{ inputs.source_run }}
+      - name: Review existing real-photo design without regeneration or Instagram writes
+        if: inputs.mode == 'review-existing-photo'
+        run: python cloud/review_existing_photo.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          NORDIC_APPROVED_MUSIC: ${{ secrets.NORDIC_APPROVED_MUSIC }}
+          VISION_SOURCE_RUN: ${{ inputs.source_run }}
+          NORDIC_PLAN_DATE: ${{ inputs.plan_date }}
       - name: Fresh design, visual QA, server editing and official delivery
         if: github.event_name == 'schedule' || inputs.mode == 'preview' || inputs.mode == 'delivery-check' || inputs.mode == 'operate'
         run: python cloud/autonomous.py
