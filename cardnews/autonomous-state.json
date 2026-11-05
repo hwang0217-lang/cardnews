@@ -1876,7 +1876,7 @@
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 0,
+    "gemini_calls": 1,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "design_policy": "impeccable-real-photo-v1",
@@ -2153,6 +2153,69 @@
         "typography": "Exact700/450 glyph outlines; not editable text layers",
         "photo_relation": "The empty surface beside a sink is the useful outcome and a gentle action to save."
       }
-    ]
+    ],
+    "literal_inventory": {
+      "pages": [
+        {
+          "literal_subject": "조리대, 덜어내는 법",
+          "main_objects": [
+            "Kitchen counter",
+            "Cutting board",
+            "Utensil holder",
+            "Pitcher",
+            "Stove"
+          ],
+          "visible_text": "조리대,\n덜어내는 법\n@nordic_log\n사진 Cup of Couple / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "매일 쓰면 가까이",
+          "main_objects": [
+            "Wooden spoons",
+            "Utensil holder",
+            "Bowls",
+            "Countertop"
+          ],
+          "visible_text": "매일 쓰면\n가까이\n손이 가는 도구만\n한곳에 모아요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "가끔 쓰면 안쪽으로",
+          "main_objects": [
+            "Kitchen shelves",
+            "Bottles",
+            "Containers",
+            "Jars",
+            "Food items"
+          ],
+          "visible_text": "가끔 쓰면\n안쪽으로\n병과 통은\n사용 빈도로 나눠요\nONG N... V\nLD... N\n@nordic_log\n사진 stayhereforu / Pexels",
+          "gibberish_text": true
+        },
+        {
+          "literal_subject": "꺼낼 것만 한자리에",
+          "main_objects": [
+            "Kitchen counter",
+            "Cabinets",
+            "Storage jars",
+            "Utensil holder",
+            "Cutting boards"
+          ],
+          "visible_text": "꺼낼 것만\n한자리에\n함께 쓰는 것끼리\n모아두세요\nTEA\nCOFFEE\nSUGAR\n@nordic_log\n사진 Georgie Devlin / Pexels",
+          "gibberish_text": false
+        },
+        {
+          "literal_subject": "정리보다 쓸 자리",
+          "main_objects": [
+            "Kitchen faucet",
+            "Sink",
+            "Utensil holder",
+            "Wooden spoons",
+            "Cutting board"
+          ],
+          "visible_text": "정리보다\n쓸 자리\n오늘은 조리대\n한 칸만 비워요\n@nordic_log\n사진 PNW Production / Pexels",
+          "gibberish_text": false
+        }
+      ]
+    }
   }
 }
