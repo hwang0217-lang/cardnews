@@ -1,0 +1,26 @@
+name: Nordic PC-off autonomous production
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: codex-reviewed-publishing
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - run: python cloud/autonomous_preflight.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nordic-autonomous-preflight
+          path: cloud-reports/autonomous-preflight.json
+          retention-days: 1
