@@ -73,7 +73,7 @@
     "pc_media_download": false,
     "published": false,
     "unpublished_container_created": true,
-    "container_status": "processing",
+    "container_status": "FINISHED",
     "child_container_ids": [
       "18113742479078061",
       "18113742512078061",
