@@ -53,6 +53,8 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           NORDIC_APPROVED_MUSIC: ${{ secrets.NORDIC_APPROVED_MUSIC }}
+          NORDIC_MEDIA_UPLOAD_KEY: ${{ secrets.NORDIC_MEDIA_UPLOAD_KEY }}
+          NORDIC_MEDIA_BASE: ${{ vars.NORDIC_MEDIA_BASE }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           VISION_SOURCE_RUN: ${{ inputs.source_run }}
       - name: Fresh design, visual QA, server editing and official delivery
@@ -64,6 +66,8 @@ jobs:
           CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           NORDIC_APPROVED_MUSIC: ${{ secrets.NORDIC_APPROVED_MUSIC }}
+          NORDIC_MEDIA_UPLOAD_KEY: ${{ secrets.NORDIC_MEDIA_UPLOAD_KEY }}
+          NORDIC_MEDIA_BASE: ${{ vars.NORDIC_MEDIA_BASE }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           NORDIC_AUTONOMOUS_ACTIVE: ${{ vars.NORDIC_AUTONOMOUS_ACTIVE || '0' }}
           NORDIC_MODE: ${{ inputs.mode || 'operate' }}

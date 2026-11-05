@@ -1,4 +1,4 @@
-"""Runner-only editing and official resumable upload. No public video storage or PC file."""
+"""Runner-only editing and official Instagram URL delivery. No PC media file."""
 import hashlib
 import json
 import os
@@ -211,18 +211,12 @@ def deliver_video(file, plan, mode, row, persist):
         enforce_publish(plan, digest, posts, journals, datetime.now(KST))
         state.put('cardnews/managed-state.json', key, {'status': 'pending', 'at': datetime.now(KST).isoformat(),
                   'canva_design_id': plan['canva_design_id'], 'format': plan['format'], 'sha256': digest}, absent=True)
+    from media_delivery import stage_video
+    url=stage_video(file,row,persist)
     row['upload_status'] = 'creating'; persist()
-    session = graph('POST', identity['id'] + '/media', {'media_type': 'REELS', 'upload_type': 'resumable',
+    session = graph('POST', identity['id'] + '/media', {'media_type': 'REELS', 'video_url': url,
         'caption': plan['caption'], 'share_to_feed': 'true', 'is_ai_generated': 'true', 'thumb_offset': '1000'})
-    uri = require_upload_target(session['uri'], session['id'])
-    row.update(container_id=session['id'], upload_status='uploading'); persist()
-    data = file.read_bytes()
-    r = requests.post(uri, data=data, headers={'Authorization': 'OAuth ' + os.environ['IG_ACCESS_TOKEN'],
-        'offset': '0', 'file_size': str(len(data)), 'Content-Type': 'application/octet-stream'},
-        timeout=180, allow_redirects=False)
-    if not r.ok or r.json().get('success') is not True:
-        row['upload_status'] = 'unknown'; persist(); raise RuntimeError('Binary upload unconfirmed; reconcile without retry')
-    row['upload_status'] = 'processing'; persist()
+    row.update(container_id=session['id'], upload_status='processing'); persist()
     for _ in range(80):
         status = graph('GET', session['id'] + '?fields=status_code')['status_code']
         if status == 'FINISHED': break
