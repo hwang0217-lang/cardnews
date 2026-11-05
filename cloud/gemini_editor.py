@@ -8,7 +8,7 @@ import requests
 
 MODEL = 'gemini-3.5-flash-lite'
 
-def generate_json(prompt, images=()):
+def generate_json(prompt, images=(), schema=None):
     key = os.environ.get('GEMINI_API_KEY')
     if not key: raise RuntimeError('Existing Gemini credential missing')
     parts = [{'text': prompt}]
@@ -18,7 +18,8 @@ def generate_json(prompt, images=()):
         headers={'x-goog-api-key': key, 'Content-Type': 'application/json'},
         json={'contents': [{'role': 'user', 'parts': parts}],
               'generationConfig': {'temperature': 0.5, 'maxOutputTokens': 5000,
-                                   'responseMimeType': 'application/json'}},
+                                   'responseMimeType': 'application/json',
+                                   **({'responseJsonSchema':schema} if schema else {})}},
         timeout=120, allow_redirects=False)
     if response.status_code in (402, 429):
         raise RuntimeError('Gemini allowance unavailable; stop without paid upgrade/fallback/retry')

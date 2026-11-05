@@ -18,6 +18,12 @@ def ensure_detail_crops(pages, draft):
     import io
     for p in pages:
         image=Image.open(p).convert('RGB');buffer=io.BytesIO();image.save(buffer,'JPEG',quality=90);images.append(buffer.getvalue())
+    schema={'type':'object','required':['scene_indices','crops'],'properties':{
+        'scene_indices':{'type':'array','minItems':4,'maxItems':5,'items':{'type':'integer','minimum':1,'maximum':len(pages)}},
+        'crops':{'type':'array','minItems':2,'maxItems':2,'items':{'type':'object',
+            'required':['page','x','y','w','h','observations'],'properties':{
+                'page':{'type':'integer','minimum':1,'maximum':len(pages)-1},
+                **{k:{'type':'number'} for k in ('x','y','w','h')},'observations':{'type':'string'}}}}}}
     result,_=generate_json('Inspect ONLY these actual finished page images in order. First select FOUR OR FIVE '
         'strongest pages for a concise photo Reel, in original reading order, preserving every essential action, the first hook '
         'and final CTA. Remove a page only when it repeats another explanation. Return scene_indices:[1,2,3,5] '
@@ -25,7 +31,10 @@ def ensure_detail_crops(pages, draft):
         'rectangles on DIFFERENT pages for one-second object detail cutaways. Do not include lettering, '
         'blank areas or invented objects. Coordinates are pixels on1080x1920. Return JSON crops:[{page:1,'
         'x:0,y:0,w:0,h:0,observations:"specific actual objects inside this rectangle"}]. '
-        'Choose interior regions well inside actual photos ON THE SELECTED PAGES. Do not choose the final CTA.',images)
+        'Choose interior regions well inside actual photos ON THE SELECTED PAGES. Do not choose the final CTA.',images,schema=schema)
+    from cloud_reel import OUT
+    OUT.mkdir(exist_ok=True)
+    (OUT/'autonomous-crop-response.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     selected=result.get('scene_indices',[])
     if (len(selected) not in (4,5) or any(type(i) is not int for i in selected) or selected!=sorted(set(selected)) or
             selected[0]!=1 or selected[-1]!=len(pages)):
