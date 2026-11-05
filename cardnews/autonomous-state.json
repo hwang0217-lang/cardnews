@@ -189,7 +189,7 @@
     "error": "Canva quality below benchmark; publication blocked"
   },
   "preview-41966195076": {
-    "stage": "drafted",
+    "stage": "canva_dispatching",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -212,6 +212,7 @@
         }
       ],
       "serviceTier": "standard"
-    }
+    },
+    "request_id": "nordic-auto-41966195076-v1"
   }
 }
