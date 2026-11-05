@@ -10,6 +10,52 @@ from datetime import datetime
 import requests
 from cloud_reel import FFMPEG, KST, PublicationState, enforce_publish, graph
 
+def ensure_detail_crops(pages, draft):
+    from gemini_editor import generate_json
+    if sum(bool(s.get('detail_crop')) for s in draft['sections']) >= 2 and draft.get('scene_indices'): return None
+    images=[]
+    from PIL import Image
+    import io
+    for p in pages:
+        image=Image.open(p).convert('RGB');buffer=io.BytesIO();image.save(buffer,'JPEG',quality=90);images.append(buffer.getvalue())
+    result,_=generate_json('Inspect ONLY these actual finished page images in order. First select FOUR OR FIVE '
+        'strongest pages for a concise photo Reel, in original reading order, preserving every essential action, the first hook '
+        'and final CTA. Remove a page only when it repeats another explanation. Return scene_indices:[1,2,3,5] '
+        '(example only; choose from the actual content). Identify TWO photo-only '
+        'rectangles on DIFFERENT pages for one-second object detail cutaways. Do not include lettering, '
+        'blank areas or invented objects. Coordinates are pixels on1080x1920. Return JSON crops:[{page:1,'
+        'x:0,y:0,w:0,h:0,observations:"specific actual objects inside this rectangle"}]. '
+        'Choose interior regions well inside actual photos ON THE SELECTED PAGES. Do not choose the final CTA.',images)
+    selected=result.get('scene_indices',[])
+    if (len(selected) not in (4,5) or any(type(i) is not int for i in selected) or selected!=sorted(set(selected)) or
+            selected[0]!=1 or selected[-1]!=len(pages)):
+        raise RuntimeError('Four or five actual story pages in order, preserving hook, essential actions and CTA, required')
+    draft['scene_indices']=selected
+    seen=set()
+    for crop in result.get('crops',[]):
+        page=crop.get('page');values=[crop.get(k) for k in ('x','y','w','h')]
+        if type(page) is not int or page not in selected or not 1<=page<len(pages) or page in seen or not crop.get('observations'):
+            raise RuntimeError('Detail cuts require distinct actual photo pages and observations')
+        if any(type(v) not in (int,float) for v in values):raise RuntimeError('Actual photo coordinates required')
+        x,y,w,h=values
+        if not (0<=x<x+w<=1080 and 0<=y<y+h<=1920 and w>=120 and h>=120):raise RuntimeError('Photo crop outside final page')
+        draft['sections'][page-1]['detail_crop']={k:crop[k] for k in ('x','y','w','h')};seen.add(page)
+    if len(seen)<2:raise RuntimeError('Two real photo details required; do not export a five-card slideshow')
+    return result
+
+def video_review_prompt(kind):
+    common=('Inspect the COMPLETE actual encoded video including music; do not infer its content from an '
+        'intended script. Return JSON verdict pass/revise, readable, no_overlap, full_video_checked, '
+        'music_present, edit_quality, meaningful_motion, literal_subjects, notes. Read actual screen text '
+        'and verify enough time remains to read each message. Reject black/blank/unrelated frames or cropped text. ')
+    if kind=='reel':
+        return common+('This is a PHOTO/USE-SCENE REEL. Object photographs, closeups, detail cutaways and '
+            'subtle reframing are the intended format. It is NOT an information motion graphic, so animated '
+            'diagrams are not required. Judge the actual cutaways and pacing; reject a mere unchanged five-card '
+            'equal-duration slideshow. Do NOT fail this photo Reel for lacking animated information relationships.')
+    return common+('This is an INFORMATION MOTION graphic. Require an actual diagram/sequence/comparison '
+        'relationship to be progressively revealed with adequate reading hold. Photos plus zoom alone cannot pass.')
+
 def approved_music(mood, directory, day):
     tracks = json.loads(os.environ.get('NORDIC_APPROVED_MUSIC', '[]'))
     if len(tracks) != 10: raise RuntimeError('Approved ten-track server library missing')
@@ -28,6 +74,10 @@ def approved_music(mood, directory, day):
 
 def render_video(pages, draft, directory, day):
     """Canva is the final visual source; only cropping/reveal/edit/music happen here."""
+    selected=draft.get('scene_indices')
+    if selected:
+        pages=[pages[i-1] for i in selected]
+        draft={**draft,'sections':[draft['sections'][i-1] for i in selected]}
     durations = [max(3.5, min(7, (len(s['title']) + len(s.get('body', ''))) / 7 + 1.5)) for s in draft['sections']]
     if sum(durations) > 29: raise RuntimeError('Too much text; edit the script instead of speeding up cuts')
     mood=draft.get('music_mood')
@@ -82,7 +132,7 @@ def render_video(pages, draft, directory, day):
     subprocess.run([FFMPEG, '-v', 'error', '-i', str(target), '-f', 'null', '-'], check=True, capture_output=True)
     return target, {'duration_seconds': total, 'scene_seconds': durations, 'music_track': track,
                     'video_sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
-                    'edit_segments': len(clips), 'canva_visual_source': True, 'full_decode': True, 'pc_video_download': False}
+                    'selected_original_pages':selected,'edit_segments': len(clips), 'canva_visual_source': True, 'full_decode': True, 'pc_video_download': False}
 
 def require_upload_target(uri, container_id):
     u = urlparse(uri)

@@ -7,7 +7,7 @@ on:
     inputs:
       mode:
         type: choice
-        options: [preflight, draft-check, vision-probe, preview, delivery-check, operate]
+        options: [preflight, draft-check, vision-probe, edit-verified-preview, preview, delivery-check, operate]
         default: preflight
       source_run:
         type: string
@@ -44,6 +44,16 @@ jobs:
         env:
           CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          VISION_SOURCE_RUN: ${{ inputs.source_run }}
+      - run: python cloud/edit_verified_preview.py
+        if: inputs.mode == 'edit-verified-preview'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          NORDIC_APPROVED_MUSIC: ${{ secrets.NORDIC_APPROVED_MUSIC }}
+          PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           VISION_SOURCE_RUN: ${{ inputs.source_run }}
       - name: Fresh design, visual QA, server editing and official delivery
         if: github.event_name == 'schedule' || inputs.mode == 'preview' || inputs.mode == 'delivery-check' || inputs.mode == 'operate'

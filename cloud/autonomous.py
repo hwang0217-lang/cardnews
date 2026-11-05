@@ -44,7 +44,8 @@ def fetch_image(url, bound=8_000_000):
 def create_request(state, request_id, draft, height, purpose):
     # Content/state only, never generated executable code. Scan before persisting.
     body = {'account': 'nordic_log', 'request_id': request_id, 'purpose': purpose,
-            'height': height, 'brief': draft['canva_brief'], 'sections': draft['sections']}
+            'height': height, 'brief': draft['canva_brief'], 'sections': draft['sections'],
+            'reuse_design_ids': draft.get('reuse_design_ids', [])}
     serialized = json.dumps(body, ensure_ascii=False)
     if re.search(r'(?:AIza[\w-]{25,}|github_pat_[\w]+|sk-proj-[\w-]+)', serialized):
         raise RuntimeError('Potential secret in generated editorial request')
@@ -94,7 +95,7 @@ def review_images(draft, new_images, references, kind):
         'premium photo/layout quality of the references. Reject repetitive text/color boxes, template '
         'swaps, weak generic diagrams or fake claims. Inspect Korean typos, small text, crop, overlap, '
         'lines over text and at least24px separation. Return JSON verdict pass/revise/reject, '
-        'quality_score 0-10, comparison_notes, corrections, pages:[{text_correct,no_overlap,readable_mobile,'
+        'quality_score 0-10, comparison_notes, corrections (specific actionable English), pages:[{text_correct,no_overlap,readable_mobile,'
         'facts_safe,canva_quality,varied,observations}]. Pass requires every boolean true and >=8.5. '
         'All content must be readable. Editorial plan JSON=' + json.dumps(draft, ensure_ascii=False))
     if kind == 'motion_reel':
@@ -118,6 +119,8 @@ def main():
     kind = choose_kind(now) if mode == 'operate' else os.environ.get('NORDIC_PREVIEW_FORMAT', 'carousel')
     if kind not in ('carousel', 'reel', 'motion_reel'): raise RuntimeError('Invalid format')
     state = PublicationState()
+    if mode=='operate' and (os.environ.get('NORDIC_AUTONOMOUS_ACTIVE')!='1' or os.environ.get('PUBLISH_PAUSED','1')!='0'):
+        print('Server publishing paused; no account, generation or publication calls');return
     live = graph('GET', 'me?fields=id,username')
     if live.get('username') != 'nordic_log': raise RuntimeError('Wrong account')
     posts = graph('GET', 'me/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,children{media_url}&limit=9').get('data', [])
@@ -152,7 +155,7 @@ def main():
         if not benchmark: raise RuntimeError('Existing fifty-channel design research missing')
         prompt = draft_prompt(captions) + '\nExisting channel research (adapt principles, never copy text or designs):\n' + benchmark + '\nFormat=' + kind + '. ' + (
             'Use 5 pages, each a premium full-height1080x1920 video composition with large text; '
-            'brief title and at most18 Korean body characters per scene and titles under12 characters; page durations4-6sec. '
+            'brief title and at most18 Korean body characters per scene and titles under12 characters; page durations4-6sec. First hook page body MUST be an empty string, headline only. Final CTA body at most10 Korean characters. '
             'Motion format needs real sequence/comparison/diagram content, not photo slides.' if kind != 'carousel'
             else 'Use 5 portrait1080x1350 editorial pages.')
         draft, usage = generate_json(prompt); row['gemini_calls'] += 1; validate_draft(draft)
@@ -162,7 +165,7 @@ def main():
             request_id = 'nordic-auto-' + os.environ['GITHUB_RUN_ID'] + '-v' + str(version)
             revision = create_request(state, request_id, draft, 1350 if kind == 'carousel' else 1920,
                                       'production' if mode == 'operate' else 'preview')
-            row['canva_generations'] = version; persist()
+            row['canva_generations'] = version; row['editorial_draft']=draft; persist()
             result = produce_canva(request_id, revision, row, persist)
             if len(result.get('urls', [])) != len(draft['sections']): raise RuntimeError('All Canva pages required')
             pages = []; hashes = []; images = []
@@ -177,19 +180,29 @@ def main():
                 'in English and copy ALL visible text exactly, without correcting or inventing Korean letters. '
                 'Set gibberish_text=true for nonsensical or unreadable lettering. Never infer an intended subject.',images)
             row['gemini_calls']+=1;row['literal_inventory']=inventory;persist()
+            literal_errors=({i:'missing literal observation' for i in range(len(draft['sections']))} if len(inventory.get('pages',[]))!=len(draft['sections']) else {})
+            for index,(observed,section) in enumerate(zip(inventory.get('pages',[]),draft['sections'])):
+                try:validate_literal_inventory({'pages':[observed]},[section])
+                except RuntimeError as issue:literal_errors[index]=str(issue)
             try:
                 validate_literal_inventory(inventory,draft['sections'])
             except RuntimeError as evidence_error:
+                draft['reuse_design_ids']=[None if index in literal_errors else ident for index,ident in enumerate(result.get('designIds',[]))]
+
                 review={'verdict':'revise','quality_score':0,'corrections':str(evidence_error),'pages':inventory.get('pages',[])}
                 row.update(stage='literal_QA_rejected',visual_review=review,canva_design_id=result['designId']);persist()
                 if version==2:raise
-                draft['canva_brief']=(draft['canva_brief'][:3300]+'\nActual image evidence failed: '+str(evidence_error)+'. Exact Korean text and intended objects are mandatory.')
+                for section in draft['sections']:
+                    section['image_prompt_en']=section['image_prompt_en'][:1000]+' Correct the actual failed export: exact Korean headline and subtitle must match, no gibberish or extra words. Required physical objects: '+', '.join(section['required_visual_objects'])+'. No faces, people, unrelated foliage or newspapers.'
                 continue
             review, usage = review_images(draft, images, references, kind); row['gemini_calls'] += 1
             row.update(stage='visual_review', visual_review=review, canva_design_id=result['designId'], canva_page_design_ids=result.get('designIds',[]), page_sha256=hashes); persist()
             if review['verdict'] == 'pass': break
             if version == 2 or review['verdict'] == 'reject': raise RuntimeError('Canva quality below benchmark; publication blocked')
-            draft['canva_brief'] = (draft['canva_brief'][:3300] + '\nCorrect the actual failed export: ' + json.dumps(review.get('corrections', ''), ensure_ascii=False)[:1000])
+            failed_indices=[i for i,p in enumerate(review.get('pages',[])) if any(p.get(k) is not True for k in ('text_correct','no_overlap','readable_mobile','facts_safe','canva_quality','varied'))]
+            draft['reuse_design_ids']=[None if not failed_indices or index in failed_indices else ident for index,ident in enumerate(result.get('designIds',[]))]
+            for section in draft['sections']:
+                section['image_prompt_en']=section['image_prompt_en'][:1000]+' Correct the specific observed export defects: '+json.dumps(review.get('corrections',''),ensure_ascii=False)[:700]
         digest = assets_digest(hashes)
         qa = {k: True for k in ('text','no_obstruction','readable','facts','rights','variety','canva_quality','all_scenes_readable')}
         qa.update(export_sha256=digest, quality_benchmark='Nine actual feed images supplied to Gemini; score >=8.5',
@@ -203,7 +216,7 @@ def main():
         # State-only registry mutation; no generated code. PublicationState preserves existing keys.
         state.put('cloud/design-registry.json','designs',registry['designs'])
         if kind != 'carousel':
-            from autonomous_media import render_video, deliver_video
+            from autonomous_media import render_video, deliver_video, ensure_detail_crops, video_review_prompt
             if kind == 'motion_reel':
                 for section, page_review in zip(draft['sections'], review['pages']):
                     regions = page_review.get('reveal_regions', [])
@@ -212,15 +225,13 @@ def main():
             if kind == 'reel':
                 for section, page_review in zip(draft['sections'], review['pages']):
                     section['detail_crop'] = page_review.get('detail_crop')
+                crop_review=ensure_detail_crops(pages,draft)
+                if crop_review: row['gemini_calls']+=1;row['detail_crop_review']=crop_review;persist()
             video, details = render_video(pages, draft, OUT, day)
             row.update(details); row['stage']='video_review'; persist()
             if video.stat().st_size > 19_000_000: raise RuntimeError('Video exceeds bounded direct vision review input')
             from gemini_editor import generate_video_json
-            video_review, _ = generate_video_json('Review the COMPLETE encoded Nordic '+kind+' video including music. '
-                'Return JSON verdict pass/revise, readable, no_overlap, full_video_checked, music_present, '
-                'edit_quality, meaningful_motion, notes. Reject repeated equal-duration five-card slideshow, '
-                'unreadable fast cuts or irrelevant effects. Motion format must animate an actual information '
-                'relationship with enough reading hold; photos plus zoom alone cannot pass. Be strict.',video.read_bytes())
+            video_review, _ = generate_video_json(video_review_prompt(kind),video.read_bytes())
             row['gemini_calls']+=1;row['video_review']=video_review;persist()
             if (video_review.get('verdict')!='pass' or any(video_review.get(k) is not True for k in
                     ('readable','no_overlap','full_video_checked','music_present','edit_quality')) or
