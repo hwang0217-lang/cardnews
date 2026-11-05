@@ -771,6 +771,22 @@
     "edit_segments": 6,
     "canva_visual_source": true,
     "full_decode": true,
-    "pc_video_download": false
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "pass",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": true,
+      "meaningful_motion": true,
+      "literal_subjects": [
+        "tumbler",
+        "drying rack",
+        "cups",
+        "kitchen accessories"
+      ],
+      "notes": "The video successfully follows the photo/use-scene reel format with appropriate pacing, readable text, engaging cutaways, and pleasant background music."
+    }
   }
 }
