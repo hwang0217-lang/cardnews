@@ -519,8 +519,9 @@
     "canva_run_id": "41969457084",
     "canva_design_id": "DAHaBD_nLqw",
     "format": "reel",
-    "stage": "editing",
+    "stage": "blocked",
     "published": false,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "error": "Diagnostic edit/delivery failed: RuntimeError"
   }
 }
