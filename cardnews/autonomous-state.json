@@ -1111,7 +1111,7 @@
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   },
   "preview-42026064408": {
-    "stage": "video_review",
+    "stage": "ready",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
@@ -1667,6 +1667,203 @@
         "cutting boards"
       ],
       "notes": "The video is well-paced, highly readable, features clear photo cutaways related to kitchen organization, and has background music."
+    },
+    "approved_hash": "03da7ed175380835c525cf51ebe2b3b7ab230637e4fb081dd7de3de577e04452",
+    "approved_plan": {
+      "account": "nordic_log",
+      "canva_design_id": "DAHaDBloZO4",
+      "purpose": "diagnostic",
+      "approved": true,
+      "date": "2026-11-05",
+      "format": "reel",
+      "export_format": "mp4",
+      "page_count": 5,
+      "caption": "조리대를 다 비우는 대신, 내가 쓸 자리를 먼저 남겨보세요.\n\n매일 쓰는 도구는 가까이, 가끔 쓰는 병과 통은 안쪽으로. 함께 꺼내는 것은 한곳에 모아두는 방법을 제안해요. 집과 사용 습관에 맞게 골라 적용해보세요.\n\n사진은 서로 다른 공간의 실제 스톡 촬영본이며 동일 주방의 정리 전후가 아닙니다. 사진: Cup of Couple, PNW Production, stayhereforu, Georgie Devlin / Pexels. 기획·편집에 AI를 활용했습니다.\n\n#노르딕로그 #주방정리 #조리대정리 #살림팁",
+      "approved_assets_sha256": "9c85b7a5e4d0779889940d7b79916c6fe8b863a22a9f0fddfded44701b2e9366",
+      "review": {
+        "text": true,
+        "no_obstruction": true,
+        "readable": true,
+        "facts": true,
+        "rights": true,
+        "variety": true,
+        "canva_quality": true,
+        "all_scenes_readable": true,
+        "export_sha256": "03da7ed175380835c525cf51ebe2b3b7ab230637e4fb081dd7de3de577e04452",
+        "quality_benchmark": "Nine actual feed images supplied to Gemini; score >=8.5",
+        "recent_nine_comparison": "The exported pages successfully implement the impeccable-real-photo-v1 design policy, showcasing high-resolution genuine stock photographs without artificial before/after claims or low-quality graphics. Typography hierarchy follows the exact brief with crisp charcoal-on-white reading modes and sufficient whitespace.",
+        "page_or_scene_notes": [
+          {
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "observations": "Full counter setup establishes usable workspace clearly. Clean typography alignment against neutral background.",
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true,
+            "mobile_observations": "Title remains prominent and readable on mobile width without wrapping issues.",
+            "detail_crop": {
+              "x": 200,
+              "y": 500,
+              "w": 400,
+              "h": 300
+            }
+          },
+          {
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "observations": "Closeup photograph effectively highlights daily utensil storage. Distinct separation from header text.",
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true,
+            "mobile_observations": "Left photo alignment scales well down to 390px width.",
+            "detail_crop": {
+              "x": 150,
+              "y": 200,
+              "w": 350,
+              "h": 350
+            }
+          },
+          {
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "observations": "Contextual shelf photo cleanly supports the frequency-sorting message.",
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true,
+            "mobile_observations": "Good contrast between typography and background."
+          },
+          {
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "observations": "Real tray and jar grouping illustrates matching categories cleanly.",
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true,
+            "mobile_observations": "Mobile scaling retains high clarity on the tray objects."
+          },
+          {
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "observations": "Sink-side counter finish provides a strong closing visual action item.",
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true,
+            "mobile_observations": "Clean ending page layout with optimal spacing."
+          }
+        ],
+        "design_policy": "impeccable-real-photo-v1",
+        "photo_evidence": [
+          {
+            "photo_id": "7303767",
+            "source_page": "https://www.pexels.com/photo/variety-of-items-at-the-kitchen-counter-7303767/",
+            "author": "Cup of Couple",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              186.66666666666669,
+              500,
+              706.6666666666666,
+              1060
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "A complete counter scene establishes usable work space, not an invented before/after."
+          },
+          {
+            "photo_id": "8251825",
+            "source_page": "https://www.pexels.com/photo/white-and-gray-concrete-utensil-holder-on-white-white-kitchen-countertop-8251825/",
+            "author": "PNW Production",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              72,
+              290,
+              520,
+              780
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "Actual closeup demonstrates gathering frequently used utensils, not an item recommendation."
+          },
+          {
+            "photo_id": "13684937",
+            "source_page": "https://www.pexels.com/photo/items-on-a-small-kitchen-counter-13684937/",
+            "author": "stayhereforu",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              72,
+              270.2975,
+              936,
+              639.405
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "Existing bottles and containers explain sorting by frequency. Photo is contextual, not evidence of a tested transformation."
+          },
+          {
+            "photo_id": "11385963",
+            "source_page": "https://www.pexels.com/photo/kitchenware-on-a-counter-top-11385963/",
+            "author": "Georgie Devlin",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              74.14285714285717,
+              660,
+              635.7142857142857,
+              890
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "Actual tea, coffee and sugar jars are grouped on the same kitchen shelf. This contextual stock photograph illustrates grouping related objects; it is not a same-home before/after."
+          },
+          {
+            "photo_id": "8251790",
+            "source_page": "https://www.pexels.com/photo/wooden-spoon-in-jar-on-kitchen-counter-8251790/",
+            "author": "PNW Production",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              480,
+              333,
+              536,
+              804
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "The empty surface beside a sink is the useful outcome and a gentle action to save."
+          }
+        ],
+        "mobile_width": 390,
+        "mobile_review_subject": "Actual final Canva exports at390px; model review, not a physical-phone test",
+        "full_playback": true
+      },
+      "approved_video_sha256": "03da7ed175380835c525cf51ebe2b3b7ab230637e4fb081dd7de3de577e04452"
     }
   }
 }
