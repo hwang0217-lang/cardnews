@@ -344,5 +344,15 @@
       "dae5d4382d94e54f3717185b32c007b299af580a45261781ffd2be54c5ee1207"
     ],
     "error": "Canva quality below benchmark; publication blocked"
+  },
+  "preview-41968918668": {
+    "stage": "starting",
+    "mode": "delivery-check",
+    "day": "2026-11-05",
+    "format": "reel",
+    "published": false,
+    "gemini_calls": 0,
+    "canva_generations": 0,
+    "pc_media_downloads": 0
   }
 }
