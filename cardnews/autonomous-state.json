@@ -752,6 +752,25 @@
           }
         }
       ]
-    }
+    },
+    "duration_seconds": 25.3,
+    "scene_seconds": [
+      6.928571428571429,
+      5.357142857142858,
+      5.642857142857143,
+      5.357142857142858
+    ],
+    "music_track": "warm-02",
+    "video_sha256": "8ad919dd10642266c015a2743c54b687e080279b36bd4ab3d4a5184d6e08daa6",
+    "selected_original_pages": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "edit_segments": 6,
+    "canva_visual_source": true,
+    "full_decode": true,
+    "pc_video_download": false
   }
 }
