@@ -22,7 +22,8 @@
   "nordic-cloud-41961934869": {
     "request_id": "nordic-cloud-41961934869",
     "design_id": "DAHZ3X7N3tw",
-    "status": "dispatching",
-    "published": false
+    "status": "running",
+    "published": false,
+    "gateway_run_id": "41961984493"
   }
 }
