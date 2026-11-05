@@ -1,6 +1,6 @@
 {
   "preview-41965263294": {
-    "stage": "drafted",
+    "stage": "canva_dispatching",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -22,6 +22,7 @@
         }
       ],
       "serviceTier": "standard"
-    }
+    },
+    "request_id": "nordic-auto-41965263294-v1"
   }
 }
