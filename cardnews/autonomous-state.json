@@ -346,7 +346,7 @@
     "error": "Canva quality below benchmark; publication blocked"
   },
   "preview-41968918668": {
-    "stage": "video_review",
+    "stage": "blocked",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -511,6 +511,7 @@
       "edit_quality": true,
       "meaningful_motion": false,
       "notes": "The video consists of five static photos of equal duration with basic zoom effects, which violates the requirement that motion must animate an actual information relationship with enough reading hold; photos plus zoom alone cannot pass."
-    }
+    },
+    "error": "Final encoded video failed real model QA; no publication"
   }
 }
