@@ -218,12 +218,12 @@
     "error": "Canva production failed; reconcile saved run"
   },
   "preview-41966547445": {
-    "stage": "canva_generating",
+    "stage": "visual_review",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 2,
+    "gemini_calls": 3,
     "canva_generations": 2,
     "pc_media_downloads": 0,
     "topic": "머그컵과 텀블러, 보관하는 높이의 기준",
@@ -246,9 +246,14 @@
     "canva_run_id": "41966856189",
     "visual_review": {
       "verdict": "revise",
-      "quality_score": 7.4,
-      "comparison_notes": "제공된 첫 5장의 새 페이지 이미지는 모바일 가독성과 타이포그래피 정렬 면에서 깔끔하나, 2번째 페이지 하단 본문 텍스트 영역에 미세한 줄 겹침 현상이 있으며, 3번째 페이지의 다이어그램 영역이 단순 나열식 사진에 가까워 모션 릴 구조로서의 의미 전달력이 부족합니다. 전체적인 톤온톤 스타일과 푸터(@nordic_log)는 가이드라인을 잘 따랐으나 다이어그램 및 상세 크롭 연출의 보완이 필요합니다.",
-      "corrections": "1. 2번째 페이지 하단 본문 영역과 수평선 간격 24px 이상 확보 및 겹침 현상 제거.\n2. 3번째 페이지의 단순 사진을 실제 수직 단차 배치 및 동선 비교가 가능한 다이어그램 또는 시퀀스 구조로 수정.\n3. 각 페이지별 명확한 detail_crop 영역 재지정.",
+      "quality_score": 7.8,
+      "comparison_notes": "신규 생성된 5개 페이지는 컵과 텀블러 수납이라는 주제를 다루고 있으나, 전체적인 톤온톤 일관성(화이트, 차콜, 쿨 그레이)이 일부 페이지에서 어긋나고 텍스트와 이미지 간의 여백(24px 이상)이 부족한 곳이 있습니다. 특히 3번째 페이지의 다이어그램 구성이 단순 사진 나열에 가까워 모션 릴스로서의 의미 있는 시퀀스 구조 개선이 필요합니다.",
+      "corrections": [
+        "2번째 페이지와 3번째 페이지의 하단 본문 영역과 수평선 간격을 24px 이상 재 확보하고 겹침 현상을 완전히 제거하세요.",
+        "3번째 페이지의 단순 사진 배치를 실제 수직 단차 배치 및 동선 비교가 가능한 시퀀스 구조 다이어그램으로 수정하세요.",
+        "모든 페이지의 푸터(@nordic_log 및 '생활 배치 제안 · 연출 이미지') 표기 위치를 통일하고, 본문 위 가선을 완전히 제거하세요.",
+        "각 페이지별 명확한 detail_crop 영역을 재지정하여 포커스 구간을 명확히 하세요."
+      ],
       "pages": [
         {
           "text_correct": true,
@@ -257,24 +262,7 @@
           "facts_safe": true,
           "canva_quality": true,
           "varied": true,
-          "observations": "상단 대형 타이포그래피와 하단 푸터 배치가 안정적이며 모바일에서 가독성이 우수함.",
-          "reveal_regions": [
-            {
-              "x": 100,
-              "y": 300,
-              "w": 880,
-              "h": 200,
-              "bg": "#FFFFFF",
-              "at_seconds": 0.5,
-              "role": "title"
-            }
-          ],
-          "detail_crop": {
-            "x": 200,
-            "y": 600,
-            "w": 680,
-            "h": 900
-          }
+          "observations": "첫 번째 페이지: 상단 대형 타이포그래피와 하단 건조대 사진 배치가 깔끔하나, 하단 푸터와의 여백 검토 필요."
         },
         {
           "text_correct": true,
@@ -283,24 +271,7 @@
           "facts_safe": true,
           "canva_quality": false,
           "varied": true,
-          "observations": "본문 텍스트와 하단 구분선 사이의 간격이 부족하고 미세한 줄 겹침이 발생함.",
-          "reveal_regions": [
-            {
-              "x": 100,
-              "y": 250,
-              "w": 880,
-              "h": 300,
-              "bg": "#F8F8F8",
-              "at_seconds": 0.8,
-              "role": "comparison"
-            }
-          ],
-          "detail_crop": {
-            "x": 150,
-            "y": 700,
-            "w": 780,
-            "h": 850
-          }
+          "observations": "두 번째 페이지: 본문 영역과 수평선 간격이 좁고 일부 요소가 겹칠 위험이 있어 24px 이상 여백 확보 필수."
         },
         {
           "text_correct": true,
@@ -309,18 +280,7 @@
           "facts_safe": true,
           "canva_quality": false,
           "varied": false,
-          "observations": "단순 제품 나열형 사진으로 구성되어 릴스 형식의 의미 있는 비교/관계 다이어그램 역할이 미흡함.",
-          "reveal_regions": [
-            {
-              "x": 100,
-              "y": 200,
-              "w": 880,
-              "h": 400,
-              "bg": "#F5F5F5",
-              "at_seconds": 1.0,
-              "role": "diagram"
-            }
-          ]
+          "observations": "세 번째 페이지: 단순 사진 나열형으로 수직 단차 배치 및 동선 비교를 위한 다이어그램/시퀀스 구조로 전면 수정 필요."
         },
         {
           "text_correct": true,
@@ -329,18 +289,7 @@
           "facts_safe": true,
           "canva_quality": true,
           "varied": true,
-          "observations": "클로즈업 연출이 자연스럽고 텍스트와 이미지의 여백이 적절함.",
-          "reveal_regions": [
-            {
-              "x": 100,
-              "y": 250,
-              "w": 880,
-              "h": 350,
-              "bg": "#FFFFFF",
-              "at_seconds": 0.7,
-              "role": "closeup"
-            }
-          ]
+          "observations": "네 번째 페이지: 좌측 텍스트와 우측 건조대 컷의 레이아웃 배치와 여백이 안정적임."
         },
         {
           "text_correct": true,
@@ -349,35 +298,50 @@
           "facts_safe": true,
           "canva_quality": true,
           "varied": true,
-          "observations": "에디토리얼 스페이싱이 잘 적용되었으나 전반적인 스토리텔링의 마무리가 표준적임.",
-          "reveal_regions": [
-            {
-              "x": 100,
-              "y": 200,
-              "w": 880,
-              "h": 300,
-              "bg": "#FAFAFA",
-              "at_seconds": 0.6,
-              "role": "editorial_spacing"
-            }
-          ]
+          "observations": "다섯 번째 페이지: 마무리 카피와 중앙 컵 단독 연출 컷이 톤온톤 규칙에 잘 맞음."
         }
-      ]
+      ],
+      "reveal_regions": [
+        {
+          "x": 100,
+          "y": 400,
+          "w": 880,
+          "h": 300,
+          "bg": "#FFFFFF",
+          "at_seconds": 0.5,
+          "role": "title_reveal"
+        },
+        {
+          "x": 100,
+          "y": 800,
+          "w": 880,
+          "h": 800,
+          "bg": "#F5F5F3",
+          "at_seconds": 1.2,
+          "role": "diagram_sequence"
+        }
+      ],
+      "detail_crop": {
+        "x": 150,
+        "y": 900,
+        "w": 780,
+        "h": 700
+      }
     },
-    "canva_design_id": "DAHaBJpMyvA",
+    "canva_design_id": "DAHaBBqe320",
     "canva_page_design_ids": [
-      "DAHaBJpMyvA",
-      "DAHaBEM__Kk",
-      "DAHaBDYN4bo",
-      "DAHaBPmSW8A",
-      "DAHaBGDy3_U"
+      "DAHaBBqe320",
+      "DAHaBH-ucPI",
+      "DAHaBC_49ZA",
+      "DAHaBAddhVo",
+      "DAHaBG7DwHU"
     ],
     "page_sha256": [
-      "7d22177bac3e9380192d4b641f109ab78e1729e3bcf6fbc1e8a0a654dfee0974",
-      "e5c1c249610812d0246ec971f095bb4ac0926d78834b71cc6eed5e5ef9102184",
-      "1423661ca9be8df717fcb438163ed7c55238f3011d9fa0713fced468abc80159",
-      "3e85eaf73d07c99129d530645ab9b0c7230ef50d5bd2ba0591e12a2a65d1c7ee",
-      "12f221e5b39346419952cd16f68bf0af13e3a4deaf6af2aa800df386cfbcb09f"
+      "3a1f62f149580fe37314c0796edc9c82463a5a137b6bb8ba718737a2e23207b8",
+      "8c9ebae31f9ac1c3b6387f3e5f5cd73e796efbca2fbe690f271ad151b1815d24",
+      "a6213b7eec51e743946ef1a352fdcbeda1aa28b5d35f341b5193027da6640c1c",
+      "b4dcd406991d474ca08b87019641f39096d2ef007fce282f74451cc2f17765ae",
+      "dae5d4382d94e54f3717185b32c007b299af580a45261781ffd2be54c5ee1207"
     ]
   }
 }
