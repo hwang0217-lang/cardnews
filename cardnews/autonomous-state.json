@@ -2399,6 +2399,54 @@
       "add6a0a48545b3c7070c5280ffe019c7f9b4a7cd7424337f3f2ebcf47e4a7997",
       "58ae783f064064cbed6ddbb35e83dc7977ac8d38d91a10b11b41830d2f841599",
       "d5292c43fcdb30a8f31127ebab504f0dea491b32aecb03f2fcdee6cc4299ffd8"
-    ]
+    ],
+    "detail_crop_review": {
+      "scene_indices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "story_selection": {
+        "choice": "choice_4",
+        "safe": true,
+        "reason": "All pages (1 to 5) contain essential sequential steps for organizing the countertop by frequency of use without omitting necessary instructions."
+      },
+      "crops": [
+        {
+          "page": 1,
+          "normalized": {
+            "x": 173,
+            "y": 260,
+            "w": 653,
+            "h": 551,
+            "observations": "A photograph showing a modern kitchen counter with a stovetop, a small cutting board, utensils in a cup, and a mug against a plain wall."
+          },
+          "pixels": {
+            "x": 186.84,
+            "y": 499.2,
+            "w": 705.24,
+            "h": 1057.92
+          }
+        },
+        {
+          "page": 2,
+          "normalized": {
+            "x": 67,
+            "y": 151,
+            "w": 481,
+            "h": 407,
+            "observations": "A close-up photograph of wooden kitchen utensils stored in a white ceramic holder, with bowls and plates in the background."
+          },
+          "pixels": {
+            "x": 72.36,
+            "y": 289.92,
+            "w": 519.48,
+            "h": 781.44
+          }
+        }
+      ]
+    }
   }
 }
