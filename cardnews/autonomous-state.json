@@ -216,5 +216,15 @@
     "request_id": "nordic-auto-41966195076-v1",
     "canva_run_id": "41966273990",
     "error": "Canva production failed; reconcile saved run"
+  },
+  "preview-41966547445": {
+    "stage": "starting",
+    "mode": "delivery-check",
+    "day": "2026-11-05",
+    "format": "reel",
+    "published": false,
+    "gemini_calls": 0,
+    "canva_generations": 0,
+    "pc_media_downloads": 0
   }
 }
