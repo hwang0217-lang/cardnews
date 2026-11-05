@@ -72,3 +72,20 @@ def validate_visual_review(review, image_count):
         if any(any(p.get(k) is not True for k in checks) for p in pages):
             raise RuntimeError('A failed page cannot pass the complete design')
     return review
+
+def generate_video_json(prompt, video):
+    """Gemini receives the complete encoded video; do not pretend image QA was playback."""
+    key = os.environ.get('GEMINI_API_KEY')
+    if not key: raise RuntimeError('Existing Gemini credential missing')
+    r = requests.post(f'https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent',
+        headers={'x-goog-api-key':key,'Content-Type':'application/json'},
+        json={'contents':[{'role':'user','parts':[{'text':prompt},
+              {'inlineData':{'mimeType':'video/mp4','data':base64.b64encode(video).decode()}}]}],
+              'generationConfig':{'temperature':0.2,'maxOutputTokens':2500,'responseMimeType':'application/json'}},
+        timeout=180,allow_redirects=False)
+    if not r.ok: raise RuntimeError('Complete-video QA HTTP '+str(r.status_code)+'; no paid fallback or retry')
+    data=r.json();candidates=data.get('candidates',[])
+    if len(candidates)!=1 or candidates[0].get('finishReason')!='STOP':
+        raise RuntimeError('Incomplete complete-video QA')
+    text=''.join(p.get('text','') for p in candidates[0]['content']['parts'] if not p.get('thought'))
+    return json.loads(text),data.get('usageMetadata',{})

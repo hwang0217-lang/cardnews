@@ -1,35 +1,61 @@
 name: Nordic PC-off autonomous production
+run-name: Nordic autonomous ${{ inputs.mode || 'operate' }} ${{ inputs.format }}
 on:
+  schedule:
+    - cron: '15 9 * * *'
   workflow_dispatch:
     inputs:
       mode:
         type: choice
-        options: [preflight, draft-check]
+        options: [preflight, draft-check, preview, delivery-check, operate]
         default: preflight
+      format:
+        type: choice
+        options: [carousel, reel, motion_reel]
+        default: carousel
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: codex-reviewed-publishing
   cancel-in-progress: false
 jobs:
-  preflight:
+  produce:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests
+      - run: pip install requests Pillow imageio-ffmpeg
       - run: python cloud/autonomous_preflight.py
+        if: inputs.mode == 'preflight' || inputs.mode == 'draft-check'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: python cloud/autonomous_draft_check.py
         if: inputs.mode == 'draft-check'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Fresh design, visual QA, server editing and official delivery
+        if: github.event_name == 'schedule' || inputs.mode == 'preview' || inputs.mode == 'delivery-check' || inputs.mode == 'operate'
+        run: python cloud/autonomous.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CANVA_GATEWAY_GH_TOKEN: ${{ secrets.CANVA_GATEWAY_GH_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          NORDIC_APPROVED_MUSIC: ${{ secrets.NORDIC_APPROVED_MUSIC }}
+          PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
+          NORDIC_AUTONOMOUS_ACTIVE: ${{ vars.NORDIC_AUTONOMOUS_ACTIVE || '0' }}
+          NORDIC_MODE: ${{ inputs.mode || 'operate' }}
+          NORDIC_PREVIEW_FORMAT: ${{ inputs.format || 'carousel' }}
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: nordic-autonomous-preflight
-          path: cloud-reports/autonomous-*.json
-          retention-days: 1
+          name: nordic-autonomous-report
+          path: |
+            cloud-reports/autonomous-*.json
+            cloud-reports/connection.json
+            cloud-reports/page-*.png
+            cloud-reports/scene-*.png
+          retention-days: 7
