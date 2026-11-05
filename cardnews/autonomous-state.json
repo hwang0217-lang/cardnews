@@ -2468,6 +2468,22 @@
     "edit_segments": 7,
     "canva_visual_source": true,
     "full_decode": true,
-    "pc_video_download": false
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "pass",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": true,
+      "meaningful_motion": true,
+      "literal_subjects": [
+        "kitchen counters",
+        "wooden utensils",
+        "jars and containers",
+        "shelves"
+      ],
+      "notes": "The video is well-edited, with clear Korean text captions and appropriate photo cutaways illustrating kitchen organization tips. Music is present and the pacing is good."
+    }
   }
 }
