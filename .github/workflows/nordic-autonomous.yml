@@ -1,6 +1,11 @@
 name: Nordic PC-off autonomous production
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [preflight, draft-check]
+        default: preflight
 permissions:
   contents: read
 concurrency:
@@ -19,8 +24,12 @@ jobs:
       - run: python cloud/autonomous_preflight.py
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - run: python cloud/autonomous_draft_check.py
+        if: inputs.mode == 'draft-check'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - uses: actions/upload-artifact@v4
         with:
           name: nordic-autonomous-preflight
-          path: cloud-reports/autonomous-preflight.json
+          path: cloud-reports/autonomous-*.json
           retention-days: 1
