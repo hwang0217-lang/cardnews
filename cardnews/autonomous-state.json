@@ -189,13 +189,29 @@
     "error": "Canva quality below benchmark; publication blocked"
   },
   "preview-41966195076": {
-    "stage": "starting",
+    "stage": "drafted",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 0,
+    "gemini_calls": 1,
     "canva_generations": 0,
-    "pc_media_downloads": 0
+    "pc_media_downloads": 0,
+    "topic": "텀블러 건조대 자리 배치",
+    "model": "gemini-3.5-flash-lite",
+    "recent_posts_compared": 9,
+    "reference_images_compared": 37,
+    "draft_usage": {
+      "promptTokenCount": 3632,
+      "candidatesTokenCount": 720,
+      "totalTokenCount": 4352,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 3632
+        }
+      ],
+      "serviceTier": "standard"
+    }
   }
 }
