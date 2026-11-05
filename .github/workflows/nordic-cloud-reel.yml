@@ -9,10 +9,11 @@ on:
         options: [export-check, delivery-check, publish]
         default: export-check
       gateway_run_id:
-        required: true
+        description: Optional existing gateway receipt; leave both references empty for cloud orchestration
+        required: false
         type: string
       gateway_request_id:
-        required: true
+        required: false
         type: string
 permissions:
   contents: write
@@ -22,14 +23,13 @@ concurrency:
 jobs:
   deliver:
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests
-      - run: command -v ffprobe || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+      - run: pip install requests imageio-ffmpeg
       - run: python cloud/cloud_reel.py
         env:
           GITHUB_TOKEN: ${{ github.token }}

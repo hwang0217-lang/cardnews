@@ -16,12 +16,23 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 import requests
+import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[1]
 KST = timezone(timedelta(hours=9))
 OUT = ROOT / 'cloud-reports'
 GATEWAY_REPO = 'hwang0217-lang/korea-firsttrip'
 API = 'https://graph.instagram.com/v26.0'
+FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+
+def inspect_decoded_output(stderr):
+    stderr=stderr.split('Output #',1)[0]
+    size=re.search(r'Video:[^\n]*?\b(\d{2,5})x(\d{2,5})\b',stderr)
+    length=re.search(r'Duration:\s*(\d+):(\d+):([0-9.]+)',stderr)
+    if not size or not length:raise RuntimeError('Decoded MP4 metadata unavailable')
+    duration=int(length[1])*3600+int(length[2])*60+float(length[3])
+    return {'width':int(size[1]),'height':int(size[2]),'duration':duration,
+            'audio_streams':len(re.findall(r'Stream #[^\n]*?: Audio:',stderr))}
 
 def require_export_url(url):
     parsed = urlparse(url)
@@ -70,6 +81,32 @@ class GitHub:
             names = bundle.namelist()
             if names != ['export.json']: raise RuntimeError('Unexpected gateway artifact')
             return json.loads(bundle.read('export.json'))
+    def export_design(self, design_id):
+        """One server trigger orchestrates the existing approved Canva gateway."""
+        request_id='nordic-cloud-'+os.environ['GITHUB_RUN_ID']
+        record={'request_id':request_id,'design_id':design_id,'status':'dispatching','published':False}
+        state=PublicationState();path='cardnews/cloud-reel-gateway-state.json'
+        state.put(path,request_id,record,absent=True)
+        response=requests.post('https://api.github.com/repos/'+GATEWAY_REPO+
+            '/actions/workflows/canva-export-gateway.yml/dispatches',headers=self.headers,
+            json={'ref':'main','inputs':{'design_id':design_id,'request_id':request_id}},timeout=45)
+        if response.status_code!=204:
+            raise RuntimeError('Canva gateway dispatch not confirmed; do not repeat automatically')
+        run_id=None
+        for _ in range(80):
+            if run_id is None:
+                runs=self.get('repos/'+GATEWAY_REPO+'/actions/workflows/canva-export-gateway.yml/runs?event=workflow_dispatch&per_page=20')['workflow_runs']
+                matches=[r for r in runs if r.get('display_title')=='Canva export '+request_id]
+                if len(matches)>1:raise RuntimeError('Multiple gateway receipts require reconciliation')
+                if matches:run_id=str(matches[0]['id']);record.update(gateway_run_id=run_id,status='running');state.put(path,request_id,record)
+            else:
+                run=self.get('repos/'+GATEWAY_REPO+'/actions/runs/'+run_id)
+                if run['status']=='completed':
+                    record['status']=run['conclusion'];state.put(path,request_id,record)
+                    if run['conclusion']!='success':raise RuntimeError('Canva gateway did not complete successfully')
+                    return run_id,request_id
+            time.sleep(5)
+        raise RuntimeError('Canva gateway pending; reconcile recorded run instead of redispatch')
 
 class PublicationState:
     """CAS-protected state in this workflow's existing production repository."""
@@ -115,10 +152,13 @@ def run():
     plan = json.loads((ROOT / 'cloud/reel-plan.json').read_text(encoding='utf-8'))
     if plan['account'] != 'nordic_log' or plan['canva_design_id'] != 'DAHaAQuCphI':
         raise RuntimeError('Design outside explicitly approved gateway scope')
-    run_id = os.environ['CANVA_GATEWAY_RUN_ID']; request_id = os.environ['CANVA_GATEWAY_REQUEST_ID']
+    gateway=GitHub(os.environ['GH_PAT'])
+    run_id = os.environ.get('CANVA_GATEWAY_RUN_ID',''); request_id = os.environ.get('CANVA_GATEWAY_REQUEST_ID','')
+    if not run_id and not request_id:
+        run_id,request_id=gateway.export_design(plan['canva_design_id'])
     if not re.fullmatch(r'\d+', run_id) or not re.fullmatch(r'nordic-[a-z0-9-]{8,90}', request_id):
         raise RuntimeError('Invalid gateway receipt reference')
-    result = GitHub(os.environ['GH_PAT']).artifact(run_id, request_id)
+    result = gateway.artifact(run_id, request_id)
     if (result.get('status') != 'success' or result['designId'] != plan['canva_design_id'] or
             result['requestId'] != request_id or result.get('project') != 'nordic' or len(result.get('urls', [])) != 1):
         raise RuntimeError('Mismatched Canva export receipt')
@@ -132,20 +172,27 @@ def run():
         raise RuntimeError('Canva MP4 unavailable or exceeds bound')
     video.write_bytes(response.content)
     digest = hashlib.sha256(response.content).hexdigest()
-    probe = json.loads(subprocess.check_output(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(video)]))
-    streams = probe['streams']; visual = next(s for s in streams if s['codec_type'] == 'video')
-    audio = [s for s in streams if s['codec_type'] == 'audio']
-    duration = float(probe['format']['duration'])
+    decoded=subprocess.run([FFMPEG,'-hide_banner','-i',str(video),'-f','null','-'],check=True,capture_output=True,text=True)
+    visual=inspect_decoded_output(decoded.stderr)
+    audio=visual['audio_streams'];duration=visual['duration']
     if abs(duration - plan['duration_seconds']) > .15 or (visual['width'], visual['height']) != (1080, 1920):
         raise RuntimeError('Video duration or dimensions changed')
-    subprocess.run(['ffmpeg', '-v', 'error', '-i', str(video), '-f', 'null', '-'], check=True)
+    audio_peak = None
+    if audio:
+        levels=subprocess.run([FFMPEG,'-hide_banner','-i',str(video),'-vn','-af','volumedetect','-f','null','-'],
+                              check=True,capture_output=True,text=True)
+        match=re.search(r'max_volume:\s*(-?[0-9.]+) dB',levels.stderr)
+        if not match: raise RuntimeError('Audio is silent or its level cannot be verified')
+        audio_peak=float(match.group(1))
+        if audio_peak < -50: raise RuntimeError('Audio level too low; stop before delivery')
     for index, second in enumerate(plan['scene_review_seconds'], 1):
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(second), '-i', str(video), '-frames:v', '1',
+        subprocess.run([FFMPEG, '-v', 'error', '-y', '-ss', str(second), '-i', str(video), '-frames:v', '1',
                         '-vf', 'scale=390:-1', str(OUT / f'scene-{index:02d}.png')], check=True)
     report = {'mode': mode, 'design_id': plan['canva_design_id'], 'gateway_run_id': run_id,
         'export_job_id': result['jobId'], 'design_updated_at': result.get('designUpdatedAt'),
         'video_sha256': digest, 'duration_seconds': duration, 'width':visual['width'], 'height':visual['height'],
-        'audio_streams': len(audio), 'full_decode': True, 'pc_video_download': False,
+        'audio_streams': audio, 'audio_peak_db':audio_peak, 'full_decode': True, 'pc_video_download': False,
+        'scene_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(OUT.glob('scene-*.png'))},
         'published': False, 'unpublished_container_created': False}
     save_report(report)
     if mode == 'export-check': return
