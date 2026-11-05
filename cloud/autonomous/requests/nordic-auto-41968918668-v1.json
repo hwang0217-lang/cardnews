@@ -1,0 +1,66 @@
+{
+  "request": {
+    "account": "nordic_log",
+    "request_id": "nordic-auto-41968918668-v1",
+    "purpose": "preview",
+    "height": 1920,
+    "brief": "Page 1: Full-height video composition of a clean kitchen counter. Large bold Korean text overlay '텀블러, 어디에 두시나요?'. Footer @nordic_log. Page 2: Close-up video framing of washed tumblers and lids placed separately. Title '뚜껑과 본체 분리'. Page 3: Sequence diagram comparing stacked vs spaced placement. Title '겹치지 않게 나란히'. Page 4: Editorial spacing layout showing air circulation space. Title '바람 통하는 간격'. Page 5: Save checklist on charcoal background. Title '오늘 한 칸만 바꾸기'.",
+    "sections": [
+      {
+        "title": "텀블러, 어디에 두시나요?",
+        "body": "새 제품보다 먼저 바꿀 건 건조대 놓는 자리",
+        "visual_role": "full_screen_hook",
+        "image_prompt_en": "minimalist clean kitchen counter with a stainless steel tumbler and soft natural lighting, vertical orientation",
+        "required_visual_objects": [
+          "tumbler",
+          "counter",
+          "light"
+        ]
+      },
+      {
+        "title": "뚜껑과 본체 분리",
+        "body": "뚜껑은 닫지 말고 곁에 따로 두기",
+        "visual_role": "close_up_detail",
+        "image_prompt_en": "close up shot of a stainless steel tumbler body and its separate lid placed side by side on a mat",
+        "required_visual_objects": [
+          "tumbler",
+          "lid",
+          "mat"
+        ]
+      },
+      {
+        "title": "겹치지 않게 나란히",
+        "body": "다른 그릇과 닿지 않는 간격 만들기",
+        "visual_role": "placement_diagram",
+        "image_prompt_en": "top view alignment of multiple clean cups arranged with equal spacing on a drying rack",
+        "required_visual_objects": [
+          "cup",
+          "rack",
+          "grid"
+        ]
+      },
+      {
+        "title": "바람 통하는 간격",
+        "body": "안쪽까지 마를 수 있는 여유 두기",
+        "visual_role": "sequence_step",
+        "image_prompt_en": "angled view of a drying rack showing empty space between washed kitchen items",
+        "required_visual_objects": [
+          "rack",
+          "bottle",
+          "space"
+        ]
+      },
+      {
+        "title": "오늘 한 칸만 바꾸기",
+        "body": "저장해두고 설거지 후 적용하기",
+        "visual_role": "save_checklist",
+        "image_prompt_en": "solid charcoal dark background with centered clean typography layout and subtle shadow",
+        "required_visual_objects": [
+          "background",
+          "text",
+          "shadow"
+        ]
+      }
+    ]
+  }
+}
