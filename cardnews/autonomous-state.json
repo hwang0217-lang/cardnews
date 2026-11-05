@@ -1116,7 +1116,7 @@
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 4,
+    "gemini_calls": 5,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "design_policy": "impeccable-real-photo-v1",
@@ -1651,6 +1651,22 @@
     "edit_segments": 7,
     "canva_visual_source": true,
     "full_decode": true,
-    "pc_video_download": false
+    "pc_video_download": false,
+    "video_review": {
+      "verdict": "pass",
+      "readable": true,
+      "no_overlap": true,
+      "full_video_checked": true,
+      "music_present": true,
+      "edit_quality": true,
+      "meaningful_motion": true,
+      "literal_subjects": [
+        "kitchen countertops",
+        "wooden utensils",
+        "storage jars",
+        "cutting boards"
+      ],
+      "notes": "The video is well-paced, highly readable, features clear photo cutaways related to kitchen organization, and has background music."
+    }
   }
 }
