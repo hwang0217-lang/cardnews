@@ -1116,7 +1116,7 @@
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 2,
+    "gemini_calls": 4,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "design_policy": "impeccable-real-photo-v1",
@@ -1170,6 +1170,12 @@
             ],
             "title_size": 88,
             "body_size": 46
+          },
+          "detail_crop": {
+            "x": 185.76,
+            "y": 499.2,
+            "w": 707.4,
+            "h": 1059.84
           }
         },
         {
@@ -1204,6 +1210,12 @@
             ],
             "title_size": 72,
             "body_size": 48
+          },
+          "detail_crop": {
+            "x": 72.36,
+            "y": 288.0,
+            "w": 519.48,
+            "h": 781.44
           }
         },
         {
@@ -1238,7 +1250,8 @@
             ],
             "title_size": 82,
             "body_size": 46
-          }
+          },
+          "detail_crop": null
         },
         {
           "title": "꺼낼 것만\n한자리에",
@@ -1272,7 +1285,8 @@
             ],
             "title_size": 82,
             "body_size": 46
-          }
+          },
+          "detail_crop": null
         },
         {
           "title": "정리보다\n쓸 자리",
@@ -1306,8 +1320,16 @@
             ],
             "title_size": 76,
             "body_size": 48
-          }
+          },
+          "detail_crop": null
         }
+      ],
+      "scene_indices": [
+        1,
+        2,
+        3,
+        4,
+        5
       ]
     },
     "request_id": "nordic-auto-42026064408-v1",
@@ -1560,6 +1582,54 @@
       "705f685f0fd994f8871a82bbc34eebdd6e5bef3a4c95e3b84e906845c192c835",
       "8a6aa36bde5b3ed680cde8ba9b305e8f2c05a0dc242e996a1f5693d1c5a35bc4",
       "49d396af252bb533f3a7a018b3361ade84268854068e87d9dcede028f7f536ec"
-    ]
+    ],
+    "detail_crop_review": {
+      "scene_indices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "story_selection": {
+        "choice": "choice_4",
+        "safe": true,
+        "reason": "Choice 4 includes all the pages (1, 2, 3, 4, 5) which present distinct and necessary steps for organizing the kitchen counter by frequency of use, ensuring no essential action is omitted."
+      },
+      "crops": [
+        {
+          "page": 1,
+          "normalized": {
+            "x": 172,
+            "y": 260,
+            "w": 655,
+            "h": 552,
+            "observations": "A minimalist kitchen counter with wooden cabinets, a stovetop, a cutting board, utensils, and a pitcher against a light-colored wall."
+          },
+          "pixels": {
+            "x": 185.76,
+            "y": 499.2,
+            "w": 707.4,
+            "h": 1059.84
+          }
+        },
+        {
+          "page": 2,
+          "normalized": {
+            "x": 67,
+            "y": 150,
+            "w": 481,
+            "h": 407,
+            "observations": "A close-up of a white utensil holder containing wooden spoons, with bowls and plates arranged around it on a counter."
+          },
+          "pixels": {
+            "x": 72.36,
+            "y": 288.0,
+            "w": 519.48,
+            "h": 781.44
+          }
+        }
+      ]
+    }
   }
 }
