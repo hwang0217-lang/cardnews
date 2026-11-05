@@ -51,5 +51,29 @@
     "unpublished_container_created": true,
     "container_status": "FINISHED",
     "container_id": "18113742017078061"
+  },
+  "delivery-check-41961984493": {
+    "mode": "delivery-check",
+    "format": "carousel",
+    "design_id": "DAHZ3X7N3tw",
+    "gateway_run_id": "41961984493",
+    "registry_revision": "27fe69d0ba75954044062f451b0b46d10a86b8cb",
+    "design_updated_at": 1793716617,
+    "page_count": 5,
+    "width": 1080,
+    "height": 1350,
+    "page_sha256": [
+      "01ddf1f3e18616646e5eb604a3a5112b2ad9755e33da27f5745ee40b1e6a9ff2",
+      "df2ca073f3725caf5d1fc5ab63525b3f4862b3a1eb9c4c2ea171fa89137e3287",
+      "6e0aebdd25d92c0e6c68c7a4eefd8bddd9d118eb9d830631e3e9280a8df3da43",
+      "daaa22311eb676b3299f0366c2aeeb0bf7ab42affd03bd39950af419fa295304",
+      "e64c3722d128349eee8fef7ff311fee465fb2eb047ad8755f027d063ce4dc71f"
+    ],
+    "assets_sha256": "8a808cae0be5c840442d9922c3e1770a8c8d939b4cf451c4496297239021bbfe",
+    "pc_media_download": false,
+    "published": false,
+    "unpublished_container_created": false,
+    "container_status": "creating",
+    "child_container_ids": []
   }
 }
