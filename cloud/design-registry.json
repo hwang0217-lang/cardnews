@@ -23,6 +23,11 @@
       "active": true,
       "purpose": "diagnostic",
       "format": "mp4"
+    },
+    "DAHaDBloZO4": {
+      "active": true,
+      "purpose": "diagnostic",
+      "format": "mp4"
     }
   }
 }
