@@ -2218,5 +2218,15 @@
       ]
     },
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
+  },
+  "photo-review-42028184801": {
+    "source_nordic_run": "42026914781",
+    "canva_run_id": "42027000365",
+    "canva_design_id": "DAHaDNfEbPM",
+    "published": false,
+    "instagram_writes": 0,
+    "canva_creations": 0,
+    "pc_video_downloads": 0,
+    "stage": "reviewing_existing"
   }
 }
