@@ -218,12 +218,12 @@
     "error": "Canva production failed; reconcile saved run"
   },
   "preview-41966547445": {
-    "stage": "canva_generating",
+    "stage": "visual_review",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 1,
+    "gemini_calls": 2,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "topic": "머그컵과 텀블러, 보관하는 높이의 기준",
@@ -243,6 +243,141 @@
       "serviceTier": "standard"
     },
     "request_id": "nordic-auto-41966547445-v1",
-    "canva_run_id": "41966638218"
+    "canva_run_id": "41966638218",
+    "visual_review": {
+      "verdict": "revise",
+      "quality_score": 7.4,
+      "comparison_notes": "제공된 첫 5장의 새 페이지 이미지는 모바일 가독성과 타이포그래피 정렬 면에서 깔끔하나, 2번째 페이지 하단 본문 텍스트 영역에 미세한 줄 겹침 현상이 있으며, 3번째 페이지의 다이어그램 영역이 단순 나열식 사진에 가까워 모션 릴 구조로서의 의미 전달력이 부족합니다. 전체적인 톤온톤 스타일과 푸터(@nordic_log)는 가이드라인을 잘 따랐으나 다이어그램 및 상세 크롭 연출의 보완이 필요합니다.",
+      "corrections": "1. 2번째 페이지 하단 본문 영역과 수평선 간격 24px 이상 확보 및 겹침 현상 제거.\n2. 3번째 페이지의 단순 사진을 실제 수직 단차 배치 및 동선 비교가 가능한 다이어그램 또는 시퀀스 구조로 수정.\n3. 각 페이지별 명확한 detail_crop 영역 재지정.",
+      "pages": [
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "상단 대형 타이포그래피와 하단 푸터 배치가 안정적이며 모바일에서 가독성이 우수함.",
+          "reveal_regions": [
+            {
+              "x": 100,
+              "y": 300,
+              "w": 880,
+              "h": 200,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.5,
+              "role": "title"
+            }
+          ],
+          "detail_crop": {
+            "x": 200,
+            "y": 600,
+            "w": 680,
+            "h": 900
+          }
+        },
+        {
+          "text_correct": true,
+          "no_overlap": false,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": false,
+          "varied": true,
+          "observations": "본문 텍스트와 하단 구분선 사이의 간격이 부족하고 미세한 줄 겹침이 발생함.",
+          "reveal_regions": [
+            {
+              "x": 100,
+              "y": 250,
+              "w": 880,
+              "h": 300,
+              "bg": "#F8F8F8",
+              "at_seconds": 0.8,
+              "role": "comparison"
+            }
+          ],
+          "detail_crop": {
+            "x": 150,
+            "y": 700,
+            "w": 780,
+            "h": 850
+          }
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": false,
+          "facts_safe": true,
+          "canva_quality": false,
+          "varied": false,
+          "observations": "단순 제품 나열형 사진으로 구성되어 릴스 형식의 의미 있는 비교/관계 다이어그램 역할이 미흡함.",
+          "reveal_regions": [
+            {
+              "x": 100,
+              "y": 200,
+              "w": 880,
+              "h": 400,
+              "bg": "#F5F5F5",
+              "at_seconds": 1.0,
+              "role": "diagram"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "클로즈업 연출이 자연스럽고 텍스트와 이미지의 여백이 적절함.",
+          "reveal_regions": [
+            {
+              "x": 100,
+              "y": 250,
+              "w": 880,
+              "h": 350,
+              "bg": "#FFFFFF",
+              "at_seconds": 0.7,
+              "role": "closeup"
+            }
+          ]
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "에디토리얼 스페이싱이 잘 적용되었으나 전반적인 스토리텔링의 마무리가 표준적임.",
+          "reveal_regions": [
+            {
+              "x": 100,
+              "y": 200,
+              "w": 880,
+              "h": 300,
+              "bg": "#FAFAFA",
+              "at_seconds": 0.6,
+              "role": "editorial_spacing"
+            }
+          ]
+        }
+      ]
+    },
+    "canva_design_id": "DAHaBJpMyvA",
+    "canva_page_design_ids": [
+      "DAHaBJpMyvA",
+      "DAHaBEM__Kk",
+      "DAHaBDYN4bo",
+      "DAHaBPmSW8A",
+      "DAHaBGDy3_U"
+    ],
+    "page_sha256": [
+      "7d22177bac3e9380192d4b641f109ab78e1729e3bcf6fbc1e8a0a654dfee0974",
+      "e5c1c249610812d0246ec971f095bb4ac0926d78834b71cc6eed5e5ef9102184",
+      "1423661ca9be8df717fcb438163ed7c55238f3011d9fa0713fced468abc80159",
+      "3e85eaf73d07c99129d530645ab9b0c7230ef50d5bd2ba0591e12a2a65d1c7ee",
+      "12f221e5b39346419952cd16f68bf0af13e3a4deaf6af2aa800df386cfbcb09f"
+    ]
   }
 }
