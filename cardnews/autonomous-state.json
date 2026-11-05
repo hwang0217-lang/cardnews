@@ -218,7 +218,7 @@
     "error": "Canva production failed; reconcile saved run"
   },
   "preview-41966547445": {
-    "stage": "drafted",
+    "stage": "canva_dispatching",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -241,6 +241,7 @@
         }
       ],
       "serviceTier": "standard"
-    }
+    },
+    "request_id": "nordic-auto-41966547445-v1"
   }
 }
