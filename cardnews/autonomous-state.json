@@ -346,7 +346,7 @@
     "error": "Canva quality below benchmark; publication blocked"
   },
   "preview-41968918668": {
-    "stage": "visual_review",
+    "stage": "video_review",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -487,6 +487,20 @@
       "6a6d0e6eeea47dd12306bd99a56e25451ed562b08edfb50676b705e87d470ed8",
       "43c335cb75ad14f04e3bd3f45b8213722646f6c44815985561b7787abe8a2350",
       "39e71003a87c6330217ff0b046abe0d08c3c154346e67f2bb71e3bbf42c8271e"
-    ]
+    ],
+    "duration_seconds": 28.666666666666664,
+    "scene_seconds": [
+      6.928571428571429,
+      5.357142857142858,
+      5.642857142857143,
+      5.357142857142858,
+      5.357142857142858
+    ],
+    "music_track": "bright-02",
+    "video_sha256": "1d826ec124ff120e4a9b63e14911fb2a1ce005a113d16104af20b4b0f831fb3f",
+    "edit_segments": 5,
+    "canva_visual_source": true,
+    "full_decode": true,
+    "pc_video_download": false
   }
 }
