@@ -996,6 +996,83 @@
       ]
     },
     "request_id": "nordic-auto-42024918561-v1",
-    "canva_run_id": "42025011160"
+    "canva_run_id": "42025011160",
+    "photo_evidence": [
+      {
+        "photo_id": "7303767",
+        "source_page": "https://www.pexels.com/photo/variety-of-items-at-the-kitchen-counter-7303767/",
+        "author": "Cup of Couple",
+        "license_url": "https://www.pexels.com/license/",
+        "source_sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+        "crop": "contain: entire original photograph",
+        "photo_frame": [
+          186.66666666666669,
+          500,
+          706.6666666666666,
+          1060
+        ],
+        "photo_relation": "A complete counter scene establishes usable work space, not an invented before/after."
+      },
+      {
+        "photo_id": "8251825",
+        "source_page": "https://www.pexels.com/photo/white-and-gray-concrete-utensil-holder-on-white-white-kitchen-countertop-8251825/",
+        "author": "PNW Production",
+        "license_url": "https://www.pexels.com/license/",
+        "source_sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+        "crop": "contain: entire original photograph",
+        "photo_frame": [
+          72,
+          290,
+          520,
+          780
+        ],
+        "photo_relation": "Actual closeup demonstrates gathering frequently used utensils, not an item recommendation."
+      },
+      {
+        "photo_id": "13684937",
+        "source_page": "https://www.pexels.com/photo/items-on-a-small-kitchen-counter-13684937/",
+        "author": "stayhereforu",
+        "license_url": "https://www.pexels.com/license/",
+        "source_sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+        "crop": "contain: entire original photograph",
+        "photo_frame": [
+          72,
+          270.2975,
+          936,
+          639.405
+        ],
+        "photo_relation": "Existing bottles and containers explain sorting by frequency. Photo is contextual, not evidence of a tested transformation."
+      },
+      {
+        "photo_id": "11385963",
+        "source_page": "https://www.pexels.com/photo/kitchenware-on-a-counter-top-11385963/",
+        "author": "Georgie Devlin",
+        "license_url": "https://www.pexels.com/license/",
+        "source_sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+        "crop": "contain: entire original photograph",
+        "photo_frame": [
+          74.14285714285717,
+          660,
+          635.7142857142857,
+          890
+        ],
+        "photo_relation": "The real tray and cup grouping illustrates keeping related items together."
+      },
+      {
+        "photo_id": "8251790",
+        "source_page": "https://www.pexels.com/photo/wooden-spoon-in-jar-on-kitchen-counter-8251790/",
+        "author": "PNW Production",
+        "license_url": "https://www.pexels.com/license/",
+        "source_sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+        "crop": "contain: entire original photograph",
+        "photo_frame": [
+          480,
+          333,
+          536,
+          804
+        ],
+        "photo_relation": "The empty surface beside a sink is the useful outcome and a gentle action to save."
+      }
+    ]
   }
 }
