@@ -24,5 +24,31 @@
     "unpublished_container_created": true,
     "container_status": "FINISHED",
     "container_id": "18113738786078061"
+  },
+  "delivery-check-41961763038": {
+    "mode": "delivery-check",
+    "design_id": "DAHaAwA7Ff8",
+    "gateway_run_id": "41961763038",
+    "registry_revision": "9a5982e5c8526436290df4cb7c216fa9de7de148",
+    "export_job_id": "c05358e7-9791-4b36-9d97-60886c0aab42",
+    "design_updated_at": 1793848908,
+    "video_sha256": "1c268b171c11676f5de50a300a7684c537f0c6b7357840f13ea8045a763098c9",
+    "duration_seconds": 23.0,
+    "width": 1080,
+    "height": 1920,
+    "audio_streams": 1,
+    "audio_peak_db": -7.1,
+    "full_decode": true,
+    "pc_video_download": false,
+    "scene_sha256": {
+      "scene-01.png": "7287579d9cf0a3563448a8fc933742362bc8a81ba2eea016106eee2300015ee7",
+      "scene-02.png": "0a47b330120dc8cd2feb6a4b46d209d2e3843d99053b35e8a275ca8c10ac4471",
+      "scene-03.png": "04319fccea33d8859d658c5d871d30210089c15575a07c56f80863d5ef663518",
+      "scene-04.png": "639b26a1d703109f78496c66d568cf217cb841d4bed09f60784e387272717c30",
+      "scene-05.png": "9746b5741bcd5025871b6b68ac163fac2912f6dce2e2125b75223a510f3519bd"
+    },
+    "published": false,
+    "unpublished_container_created": false,
+    "container_status": "creating"
   }
 }
