@@ -226,7 +226,7 @@ def main():
                 for section, page_review in zip(draft['sections'], review['pages']):
                     section['detail_crop'] = page_review.get('detail_crop')
                 crop_review=ensure_detail_crops(pages,draft)
-                if crop_review: row['gemini_calls']+=1;row['detail_crop_review']=crop_review;persist()
+                if crop_review: row['gemini_calls']+=2;row['detail_crop_review']=crop_review;persist()
             video, details = render_video(pages, draft, OUT, day)
             row.update(details); row['stage']='video_review'; persist()
             if video.stat().st_size > 19_000_000: raise RuntimeError('Video exceeds bounded direct vision review input')

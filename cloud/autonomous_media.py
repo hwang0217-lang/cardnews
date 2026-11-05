@@ -12,48 +12,55 @@ from cloud_reel import FFMPEG, KST, PublicationState, enforce_publish, graph
 
 def ensure_detail_crops(pages, draft):
     from gemini_editor import generate_json
-    if sum(bool(s.get('detail_crop')) for s in draft['sections']) >= 2 and draft.get('scene_indices'): return None
-    images=[]
     from PIL import Image
+    from itertools import combinations
     import io
-    for p in pages:
-        image=Image.open(p).convert('RGB');buffer=io.BytesIO();image.save(buffer,'JPEG',quality=90);images.append(buffer.getvalue())
-    all_seconds=sum(max(3.5,min(7,(len(s['title'])+len(s.get('body','')))/7+1.5)) for s in draft['sections'])+2
-    maximum_pages=4 if all_seconds>27 else 5
-    schema={'type':'object','required':['coordinate_space','scene_indices','crops'],'properties':{
-        'coordinate_space':{'type':'string','enum':['normalized_1000']},
-        'scene_indices':{'type':'array','minItems':4,'maxItems':maximum_pages,'items':{'type':'integer','minimum':1,'maximum':len(pages)}},
-        'crops':{'type':'array','minItems':2,'maxItems':2,'items':{'type':'object',
-            'required':['page','x','y','w','h','observations'],'properties':{
-                'page':{'type':'integer','minimum':1,'maximum':len(pages)-1},
-                **{k:{'type':'number','minimum':0,'maximum':1000} for k in ('x','y','w','h')},'observations':{'type':'string'}}}}}}
-    result,_=generate_json('Inspect ONLY these actual finished page images in order. First select FOUR OR FIVE '
-        'strongest pages for a concise photo Reel, in original reading order, preserving every essential action, the first hook '
-        'and final CTA. Remove a page only when it repeats another explanation. Return scene_indices:[1,2,3,5] '
-        '(example only; choose from the actual content). Identify TWO photo-only '
-        'rectangles on DIFFERENT pages for one-second object detail cutaways. Do not include lettering, '
-        'blank areas or invented objects. Coordinates MUST be NORMALIZED0-1000 relative to the whole image, '
-        'NOT pixels. Use coordinate_space=normalized_1000. Return JSON crops:[{page:1,'
-        'x:0,y:0,w:0,h:0,observations:"specific actual objects inside this rectangle"}]. '
-        'Choose interior regions well inside actual photos ON THE SELECTED PAGES. Do not choose the final CTA.',images,schema=schema)
+    def jpeg(path):
+        image=Image.open(path).convert('RGB');buffer=io.BytesIO();image.save(buffer,'JPEG',quality=90);return buffer.getvalue()
+    seconds=[max(3.5,min(7,(len(s['title'])+len(s.get('body','')))/7+1.5)) for s in draft['sections']]
+    choices={}
+    for count in (2,3):
+        for middle in combinations(range(2,len(pages)),count):
+            selected=[1,*middle,len(pages)]
+            if sum(seconds[i-1] for i in selected)+2<=27:
+                choices['choice_'+str(len(choices)+1)]=selected
+    if not choices:raise RuntimeError('Script cannot fit readable timing; shorten wording, never speed up')
+    selection_schema={'type':'object','required':['choice','safe','reason'],'properties':{
+        'choice':{'type':'string','enum':list(choices)},'safe':{'type':'boolean'},'reason':{'type':'string'}}}
+    selection,_=generate_json('Select a concise coherent photo-Reel sequence from these ACTUAL page texts. '
+        'Every option already preserves the first hook and last CTA and enough reading time. Choose the '
+        'option that omits only redundant/supporting explanation, not an essential action. If no option '
+        'preserves essential meaning, safe=false. Return choice, safe, reason. Options JSON: '+json.dumps(choices)+
+        ' Page texts JSON: '+json.dumps([{'page':i+1,'title':v['title'],'body':v.get('body','')} for i,v in enumerate(draft['sections'])],ensure_ascii=False),schema=selection_schema)
+    if selection.get('safe') is not True or selection.get('choice') not in choices:
+        raise RuntimeError('Story selection would remove essential information')
+    selected=choices[selection['choice']];draft['scene_indices']=selected
+    crop_pages=[1,selected[1]]
+    rectangle={'type':'object','required':['x','y','w','h','observations'],'properties':{
+        **{k:{'type':'number','minimum':0,'maximum':1000} for k in ('x','y','w','h')},'observations':{'type':'string'}}}
+    schema={'type':'object','required':['coordinate_space','first','second'],'properties':{
+        'coordinate_space':{'type':'string','enum':['normalized_1000']},'first':rectangle,'second':rectangle}}
+    boxes,_=generate_json('Inspect ONLY these TWO actual finished images in order. Return ONE photo-only '
+        'rectangle well inside each image: first for image1, second for image2. Do NOT choose lettering, '
+        'blank areas or invented objects. Describe the actual photographed objects inside each crop. '
+        'x,y,w,h MUST be NORMALIZED0-1000 relative to the full image, not pixels. No page selection is needed.',
+        [jpeg(pages[i-1]) for i in crop_pages],schema=schema)
+    if boxes.get('coordinate_space')!='normalized_1000':raise RuntimeError('Explicit normalized coordinate system required')
+    crops=[]
+    for page,key in zip(crop_pages,('first','second')):
+        box=boxes.get(key,{});values=[box.get(k) for k in ('x','y','w','h')]
+        if any(type(v) not in (int,float) for v in values) or not box.get('observations'):
+            raise RuntimeError('Actual photo rectangle and observations required')
+        x,y,w,h=values
+        if not (0<=x<x+w<=1000 and 0<=y<y+h<=1000 and w>=120 and h>=120):
+            raise RuntimeError('Photo crop outside actual final image')
+        pixels={'x':x*1080/1000,'y':y*1920/1000,'w':w*1080/1000,'h':h*1920/1000}
+        draft['sections'][page-1]['detail_crop']=pixels
+        crops.append({'page':page,'normalized':box,'pixels':pixels})
+    result={'scene_indices':selected,'story_selection':selection,'crops':crops}
     from cloud_reel import OUT
     OUT.mkdir(exist_ok=True)
     (OUT/'autonomous-crop-response.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
-    selected=result.get('scene_indices',[])
-    if (result.get('coordinate_space')!='normalized_1000' or len(selected) not in range(4,maximum_pages+1) or any(type(i) is not int for i in selected) or selected!=sorted(set(selected)) or
-            selected[0]!=1 or selected[-1]!=len(pages)):
-        raise RuntimeError('Four or five actual story pages in order, preserving hook, essential actions and CTA, required')
-    draft['scene_indices']=selected
-    seen=set()
-    for crop in result.get('crops',[]):
-        page=crop.get('page');values=[crop.get(k) for k in ('x','y','w','h')]
-        if type(page) is not int or page not in selected or not 1<=page<len(pages) or page in seen or not crop.get('observations'):
-            raise RuntimeError('Detail cuts require distinct actual photo pages and observations')
-        if any(type(v) not in (int,float) for v in values):raise RuntimeError('Actual photo coordinates required')
-        x,y,w,h=values
-        if not (0<=x<x+w<=1000 and 0<=y<y+h<=1000 and w>=120 and h>=120):raise RuntimeError('Photo crop outside final page')
-        draft['sections'][page-1]['detail_crop']={'x':x*1080/1000,'y':y*1920/1000,'w':w*1080/1000,'h':h*1920/1000};seen.add(page)
-    if len(seen)<2:raise RuntimeError('Two real photo details required; do not export a five-card slideshow')
     return result
 
 def video_review_prompt(kind):
