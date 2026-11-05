@@ -1111,12 +1111,12 @@
     "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   },
   "preview-42026064408": {
-    "stage": "canva_generating",
+    "stage": "visual_review",
     "mode": "preview",
     "day": "2026-11-05",
     "format": "reel",
     "published": false,
-    "gemini_calls": 1,
+    "gemini_calls": 2,
     "canva_generations": 1,
     "pc_media_downloads": 0,
     "design_policy": "impeccable-real-photo-v1",
@@ -1455,6 +1455,111 @@
           "gibberish_text": false
         }
       ]
-    }
+    },
+    "visual_review": {
+      "verdict": "pass",
+      "quality_score": 9.2,
+      "comparison_notes": "The exported pages successfully implement the impeccable-real-photo-v1 design policy, showcasing high-resolution genuine stock photographs without artificial before/after claims or low-quality graphics. Typography hierarchy follows the exact brief with crisp charcoal-on-white reading modes and sufficient whitespace.",
+      "corrections": "Ensure all text blocks maintain at least 24px separation from image edges and headers on smaller mobile screen viewports.",
+      "pages": [
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Full counter setup establishes usable workspace clearly. Clean typography alignment against neutral background.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Title remains prominent and readable on mobile width without wrapping issues.",
+          "detail_crop": {
+            "x": 200,
+            "y": 500,
+            "w": 400,
+            "h": 300
+          }
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Closeup photograph effectively highlights daily utensil storage. Distinct separation from header text.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Left photo alignment scales well down to 390px width.",
+          "detail_crop": {
+            "x": 150,
+            "y": 200,
+            "w": 350,
+            "h": 350
+          }
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Contextual shelf photo cleanly supports the frequency-sorting message.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Good contrast between typography and background."
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Real tray and jar grouping illustrates matching categories cleanly.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Mobile scaling retains high clarity on the tray objects."
+        },
+        {
+          "text_correct": true,
+          "no_overlap": true,
+          "readable_mobile": true,
+          "facts_safe": true,
+          "canva_quality": true,
+          "varied": true,
+          "observations": "Sink-side counter finish provides a strong closing visual action item.",
+          "photo_matches_topic": true,
+          "photo_intact": true,
+          "mobile_text_not_clipped": true,
+          "safe_areas": true,
+          "mobile_observations": "Clean ending page layout with optimal spacing."
+        }
+      ]
+    },
+    "canva_design_id": "DAHaDBloZO4",
+    "canva_page_design_ids": [
+      "DAHaDBloZO4",
+      "DAHaDBloZO4",
+      "DAHaDBloZO4",
+      "DAHaDBloZO4",
+      "DAHaDBloZO4"
+    ],
+    "page_sha256": [
+      "da691adcd2ebd1da886afbe4794c27f3c731684b1ce9525d54634f63bfddffa6",
+      "80ca8639a1a469de50fb501952f95b35850e09afbe8441a09d44bd23e3732913",
+      "705f685f0fd994f8871a82bbc34eebdd6e5bef3a4c95e3b84e906845c192c835",
+      "8a6aa36bde5b3ed680cde8ba9b305e8f2c05a0dc242e996a1f5693d1c5a35bc4",
+      "49d396af252bb533f3a7a018b3361ade84268854068e87d9dcede028f7f536ec"
+    ]
   }
 }
