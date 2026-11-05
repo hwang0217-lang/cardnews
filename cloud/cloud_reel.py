@@ -17,7 +17,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 import requests
 import imageio_ffmpeg
-from design_policy import load_plan
+from design_policy import load_plan, require_quality_review
 
 ROOT = Path(__file__).resolve().parents[1]
 KST = timezone(timedelta(hours=9))
@@ -49,6 +49,7 @@ def enforce_publish(plan, digest, media, journals, now):
             plan.get('approved_assets_sha256' if plan.get('export_format') == 'jpg' else 'approved_video_sha256') != digest or
             plan.get('review', {}).get('all_scenes_readable') is not True):
         raise RuntimeError('Today hash-bound reviewed approval required')
+    require_quality_review(plan, digest)
     for journal in journals:
         for key, row in journal.items():
             if key.startswith(day + '-') and row.get('status') in ('pending', 'published', 'published_verified', 'publish_unknown'):
@@ -154,13 +155,17 @@ def run():
     plan = load_plan(ROOT, os.environ.get('CLOUD_PLAN_PATH', ''), datetime.now(KST).date().isoformat())
     gateway=GitHub(os.environ['CANVA_GATEWAY_GH_TOKEN'])
     run_id = os.environ.get('CANVA_GATEWAY_RUN_ID',''); request_id = os.environ.get('CANVA_GATEWAY_REQUEST_ID','')
+    if not run_id and not request_id and mode == 'publish':
+        run_id = plan.get('export_receipt', {}).get('run_id', '')
+        request_id = plan.get('export_receipt', {}).get('request_id', '')
+        if not run_id or not request_id: raise RuntimeError('Publishing requires the exact reviewed export receipt')
     if not run_id and not request_id:
         run_id,request_id=gateway.export_design(plan['canva_design_id'])
     if not re.fullmatch(r'\d+', run_id) or not re.fullmatch(r'nordic-[a-z0-9-]{8,90}', request_id):
         raise RuntimeError('Invalid gateway receipt reference')
     result = gateway.artifact(run_id, request_id)
     if (result.get('status') != 'success' or result['designId'] != plan['canva_design_id'] or
-            result['requestId'] != request_id or result.get('project') != 'nordic' or result.get('format') != plan.get('export_format', 'mp4') or not re.fullmatch(r'[0-9a-f]{40}', result.get('registryRevision', ''))):
+            result['requestId'] != request_id or result.get('project') != 'nordic' or result.get('purpose') != plan.get('purpose') or result.get('format') != plan.get('export_format', 'mp4') or not re.fullmatch(r'[0-9a-f]{40}', result.get('registryRevision', ''))):
         raise RuntimeError('Mismatched Canva export receipt')
     if datetime.fromisoformat(result['expiresAt'].replace('Z', '+00:00')) <= datetime.now(timezone.utc):
         raise RuntimeError('Canva export expired; no blind retry')
@@ -192,7 +197,7 @@ def run():
     for index, second in enumerate(plan['scene_review_seconds'], 1):
         subprocess.run([FFMPEG, '-v', 'error', '-y', '-ss', str(second), '-i', str(video), '-frames:v', '1',
                         '-vf', 'scale=390:-1', str(OUT / f'scene-{index:02d}.png')], check=True)
-    report = {'mode': mode, 'design_id': plan['canva_design_id'], 'gateway_run_id': run_id,
+    report = {'mode': mode, 'design_id': plan['canva_design_id'], 'gateway_run_id': run_id, 'gateway_request_id': request_id,
         'registry_revision': result['registryRevision'], 'export_job_id': result['jobId'], 'design_updated_at': result.get('designUpdatedAt'),
         'video_sha256': digest, 'duration_seconds': duration, 'width':visual['width'], 'height':visual['height'],
         'audio_streams': audio, 'audio_peak_db':audio_peak, 'full_decode': True, 'pc_video_download': False,

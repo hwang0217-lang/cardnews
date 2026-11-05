@@ -5,6 +5,16 @@ from pathlib import Path
 
 BLOCKED_DRAFTS = {'DAHZ8Qpyi7o', 'DAHZ8Shb8Lw', 'DAHZ8iwBTag'}
 
+def require_quality_review(plan, digest):
+    review = plan.get('review', {})
+    checks = ('text', 'no_obstruction', 'readable', 'facts', 'rights', 'variety', 'canva_quality')
+    if (review.get('export_sha256') != digest or any(review.get(k) is not True for k in checks) or
+            not review.get('quality_benchmark') or not review.get('recent_nine_comparison') or
+            not review.get('page_or_scene_notes') or review.get('all_scenes_readable') is not True):
+        raise RuntimeError('Hash-bound actual quality review required')
+    if plan.get('export_format', 'mp4') == 'mp4' and review.get('full_playback') is not True:
+        raise RuntimeError('Full video playback review required')
+
 def require_registered(registry, plan):
     design = plan.get('canva_design_id', '')
     entry = registry.get('designs', {}).get(design, {})

@@ -46,7 +46,7 @@ def run_carousel(mode, plan, result, run_id):
         image.resize((390, 488), Image.Resampling.LANCZOS).save(OUT / f'page-{index:02d}.png')
     digest = assets_digest(hashes)
     report = {'mode': mode, 'format': 'carousel', 'design_id': plan['canva_design_id'],
-              'gateway_run_id': run_id, 'registry_revision': result['registryRevision'],
+              'gateway_run_id': run_id, 'gateway_request_id': result.get('requestId'), 'registry_revision': result['registryRevision'],
               'design_updated_at': result.get('designUpdatedAt'), 'page_count': len(hashes),
               'width': 1080, 'height': 1350, 'page_sha256': hashes, 'assets_sha256': digest,
               'pc_media_download': False, 'published': False, 'unpublished_container_created': False}
