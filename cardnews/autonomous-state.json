@@ -189,7 +189,7 @@
     "error": "Canva quality below benchmark; publication blocked"
   },
   "preview-41966195076": {
-    "stage": "canva_dispatching",
+    "stage": "canva_generating",
     "mode": "delivery-check",
     "day": "2026-11-05",
     "format": "reel",
@@ -213,6 +213,7 @@
       ],
       "serviceTier": "standard"
     },
-    "request_id": "nordic-auto-41966195076-v1"
+    "request_id": "nordic-auto-41966195076-v1",
+    "canva_run_id": "41966273990"
   }
 }
