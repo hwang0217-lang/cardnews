@@ -6,7 +6,7 @@
     "format": "reel",
     "published": false,
     "gemini_calls": 2,
-    "canva_generations": 1,
+    "canva_generations": 2,
     "pc_media_downloads": 0,
     "topic": "머그와 잔 보관 높이 배치 제안",
     "model": "gemini-3.5-flash-lite",
