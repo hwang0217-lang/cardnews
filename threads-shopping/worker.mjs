@@ -76,7 +76,7 @@ export class ShoppingState extends DurableObject {
   const rows=await this.rows();
   for(const r of rows){if(r.publishAt>now&&r.publishAt-now<=10*60000)await this.prepare(r);if(now>=r.publishAt&&now-r.publishAt<86400000)await this.publish(r,now)}
   if(new Date(now).getUTCHours()===22)await this.refresh(now);
-  await this.s.put('internal:lastTick',new Date(now).toISOString());
+  await this.s.put({'internal:lastTick':new Date(now).toISOString(),'internal:lastError':null});
   const waiting=(await this.rows()).some(r=>!['published_verified','skipped','rejected','ambiguous_publish_result','publish_requested','preparation_unknown'].includes(r.status)&&now>=r.publishAt&&now-r.publishAt<=15*60000);
   if(waiting)await this.s.setAlarm(now+5000);
   return {status:'checked',dateKst:kstDate(now)};
