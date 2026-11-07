@@ -1,0 +1,13 @@
+{
+ "name":"nordic-log-threads",
+ "main":"worker.mjs",
+ "compatibility_date":"2026-11-07",
+ "account_id":"9af6a1fc8a141f591e6de4563d203dee",
+ "workers_dev":true,
+ "preview_urls":false,
+ "observability":{"enabled":false},
+ "durable_objects":{"bindings":[{"name":"STATE","class_name":"ShoppingState"}]},
+ "migrations":[{"tag":"v1","new_sqlite_classes":["ShoppingState"]}],
+ "triggers":{"crons":["* * * * *"]},
+ "vars":{"ACTIVE":"0","BUILD_ID":"server-v1","TOKEN_ISSUED_AT":"1794030349"}
+}
