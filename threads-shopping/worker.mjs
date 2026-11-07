@@ -89,6 +89,11 @@ export class ShoppingState extends DurableObject {
    if(path==='/tick')return json(await this.tick());
    if(path==='/admin/state')return json({active:this.env.ACTIVE==='1',build:this.env.BUILD_ID,lastTick:await this.s.get('internal:lastTick'),lastError:await this.s.get('internal:lastError'),transportDiagnostic:await this.s.get('internal:transportDiagnostic'),refreshedAt:await this.s.get('internal:refreshedAt'),posts:await this.rows()});
    if(path==='/admin/check'){await this.profile();return json({account:ACCOUNT.username,verified:true})}
+   if(path==='/admin/checkpoint'&&request.method==='GET'){
+    const date=new URL(request.url).searchParams.get('date');if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('invalid_date');
+    const count=await this.s.get('checkpoint:'+date+':count');if(!count)return json({checkpoint:null});let content='';
+    for(let i=0;i<count;i++){const part=await this.s.get('checkpoint:'+date+':'+i);if(typeof part!=='string')return json({checkpoint:null});content+=part}return json({checkpoint:JSON.parse(content)});
+   }
    if(request.method!=='POST')return json({error:'method_not_allowed'},405);
    if(path==='/admin/claim-generation'){
     const {date}=await request.json();if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('invalid_date');
@@ -99,13 +104,17 @@ export class ShoppingState extends DurableObject {
     const input=await request.json();if(!Array.isArray(input.posts)||input.posts.length!==3)throw Error('expected_three_posts');
     const posts=input.posts.map(r=>validateRecord(r));if(new Set(posts.map(r=>r.slot)).size!==3||new Set(posts.map(r=>r.date)).size!==1||new Set(posts.map(r=>r.category)).size!==3||new Set(posts.map(r=>r.product.productId)).size!==3)throw Error('invalid_daily_mix');
     const rows=await this.rows();for(const r of posts){if(rows.some(x=>x.key===r.key)||duplicate([...rows,...posts],r))throw Error('duplicate_queue')}
-    for(const r of posts)await this.save(r);return json({queued:posts.map(r=>r.key)});
+    await this.s.put(Object.fromEntries(posts.map(r=>['post:'+r.key,r])));return json({queued:posts.map(r=>r.key)});
+   }
+   if(path==='/admin/checkpoint'){
+    const {date,index,count,part}=await request.json();if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isInteger(count)||count<1||count>20||!Number.isInteger(index)||index<0||index>=count||typeof part!=='string'||part.length>24000)throw Error('invalid_checkpoint');
+    await this.s.put({['checkpoint:'+date+':'+index]:part,['checkpoint:'+date+':count']:count});return json({saved:true,index});
    }
    if(path==='/admin/repair-generation'){
     const {date,revision}=await request.json();
     if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\w{40}$/.test(revision)||date<kstDate()||date>kstDate(Date.now()+86400000))throw Error('invalid_repair');
     const previous=await this.s.get('repair:'+date);const repairs=previous?(Array.isArray(previous)?previous:[previous]):[];
-    if(repairs.length>=3||repairs.some(r=>r.revision===revision)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
+    if(repairs.length>=4||repairs.some(r=>r.revision===revision)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
     repairs.push({revision,at:new Date().toISOString(),reason:'operator_verified_code_fix'});await this.s.put('repair:'+date,repairs);await this.s.delete('generation:'+date);return json({repairAuthorized:true,date});
    }
    if(path==='/admin/revalidate'){
