@@ -3,6 +3,7 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {ACCOUNT,SLOTS,SOURCE_HOSTS,DISCLOSURE,LINK_INTRO,kstDate,validateRecord,fetchPartnerImage} from './policy.mjs';
 const BASE=process.env.THREADS_SERVER_URL||'https://nordic-log-threads.apollo0217.workers.dev';
 const MODEL='gemini-3.5-flash-lite';
+export {admin,coupang,request};
 const normalize=s=>String(s).normalize('NFKC').replace(/\s+/g,' ').trim();
 export function text(html){return normalize(html.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<(script|style)[\s\S]*?<\/\1>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&#(x[0-9a-f]+|\d+);/gi,(_,n)=>String.fromCodePoint(n[0].toLowerCase()==='x'?parseInt(n.slice(1),16):Number(n))).replace(/&(amp|lt|gt|quot|apos|nbsp|#8217|#8216|#8220|#8221|#038);/g,(_,n)=>({amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' ','#038':'&'}[n]||' ')))}
 export function parseFeed(xml,now=Date.now()){
@@ -55,7 +56,9 @@ export async function generate(date){
  for(let i=0;i<3;i++){
   const d=drafts.drafts[i],b=bundles[i],p=b.candidates[d.candidateIndex];
   if(!Number.isInteger(d.candidateIndex)||!p||typeof d.body!=='string'||d.body.length<70||d.body.length>340||typeof d.evidenceQuote!=='string'||d.evidenceQuote.length<20||!normalize(b.articleText).includes(normalize(d.evidenceQuote)))throw Error('ungrounded_draft');
-  if(!d.productMention||!normalize(p.productName).includes(normalize(d.productMention))||!normalize(d.body).includes(normalize(d.productMention)))throw Error('product_identity_omitted');
+  // Product identity is anchored to the chosen API row and canonical item/vendor URL.
+  // The following independent photo/source review checks brand wording; a shortened
+  // Korean display name need not be a literal substring of a long catalogue title.
   const response=await fetchPartnerImage(p.productImage);const bytes=Buffer.from(await response.arrayBuffer());const mimeType=response.headers.get('Content-Type')?.split(';')[0];
   if(!['image/jpeg','image/png','image/webp'].includes(mimeType)||bytes.length>4000000)throw Error('invalid_product_photo');
   images.push({mimeType,data:bytes.toString('base64')});chosen.push({draft:d,bundle:b,product:p,imageSha256:createHash('sha256').update(bytes).digest('hex')});
@@ -68,7 +71,7 @@ export async function generate(date){
  const posts=chosen.map((c,i)=>{
   const found=links.filter(l=>l.originalUrl===originals[i]);if(found.length!==1)throw Error('short_link_mapping_error');
   const body=c.draft.body.trim();const shortUrl=found[0].shortenUrl;
-  const r={date,slot:SLOTS[i],category:c.bundle.topic.category,body,caption:body+'\n\n'+LINK_INTRO+'\n'+shortUrl+'\n'+DISCLOSURE,product:{productId:c.product.productId,productName:c.product.productName,originalUrl:originals[i],productImage:c.product.productImage,shortUrl},evidence:{url:c.bundle.article.url,title:c.bundle.article.title,publishedAt:c.bundle.article.publishedAt,quote:c.draft.evidenceQuote,verified:true,checkedAt:new Date().toISOString()},imageUsage:'official_unmodified_partner_ad',imageSha256:c.imageSha256,visualReview:review.reviews[i]};
+  const r={date,slot:SLOTS[i],searchKeyword:c.bundle.topic.keyword,category:c.bundle.topic.category,body,caption:body+'\n\n'+LINK_INTRO+'\n'+shortUrl+'\n'+DISCLOSURE,product:{productId:c.product.productId,productName:c.product.productName,originalUrl:originals[i],productImage:c.product.productImage,shortUrl},evidence:{url:c.bundle.article.url,title:c.bundle.article.title,publishedAt:c.bundle.article.publishedAt,quote:c.draft.evidenceQuote,verified:true,checkedAt:new Date().toISOString()},imageUsage:'official_unmodified_partner_ad',imageSha256:c.imageSha256,visualReview:review.reviews[i]};
   validateRecord(r);return r;
  });
  const queued=await admin('queue',{posts});

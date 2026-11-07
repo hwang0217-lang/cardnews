@@ -5,13 +5,17 @@ on:
     - cron: '45 21 * * *'
     - cron: '10 23 * * *'
     - cron: '20 0,3,6 * * *'
+    - cron: '25 23,2,5 * * *'
   workflow_dispatch:
     inputs:
       mode:
         type: choice
-        options: [generate, monitor]
+        options: [generate, validate, monitor]
         default: monitor
       target_date:
+        type: string
+        required: false
+      target_slot:
         type: string
         required: false
 permissions:
@@ -35,6 +39,15 @@ jobs:
         env:
           TARGET_DATE: ${{ inputs.target_date }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          THREADS_SHOPPING_COUPANG_ACCESS: ${{ secrets.THREADS_SHOPPING_COUPANG_ACCESS }}
+          THREADS_SHOPPING_COUPANG_SECRET: ${{ secrets.THREADS_SHOPPING_COUPANG_SECRET }}
+          THREADS_SHOPPING_ADMIN_KEY: ${{ secrets.THREADS_SHOPPING_ADMIN_KEY }}
+      - name: Recheck the exact product option and original source before publishing
+        if: inputs.mode == 'validate' || github.event.schedule == '25 23,2,5 * * *'
+        run: node threads-shopping/validate.mjs
+        env:
+          TARGET_DATE: ${{ inputs.target_date }}
+          TARGET_SLOT: ${{ inputs.target_slot }}
           THREADS_SHOPPING_COUPANG_ACCESS: ${{ secrets.THREADS_SHOPPING_COUPANG_ACCESS }}
           THREADS_SHOPPING_COUPANG_SECRET: ${{ secrets.THREADS_SHOPPING_COUPANG_SECRET }}
           THREADS_SHOPPING_ADMIN_KEY: ${{ secrets.THREADS_SHOPPING_ADMIN_KEY }}

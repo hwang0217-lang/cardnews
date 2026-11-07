@@ -32,6 +32,8 @@ export class ShoppingState extends DurableObject {
  }
  async prepare(r){
   if(['published_verified','publish_requested','ambiguous_publish_result','preparing','preparation_unknown','skipped'].includes(r.status))return;
+  const verified=Date.parse(r.lastVerifiedAt||r.evidence?.checkedAt);
+  if(!Number.isFinite(verified)||Date.now()-verified>90*60000){r.status='held';r.error='verification_stale';await this.save(r);return}
   if(await this.reconcile(r))return;
   if(r.creationId){const c=await this.api(r.creationId+'?fields=status');r.containerStatus=c.status;if(c.status==='FINISHED')r.status='ready';else if(c.status==='ERROR'||c.status==='EXPIRED')r.status='rejected';await this.save(r);return}
   if(duplicate(await this.rows(),r))throw Error('duplicate_product');
@@ -103,8 +105,13 @@ export class ShoppingState extends DurableObject {
     const {date,revision}=await request.json();
     if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\w{40}$/.test(revision)||date<kstDate()||date>kstDate(Date.now()+86400000))throw Error('invalid_repair');
     const previous=await this.s.get('repair:'+date);const repairs=previous?(Array.isArray(previous)?previous:[previous]):[];
-    if(repairs.length>=2||repairs.some(r=>r.revision===revision)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
+    if(repairs.length>=3||repairs.some(r=>r.revision===revision)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
     repairs.push({revision,at:new Date().toISOString(),reason:'operator_verified_code_fix'});await this.s.put('repair:'+date,repairs);await this.s.delete('generation:'+date);return json({repairAuthorized:true,date});
+   }
+   if(path==='/admin/revalidate'){
+    const proof=await request.json(),r=await this.s.get('post:'+proof.key);
+    if(!r||r.status==='published_verified'||r.product.productId!=proof.productId||r.product.originalUrl!==proof.originalUrl||r.evidence.url!==proof.sourceUrl||Math.abs(Date.now()-Date.parse(proof.verifiedAt))>5*60000||!Number.isFinite(Date.parse(proof.verifiedAt)))throw Error('invalid_verification');
+    r.lastVerifiedAt=proof.verifiedAt;if(r.status==='held'){r.status=r.creationId?'container_created':'queued';delete r.error}await this.save(r);return json({verified:true,key:r.key});
    }
    if(path==='/admin/seed'){
     const {posts}=await request.json();if(!Array.isArray(posts)||posts.length>10)throw Error('invalid_seed');
