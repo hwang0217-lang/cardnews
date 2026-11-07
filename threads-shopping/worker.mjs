@@ -1,6 +1,6 @@
 import {DurableObject} from 'cloudflare:workers';
-import {ACCOUNT,SLOTS,kstDate,validateRecord,duplicate,safeError,fetchPartnerImage} from './policy.mjs';
-const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store'}});
+import {ACCOUNT,SLOTS,LINK_INTRO,DISCLOSURE,kstDate,validateRecord,duplicate,safeError,fetchPartnerImage} from './policy.mjs';
+const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store','Content-Type':'application/json; charset=utf-8'}});
 const actor=env=>env.STATE.get(env.STATE.idFromName('nordic-log-threads-v1'));
 export default {
  async fetch(request,env){
@@ -121,6 +121,12 @@ export class ShoppingState extends DurableObject {
     const proof=await request.json(),r=await this.s.get('post:'+proof.key);
     if(!r||r.status==='published_verified'||r.product.productId!=proof.productId||r.product.originalUrl!==proof.originalUrl||r.evidence.url!==proof.sourceUrl||Math.abs(Date.now()-Date.parse(proof.verifiedAt))>5*60000||!Number.isFinite(Date.parse(proof.verifiedAt)))throw Error('invalid_verification');
     r.lastVerifiedAt=proof.verifiedAt;if(r.status==='held'){r.status=r.creationId?'container_created':'queued';delete r.error}await this.save(r);return json({verified:true,key:r.key});
+   }
+   if(path==='/admin/reviewed-copy'){
+    const {key,body}=await request.json(),r=await this.s.get('post:'+key);
+    if(!r||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now()||typeof body!=='string')throw Error('copy_not_editable');
+    const revised={...r,body,caption:body+'\n\n'+LINK_INTRO+'\n'+r.product.shortUrl+'\n'+DISCLOSURE};validateRecord(revised);
+    revised.visualReview={...r.visualReview,finalBody:body};revised.editorReview={method:'operator_source_and_brand_check',at:new Date().toISOString()};await this.save(revised);return json({updated:true,key});
    }
    if(path==='/admin/seed'){
     const {posts}=await request.json();if(!Array.isArray(posts)||posts.length>10)throw Error('invalid_seed');

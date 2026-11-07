@@ -1,0 +1,41 @@
+# 노르딕로그 Threads 서버 운영
+
+## 소유자와 실행 경로
+
+2026-11-07 사용자는 PC 없이 매일 09:00·12:00·15:00 KST 발행을 요청했고, 기존 Threads 토큰의 Cloudflare 전용 Worker Secrets 저장 및 쿠팡 API 키의 본인 GitHub 전용 Actions Secrets 저장을 명시적으로 승인했다. 승인 후 이전을 완료했다. 기존 Gemini 키는 GitHub에 그대로 남아 있으며 추출·복사하지 않았다.
+
+- 전용 서버: https://nordic-log-threads.apollo0217.workers.dev
+- 서버 코드: https://github.com/hwang0217-lang/cardnews/tree/main/threads-shopping
+- 준비·사전 검증·감시 작업: https://github.com/hwang0217-lang/cardnews/actions/workflows/threads-shopping.yml
+- Cloudflare 계정: `9af6a1fc8a141f591e6de4563d203dee`, Worker: `nordic-log-threads`, Durable Object: `ShoppingState`
+- 서버 활성 조건: Worker 변수 `ACTIVE=1`, GitHub 변수 `THREADS_SHOPPING_SERVER_ACTIVE=1`. 최종 상태는 automation.config.json 및 실제 서버 `/admin/state`로 확인한다.
+
+이 경로는 기존 Instagram Nordic/사회이슈 및 여행 서버와 별개다. 기존 채널 워크플로·쿠키·인증정보·발행 상태를 변경하지 않는다.
+
+## 일일 흐름
+
+1. KST 06:45 GitHub에서 최근 7일 공식 뉴스룸 자료를 수집하고 서로 다른 분야의 관심 계기를 고른다. 08:10 보조 일정은 최초 스케줄 자체가 누락됐을 때만 사용하며 같은 날짜의 모델 생성 실패를 자동으로 반복하지 않는다.
+2. 기존 Gemini 모델 `gemini-3.5-flash-lite`를 최대 3회 호출하여 자료 선택, 실제 쿠팡 상품 매칭·문안, 실제 이미지 기반 독립 검수를 수행한다. 별도 모델 전환·유료 한도 상향·서비스 구매를 하지 않는다. 코드 수정 원인이 실제로 확인된 운영자 복구는 새 리비전별로 제한하여 기록한다.
+3. 공식 쿠팡 API에서 정확한 상품 ID·itemId·vendorItemId와 원본 광고 사진을 가져온다. 회원 계정으로 공식 제휴 단축 링크를 생성하고 원본 대상과 대조한다. 가짜 링크나 다른 사람의 파트너스 링크를 사용하지 않는다.
+4. 사진은 원본 광고 API 이미지 1장. 쿠팡 공식 광고 이미지 도메인에서 공식 `*.coupangcdn.com` HTTPS 이미지 서버로 이동하는 경우만 최대 3회 따른다. 고객 리뷰 복제·사진 편집·자가 촬영/사용 경험 가장은 금지한다.
+5. 08:25·11:25·14:25에는 해당 슬롯의 정확한 상품 옵션과 원문 근거를 다시 조회한다. 검증이 90분 이상 오래됐으면 Worker가 게시를 보류한다. API 검색에 없다는 사실을 품절이나 인기 급증으로 해석하지 않는다.
+6. Cloudflare 서버의 매분 타이머가 08:50·11:50·14:50부터 사진 컨테이너를 준비하고, 09:00·12:00·15:00 슬롯이 되면 게시한다. 플랫폼 처리에 따라 실제 완료는 지정 시각 이후 수초 이상 걸릴 수 있다. 지연 15분이 넘으면 몰아서 게시하지 않는다.
+7. API로 실제 사진·문안·계정·게시물 주소를 다시 조회해 `published_verified`만 성공으로 기록한다. 상품·동일 문안·슬롯의 중복을 차단한다. `publish_requested`/`ambiguous_publish_result`에서는 피드 대조만 하며 맹목적으로 다시 게시하지 않는다.
+8. 09:20·12:20·15:20에는 GitHub 읽기 전용 감시가 타이머와 실제 게시 원장을 확인한다. 실패 실행은 GitHub Actions 실패로 남는다. 개인 GitHub 알림 수신 설정과 메일 실제 수신 여부는 별개다.
+
+## 문안
+
+친구 같은 반말과 소량 이모지. 최신 행사·관심 계기를 먼저 쓰고 상품으로 자연스럽게 이어진다. 링크 바로 위에 `물어보는 분들 많아서 링크 남겨 둘게`, 링크 다음 줄에 `쿠팡 제휴 링크 포함 · 구매 시 수수료를 받습니다.`를 넣는다. 전체 500 코드포인트 이내다. 이 위치는 사용자의 문안 승인 기록이며 법적 적합성을 별도로 보장하지 않는다.
+
+## 인증정보
+
+- Threads 토큰: Cloudflare `THREADS_TOKEN`; 갱신된 토큰은 암호화된 서버 저장소에만 보관한다. 갱신은 발급/직전 갱신 후 36시간 이상인 첫 07시대 점검에서 수행한다. 답글 권한은 사용하지 않는다.
+- 쿠팡 키: GitHub `THREADS_SHOPPING_COUPANG_ACCESS`, `THREADS_SHOPPING_COUPANG_SECRET`.
+- 연결 관리 키: Cloudflare `ADMIN_KEY`, GitHub `THREADS_SHOPPING_ADMIN_KEY`. 로컬 사본은 `.secrets/server-admin.dpapi.json`의 Windows DPAPI 암호문만 보관한다.
+- 원본 키·토큰·관리 키를 명령행 인수·채팅·공개 코드·로그로 출력하지 않는다.
+
+## 점검과 변경
+
+`scripts/Test-ServerConnection.ps1 -Operation Check`는 계정 확인, `-Operation State`는 키를 출력하지 않는 원장 조회다. `-Operation Prepare -PostKey YYYY-MM-DD-HHmm`는 미래 게시물의 비공개 사진 컨테이너만 준비한다. 추가 시험 게시를 하지 않는다.
+
+실제 예약 변경·중지는 Worker와 GitHub 두 운영 변수를 함께 확인한다. PC용 Codex `threads-2`를 다시 활성화하거나 로컬 Publish-ThreadsSample.ps1로 서버와 같은 글을 별도 게시하지 않는다. 소스 변경은 기존 정상 게시물과 원장을 보존하고, 테스트→비활성 상태 검증→배포·활성 확인 순서를 따른다.
