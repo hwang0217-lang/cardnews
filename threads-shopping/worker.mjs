@@ -17,9 +17,10 @@ export class ShoppingState extends DurableObject {
  async save(r){await this.s.put('post:'+r.key,r)}
  async token(){return (await this.s.get('internal:token'))||this.env.THREADS_TOKEN}
  async api(path,form){
-  const response=await fetch('https://graph.threads.net/v1.0/'+path,{method:form?'POST':'GET',redirect:'error',headers:{Authorization:'Bearer '+await this.token(),...(form?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:form?new URLSearchParams(form):undefined,signal:AbortSignal.timeout(30000)});
+  let response;
+  try{response=await fetch('https://graph.threads.net/v1.0/'+path,{method:form?'POST':'GET',redirect:'manual',headers:{Authorization:'Bearer '+await this.token(),...(form?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:form?new URLSearchParams(form):undefined,signal:AbortSignal.timeout(30000)});}catch(e){let detail=String(e.message||'').slice(0,500);for(const value of [await this.token(),this.env.ADMIN_KEY])if(value)detail=detail.split(value).join('[redacted]');detail=detail.replace(/[A-Za-z0-9+_\/-]{45,}/g,'[redacted]');await this.s.put('internal:transportDiagnostic',detail.slice(0,180));throw Error('threads_transport_'+String(e.name||'error').replace(/[^a-z]/gi,'').toLowerCase())}
   if(!response.ok)throw Error('threads_http:'+response.status);
-  const data=await response.json();if(data.error)throw Error('threads_error');return data;
+  let data;try{data=await response.json()}catch{throw Error('threads_invalid_json')};if(data.error)throw Error('threads_error');return data;
  }
  async profile(){const p=await this.api('me?fields=id,username');if(p.id!==ACCOUNT.id||p.username!==ACCOUNT.username)throw Error('wrong_account');return p;}
  async recent(){await this.profile();return (await this.api('me/threads?fields=id,text,permalink,media_type,media_url,timestamp&limit=100')).data||[];}
@@ -36,7 +37,7 @@ export class ShoppingState extends DurableObject {
   if(duplicate(await this.rows(),r))throw Error('duplicate_product');
   r.status='preparing';await this.save(r);
   try{
-   const image=await fetch(r.product.productImage,{method:'HEAD',redirect:'error',signal:AbortSignal.timeout(20000)});
+   const image=await fetch(r.product.productImage,{method:'HEAD',redirect:'manual',signal:AbortSignal.timeout(20000)});
    if(!image.ok||!image.headers.get('Content-Type')?.startsWith('image/'))throw Error('image_unavailable');
    const container=await this.api(ACCOUNT.id+'/threads',{media_type:'IMAGE',image_url:r.product.productImage,text:r.caption,alt_text:r.product.productName});
    if(!container.id)throw Error('missing_creation_id');r.creationId=container.id;r.status='container_created';await this.save(r);
@@ -64,7 +65,7 @@ export class ShoppingState extends DurableObject {
  async refresh(now){
   const last=await this.s.get('internal:refreshedAt')||Number(this.env.TOKEN_ISSUED_AT)*1000;
   if(now-last<36*3600000)return;
-  const response=await fetch('https://graph.threads.net/refresh_access_token?grant_type=th_refresh_token',{headers:{Authorization:'Bearer '+await this.token()},redirect:'error',signal:AbortSignal.timeout(30000)});
+  const response=await fetch('https://graph.threads.net/refresh_access_token?grant_type=th_refresh_token',{headers:{Authorization:'Bearer '+await this.token()},redirect:'manual',signal:AbortSignal.timeout(30000)});
   if(!response.ok)throw Error('refresh_http:'+response.status);const t=await response.json();if(!t.access_token)throw Error('refresh_missing_token');
   await this.s.put({'internal:token':t.access_token,'internal:refreshedAt':now,'internal:expiresAt':now+t.expires_in*1000});
  }
@@ -84,7 +85,7 @@ export class ShoppingState extends DurableObject {
   try{
    const path=new URL(request.url).pathname;
    if(path==='/tick')return json(await this.tick());
-   if(path==='/admin/state')return json({active:this.env.ACTIVE==='1',build:this.env.BUILD_ID,lastTick:await this.s.get('internal:lastTick'),lastError:await this.s.get('internal:lastError'),refreshedAt:await this.s.get('internal:refreshedAt'),posts:await this.rows()});
+   if(path==='/admin/state')return json({active:this.env.ACTIVE==='1',build:this.env.BUILD_ID,lastTick:await this.s.get('internal:lastTick'),lastError:await this.s.get('internal:lastError'),transportDiagnostic:await this.s.get('internal:transportDiagnostic'),refreshedAt:await this.s.get('internal:refreshedAt'),posts:await this.rows()});
    if(path==='/admin/check'){await this.profile();return json({account:ACCOUNT.username,verified:true})}
    if(request.method!=='POST')return json({error:'method_not_allowed'},405);
    if(path==='/admin/claim-generation'){
@@ -97,6 +98,12 @@ export class ShoppingState extends DurableObject {
     const posts=input.posts.map(r=>validateRecord(r));if(new Set(posts.map(r=>r.slot)).size!==3||new Set(posts.map(r=>r.date)).size!==1||new Set(posts.map(r=>r.category)).size!==3||new Set(posts.map(r=>r.product.productId)).size!==3)throw Error('invalid_daily_mix');
     const rows=await this.rows();for(const r of posts){if(rows.some(x=>x.key===r.key)||duplicate([...rows,...posts],r))throw Error('duplicate_queue')}
     for(const r of posts)await this.save(r);return json({queued:posts.map(r=>r.key)});
+   }
+   if(path==='/admin/repair-generation'){
+    const {date,revision}=await request.json();
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\w{40}$/.test(revision)||date<kstDate()||date>kstDate(Date.now()+86400000))throw Error('invalid_repair');
+    if(await this.s.get('repair:'+date)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
+    await this.s.put('repair:'+date,{revision,at:new Date().toISOString(),reason:'operator_verified_code_fix'});await this.s.delete('generation:'+date);return json({repairAuthorized:true,date});
    }
    if(path==='/admin/seed'){
     const {posts}=await request.json();if(!Array.isArray(posts)||posts.length>10)throw Error('invalid_seed');
