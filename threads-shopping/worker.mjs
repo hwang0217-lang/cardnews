@@ -1,5 +1,5 @@
 import {DurableObject} from 'cloudflare:workers';
-import {ACCOUNT,SLOTS,kstDate,validateRecord,duplicate,safeError} from './policy.mjs';
+import {ACCOUNT,SLOTS,kstDate,validateRecord,duplicate,safeError,fetchPartnerImage} from './policy.mjs';
 const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store'}});
 const actor=env=>env.STATE.get(env.STATE.idFromName('nordic-log-threads-v1'));
 export default {
@@ -37,7 +37,7 @@ export class ShoppingState extends DurableObject {
   if(duplicate(await this.rows(),r))throw Error('duplicate_product');
   r.status='preparing';await this.save(r);
   try{
-   const image=await fetch(r.product.productImage,{method:'HEAD',redirect:'manual',signal:AbortSignal.timeout(20000)});
+   const image=await fetchPartnerImage(r.product.productImage,'HEAD');
    if(!image.ok||!image.headers.get('Content-Type')?.startsWith('image/'))throw Error('image_unavailable');
    const container=await this.api(ACCOUNT.id+'/threads',{media_type:'IMAGE',image_url:r.product.productImage,text:r.caption,alt_text:r.product.productName});
    if(!container.id)throw Error('missing_creation_id');r.creationId=container.id;r.status='container_created';await this.save(r);
@@ -102,8 +102,9 @@ export class ShoppingState extends DurableObject {
    if(path==='/admin/repair-generation'){
     const {date,revision}=await request.json();
     if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\w{40}$/.test(revision)||date<kstDate()||date>kstDate(Date.now()+86400000))throw Error('invalid_repair');
-    if(await this.s.get('repair:'+date)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
-    await this.s.put('repair:'+date,{revision,at:new Date().toISOString(),reason:'operator_verified_code_fix'});await this.s.delete('generation:'+date);return json({repairAuthorized:true,date});
+    const previous=await this.s.get('repair:'+date);const repairs=previous?(Array.isArray(previous)?previous:[previous]):[];
+    if(repairs.length>=2||repairs.some(r=>r.revision===revision)||(await this.rows()).some(r=>r.date===date))throw Error('repair_already_used');
+    repairs.push({revision,at:new Date().toISOString(),reason:'operator_verified_code_fix'});await this.s.put('repair:'+date,repairs);await this.s.delete('generation:'+date);return json({repairAuthorized:true,date});
    }
    if(path==='/admin/seed'){
     const {posts}=await request.json();if(!Array.isArray(posts)||posts.length>10)throw Error('invalid_seed');

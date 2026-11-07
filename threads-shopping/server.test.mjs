@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {validateRecord,duplicate,LINK_INTRO,DISCLOSURE,SLOTS} from './policy.mjs';
+import {validateRecord,duplicate,LINK_INTRO,DISCLOSURE,SLOTS,fetchPartnerImage} from './policy.mjs';
 import {parseFeed,originalUrl} from './generate.mjs';
 const policyUrl=new URL('./policy.mjs',import.meta.url).href;
 const source=(await readFile(new URL('./worker.mjs',import.meta.url),'utf8')).replace("import {DurableObject} from 'cloudflare:workers';","class DurableObject {constructor(ctx,env){this.ctx=ctx;this.env=env}};").replace("from './policy.mjs'","from '"+policyUrl+"'");
@@ -21,3 +21,4 @@ test('Wrong account stops before a container or publication',async()=>{const {st
 test('Public requests cannot access queue or administrator actions',async()=>{const r=await worker.fetch(new Request('https://service/admin/state'),{ADMIN_KEY:'test-only'});assert.equal(r.status,401);});
 test('Feed parsing enforces dates and official hosts',()=>{const rss='<rss><channel><item><title>제품 발표</title><link>https://news.samsung.com/kr/example</link><pubDate>Fri, 06 Nov 2026 00:00:00 GMT</pubDate><description><![CDATA[새로운 <b>제품</b>]]></description></item></channel></rss>';const rows=parseFeed(rss,NOW);assert.equal(rows.length,1);assert.equal(rows[0].excerpt,'새로운 제품');assert.equal(parseFeed(rss.replace('news.samsung.com','evil.test'),NOW).length,0);});
 test('Product option mapping keeps the original item and vendor',()=>{assert.equal(originalUrl({productId:123,productUrl:'https://link.coupang.com/re/AFFSDP?pageKey=123&itemId=456&vendorItemId=789'}),'https://www.coupang.com/vp/products/123?itemId=456&vendorItemId=789');});
+test('Partner image redirects allow only HTTPS official Coupang CDN',async()=>{const original=globalThis.fetch;let calls=0;try{globalThis.fetch=async()=>{calls++;return new Response(null,{status:302,headers:{Location:'https://evil.test/photo.jpg'}})};await assert.rejects(fetchPartnerImage('https://ads-partners.coupang.com/image1/example'),/untrusted_image_redirect/);assert.equal(calls,1);globalThis.fetch=async url=>url.includes('ads-partners')?new Response(null,{status:302,headers:{Location:'https://t2c.coupangcdn.com/photo.jpg'}}):new Response('photo',{headers:{'Content-Type':'image/jpeg'}});const r=await fetchPartnerImage('https://ads-partners.coupang.com/image1/example');assert.equal(r.status,200)}finally{globalThis.fetch=original}});

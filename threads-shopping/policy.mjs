@@ -23,3 +23,17 @@ export function duplicate(records,r,now=Date.now()){
  return records.some(x=>x.key!==r.key&&(x.product?.productId==r.product.productId||x.caption===r.caption)&&(!x.publishedAt||Date.parse(x.publishedAt)>now-30*86400000)&&!['skipped','rejected','failed_before_publish'].includes(x.status));
 }
 export function safeError(e){return /^[a-z_]+(?::\d+)?$/.test(e.message)?e.message:'operation_failed'}
+export async function fetchPartnerImage(url,method='GET'){
+ let current=new URL(url);
+ if(current.origin!=='https://ads-partners.coupang.com')throw Error('untrusted_partner_asset');
+ for(let i=0;i<4;i++){
+  if(current.protocol!=='https:'||!(current.hostname==='ads-partners.coupang.com'||current.hostname.endsWith('.coupangcdn.com')))throw Error('untrusted_image_redirect');
+  const response=await fetch(current.href,{method,redirect:'manual',signal:AbortSignal.timeout(30000)});
+  if([301,302,303,307,308].includes(response.status)){
+   const location=response.headers.get('Location');if(!location)throw Error('missing_image_redirect');current=new URL(location,current);continue;
+  }
+  if(!response.ok||!response.headers.get('Content-Type')?.startsWith('image/'))throw Error('image_unavailable');
+  return response;
+ }
+ throw Error('too_many_image_redirects');
+}
