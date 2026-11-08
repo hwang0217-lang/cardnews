@@ -105,8 +105,8 @@
     "assets_sha256": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c",
     "pc_media_download": false,
     "published": false,
-    "unpublished_container_created": false,
-    "container_status": "creating_parent",
+    "unpublished_container_created": true,
+    "container_status": "processing",
     "child_container_ids": [
       "18114437651078061",
       "18114437672078061",
@@ -114,6 +114,7 @@
       "18114437711078061",
       "18114437732078061"
     ],
-    "creating_page": 5
+    "creating_page": 5,
+    "container_id": "18114437753078061"
   }
 }
