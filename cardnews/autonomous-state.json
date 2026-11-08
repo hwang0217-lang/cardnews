@@ -2487,7 +2487,7 @@
     }
   },
   "2026-11-08": {
-    "stage": "drafted",
+    "stage": "canva_dispatching",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
@@ -2687,6 +2687,7 @@
           }
         }
       ]
-    }
+    },
+    "request_id": "nordic-auto-42474756636-v1"
   }
 }
