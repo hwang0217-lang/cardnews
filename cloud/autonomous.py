@@ -178,7 +178,14 @@ def main():
     key = day if mode == 'operate' else 'preview-' + os.environ['GITHUB_RUN_ID']
     row = {'stage': 'starting', 'mode': mode, 'day': day, 'format': kind, 'published': False,
            'gemini_calls': 0, 'canva_generations': 0, 'pc_media_downloads': 0, 'manual_now_authorized':manual_now}
-    state.put(LEDGER, key, row, absent=True)
+    old_rows,_=state.read(LEDGER)
+    prior=old_rows.get(key)
+    recovering=(manual_now and os.environ.get('NORDIC_RESUME_DRAFT_RUN')=='42474430889' and prior is not None)
+    if recovering:
+        if prior.get('stage')!='blocked' or prior.get('error')!='Text/photo collision or separation below24px' or prior.get('canva_generations')!=0 or prior.get('canva_run_id') or prior.get('published') is not False:
+            raise RuntimeError('Only the proven pre-Canva geometry failure may resume')
+        row['recovered_pre_generation_run']='42474430889'
+    state.put(LEDGER, key, row, absent=not recovering)
     OUT.mkdir(exist_ok=True)
     def persist():
         state.put(LEDGER, key, row)
