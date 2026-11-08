@@ -2487,14 +2487,15 @@
     }
   },
   "2026-11-08": {
-    "stage": "starting",
+    "stage": "blocked",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
     "published": false,
-    "gemini_calls": 0,
+    "gemini_calls": 1,
     "canva_generations": 0,
     "pc_media_downloads": 0,
-    "manual_now_authorized": true
+    "manual_now_authorized": true,
+    "error": "Text/photo collision or separation below24px"
   }
 }
