@@ -150,10 +150,18 @@ def read_literal_images(images, sections):
         'may be partially hidden; report them separately as photo_text, never classify them as malformed authored text. '
         'Return JSON pages:[{literal_subject,main_objects,visible_text,gibberish_text,photo_text}].',images+masked)
 
+def manual_publication_allowed(now, event, requested_day):
+    if not requested_day:return False
+    if event!='workflow_dispatch' or requested_day!='2026-11-08' or now.date().isoformat()!=requested_day:
+        raise RuntimeError('Current explicitly approved manual publication date required')
+    return True
+
+
 def main():
     mode = os.environ.get('NORDIC_MODE', 'preview')
     if mode not in ('preview', 'delivery-check', 'operate'): raise RuntimeError('Invalid autonomous mode')
     now = datetime.now(KST); day = now.date().isoformat()
+    manual_now=manual_publication_allowed(now,os.environ.get('GITHUB_EVENT_NAME'),os.environ.get('NORDIC_PUBLISH_NOW_DATE',''))
     kind = choose_kind(now) if mode == 'operate' else os.environ.get('NORDIC_PREVIEW_FORMAT', 'carousel')
     if kind not in ('carousel', 'reel', 'motion_reel'): raise RuntimeError('Invalid format')
     state = PublicationState()
@@ -166,10 +174,10 @@ def main():
         if os.environ.get('NORDIC_AUTONOMOUS_ACTIVE') != '1': raise RuntimeError('Autonomous production not activated')
         if published_or_pending_today(state, day, posts):
             print('Daily post already exists or is pending; no content generation'); return
-        if now.hour != 18 or not 10 <= now.minute <= 40: raise RuntimeError('Outside today production window; no catch-up')
+        if not manual_now and (now.hour != 18 or not 10 <= now.minute <= 40): raise RuntimeError('Outside today production window; no catch-up')
     key = day if mode == 'operate' else 'preview-' + os.environ['GITHUB_RUN_ID']
     row = {'stage': 'starting', 'mode': mode, 'day': day, 'format': kind, 'published': False,
-           'gemini_calls': 0, 'canva_generations': 0, 'pc_media_downloads': 0}
+           'gemini_calls': 0, 'canva_generations': 0, 'pc_media_downloads': 0, 'manual_now_authorized':manual_now}
     state.put(LEDGER, key, row, absent=True)
     OUT.mkdir(exist_ok=True)
     def persist():
@@ -298,9 +306,9 @@ def main():
         row.update(stage='ready', approved_hash=qa['export_sha256'], approved_plan=plan); persist()
         if mode == 'preview': return
         if mode == 'operate':
-            target = now.replace(hour=18,minute=30,second=0,microsecond=0)
+            target = now if manual_now else now.replace(hour=18,minute=30,second=0,microsecond=0)
             while datetime.now(KST) < target: time.sleep(min(30,(target-datetime.now(KST)).total_seconds()))
-            if datetime.now(KST).date().isoformat()!=day or datetime.now(KST)>target+timedelta(minutes=15):
+            if datetime.now(KST).date().isoformat()!=day or datetime.now(KST)>target+timedelta(minutes=40 if manual_now else 15):
                 raise RuntimeError('Prepared content missed today publishing window; no catch-up')
         publish_mode='publish' if mode=='operate' else 'delivery-check'
         if kind=='carousel':

@@ -9,6 +9,10 @@ on:
         type: choice
         options: [preflight, draft-check, vision-probe, edit-verified-preview, review-existing-photo, preview, delivery-check, operate]
         default: preflight
+      publish_now_date:
+        description: One-time owner-authorized date; currently2026-11-08 only
+        type: string
+        required: false
       source_run:
         type: string
         required: false
@@ -84,6 +88,7 @@ jobs:
           NORDIC_MEDIA_BASE: ${{ vars.NORDIC_MEDIA_BASE }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           NORDIC_AUTONOMOUS_ACTIVE: ${{ vars.NORDIC_AUTONOMOUS_ACTIVE || '0' }}
+          NORDIC_PUBLISH_NOW_DATE: ${{ inputs.publish_now_date }}
           NORDIC_MODE: ${{ inputs.mode || 'operate' }}
           NORDIC_PREVIEW_FORMAT: ${{ inputs.format || 'carousel' }}
           NORDIC_PLAN_DATE: ${{ inputs.plan_date }}
