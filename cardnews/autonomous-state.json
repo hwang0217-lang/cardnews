@@ -2487,7 +2487,7 @@
     }
   },
   "2026-11-08": {
-    "stage": "visual_review",
+    "stage": "ready",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
@@ -2947,6 +2947,199 @@
       "9d42eb6e23a815486006e05116652738e2ce5f6914d00e13e7efb069578a812f",
       "21a269d601297397f05db7fcc284a9ca157f35c944aa6402550a12f969d5d226",
       "57122d102a22554c3489e98f733c030b46d994f64f512e95f914d3ae65190bdd"
-    ]
+    ],
+    "approved_hash": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c",
+    "approved_plan": {
+      "account": "nordic_log",
+      "canva_design_id": "DAHaUwg5XCI",
+      "purpose": "production",
+      "approved": true,
+      "date": "2026-11-08",
+      "format": "carousel",
+      "export_format": "jpg",
+      "page_count": 5,
+      "caption": "주방을 정리할 때 수납함부터 사기보다, 물건을 꺼내는 동작부터 살펴보세요.\n\n요리 전에 먼저 집는 도구, 함께 사용하는 병과 통, 한꺼번에 옮기는 컵과 쟁반. 우리 집에서 자주 하는 동작에 맞춰 자리를 정해보는 방법이에요.\n\n먼저 꺼낼 것 → 함께 쓸 것 → 다시 놓을 자리. 세 가지만 정해서 작게 시작해보세요. 집 구조와 사용 습관에 맞게 골라 적용해 주세요.\n\n사진은 서로 다른 공간의 실제 스톡 촬영본이며 동일 주방의 정리 전후가 아닙니다. 사진: Cup of Couple, PNW Production, stayhereforu, Georgie Devlin / Pexels. 기획·편집에 AI를 활용했습니다.\n\n#노르딕로그 #주방정리 #살림팁 #주방동선 #정리습관",
+      "approved_assets_sha256": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c",
+      "review": {
+        "text": true,
+        "no_obstruction": true,
+        "readable": true,
+        "facts": true,
+        "rights": true,
+        "variety": true,
+        "canva_quality": true,
+        "all_scenes_readable": true,
+        "export_sha256": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c",
+        "quality_benchmark": "Nine actual feed images supplied to Gemini; score >=8.5",
+        "recent_nine_comparison": "The actual Canva export matches the Nordic Log visual identity precisely, featuring clean neutral tones, ample whitespace, and strict separation between photography and typography. The typography hierarchy follows the brief cleanly without clipped letters or overlaps.",
+        "page_or_scene_notes": [
+          {
+            "observations": "Clear typographic hierarchy with generous top whitespace and clean left-aligned text blocks.",
+            "mobile_observations": "Full scale rendering on mobile maintains complete text legibility without clipping.",
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true
+          },
+          {
+            "observations": "Asymmetric layout with photo placed on the left and structured instructions on the right.",
+            "mobile_observations": "Maintains clear separation and readable font size at 390px width.",
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true
+          },
+          {
+            "observations": "Top-placed editorial image with clean subtitle hierarchy below.",
+            "mobile_observations": "Good vertical flow and clear separation of elements on smaller viewports.",
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true
+          },
+          {
+            "observations": "Strong title block paired with contextual kitchen photography positioned correctly at the bottom base.",
+            "mobile_observations": "Preserves optimal whitespace margins on mobile screens.",
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true
+          },
+          {
+            "observations": "Balanced closing layout featuring clear concluding guidelines and distinct photo geometry.",
+            "mobile_observations": "Fits standard mobile screens cleanly without text truncation.",
+            "text_correct": true,
+            "no_overlap": true,
+            "readable_mobile": true,
+            "facts_safe": true,
+            "canva_quality": true,
+            "varied": true,
+            "photo_matches_topic": true,
+            "photo_intact": true,
+            "mobile_text_not_clipped": true,
+            "safe_areas": true
+          }
+        ],
+        "design_policy": "impeccable-real-photo-v1",
+        "photo_evidence": [
+          {
+            "photo_id": "7303767",
+            "source_page": "https://www.pexels.com/photo/variety-of-items-at-the-kitchen-counter-7303767/",
+            "author": "Cup of Couple",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+            "reviewed_source_sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+            "source_identity_check": "reviewed-byte-sha256",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              323.33333333333337,
+              520,
+              433.3333333333333,
+              650
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug. Context for practical placement suggestions; no tested-result or same-home claim."
+          },
+          {
+            "photo_id": "8251825",
+            "source_page": "https://www.pexels.com/photo/white-and-gray-concrete-utensil-holder-on-white-white-kitchen-countertop-8251825/",
+            "author": "PNW Production",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+            "reviewed_source_sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+            "source_identity_check": "reviewed-byte-sha256",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              80.33333333333331,
+              250,
+              493.33333333333337,
+              740
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls. Context for practical placement suggestions; no tested-result or same-home claim."
+          },
+          {
+            "photo_id": "13684937",
+            "source_page": "https://www.pexels.com/photo/items-on-a-small-kitchen-counter-13684937/",
+            "author": "stayhereforu",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+            "reviewed_source_sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+            "source_identity_check": "reviewed-byte-sha256",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              137.43824336688016,
+              90,
+              805.1235132662397,
+              550
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "A small kitchen countertop with bottles, containers and a spice shelf. Context for practical placement suggestions; no tested-result or same-home claim."
+          },
+          {
+            "photo_id": "11385963",
+            "source_page": "https://www.pexels.com/photo/kitchenware-on-a-counter-top-11385963/",
+            "author": "Georgie Devlin",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+            "reviewed_source_sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+            "source_identity_check": "reviewed-byte-sha256",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              307.85714285714283,
+              560,
+              464.28571428571433,
+              650
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards. Context for practical placement suggestions; no tested-result or same-home claim."
+          },
+          {
+            "photo_id": "8251790",
+            "source_page": "https://www.pexels.com/photo/wooden-spoon-in-jar-on-kitchen-counter-8251790/",
+            "author": "PNW Production",
+            "license_url": "https://www.pexels.com/license/",
+            "source_sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+            "reviewed_source_sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+            "source_identity_check": "reviewed-byte-sha256",
+            "crop": "contain: entire original photograph",
+            "photo_frame": [
+              510,
+              136.49999999999994,
+              498.00000000000006,
+              747.0000000000001
+            ],
+            "typography": "Exact700/450 glyph outlines; not editable text layers",
+            "photo_relation": "White sink-side counter with wooden utensils in a ceramic jar. Context for practical placement suggestions; no tested-result or same-home claim."
+          }
+        ],
+        "mobile_width": 390,
+        "mobile_review_subject": "Actual final Canva exports at390px; model review, not a physical-phone test"
+      }
+    }
   }
 }
