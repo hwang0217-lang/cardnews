@@ -2487,11 +2487,11 @@
     }
   },
   "2026-11-08": {
-    "stage": "ready",
-    "mode": "operate",
+    "stage": "published_verified",
+    "mode": "publish",
     "day": "2026-11-08",
     "format": "carousel",
-    "published": false,
+    "published": true,
     "gemini_calls": 2,
     "canva_generations": 1,
     "pc_media_downloads": 0,
@@ -3140,6 +3140,30 @@
         "mobile_width": 390,
         "mobile_review_subject": "Actual final Canva exports at390px; model review, not a physical-phone test"
       }
-    }
+    },
+    "design_id": "DAHaUwg5XCI",
+    "gateway_run_id": "42474802375",
+    "gateway_request_id": "nordic-auto-42474756636-v1",
+    "registry_revision": "3918a2ad52f61494fcf480023fcd09837461a709",
+    "design_updated_at": null,
+    "page_count": 5,
+    "width": 1080,
+    "height": 1350,
+    "assets_sha256": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c",
+    "pc_media_download": false,
+    "unpublished_container_created": true,
+    "container_status": "FINISHED",
+    "child_container_ids": [
+      "18114437651078061",
+      "18114437672078061",
+      "18114437690078061",
+      "18114437711078061",
+      "18114437732078061"
+    ],
+    "creating_page": 5,
+    "container_id": "18114437753078061",
+    "publication_status": "published_verified",
+    "media_id": "18052333097609998",
+    "permalink": "https://www.instagram.com/p/DfeqIUkm3Dg/"
   }
 }
