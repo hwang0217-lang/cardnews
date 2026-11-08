@@ -2487,7 +2487,7 @@
     }
   },
   "2026-11-08": {
-    "stage": "starting",
+    "stage": "drafted",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
@@ -2496,6 +2496,16 @@
     "canva_generations": 0,
     "pc_media_downloads": 0,
     "manual_now_authorized": true,
-    "resumed_original_canva_run": "42474802375"
+    "resumed_original_canva_run": "42474802375",
+    "design_policy": "impeccable-real-photo-v1",
+    "source_plan_date": "2026-11-08",
+    "topic": "주방 정리, 물건을 꺼내는 동작부터 살피기",
+    "model": "gemini-3.5-flash-lite",
+    "recent_posts_compared": 9,
+    "reference_images_compared": 37,
+    "draft_usage": {
+      "source": "saved bespoke editorial plan",
+      "inference_calls": 0
+    }
   }
 }
