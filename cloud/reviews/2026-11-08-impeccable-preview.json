@@ -1,0 +1,41 @@
+{
+  "canva_design_id": "DAHaUwg5XCI",
+  "canva_run": "42474802375",
+  "source_nordic_run": "42474756636",
+  "pages": [
+    {
+      "page": 1,
+      "sha256": "ac6a3e3f50976a4aaab018ac021fbb6b8207260ec7552b516a7f90232d2f9aee"
+    },
+    {
+      "page": 2,
+      "sha256": "5956024b7eb6668bba7e7bdbb0cf53fa0e9562c225f9d562f534bb862aeceaa0"
+    },
+    {
+      "page": 3,
+      "sha256": "9d42eb6e23a815486006e05116652738e2ce5f6914d00e13e7efb069578a812f"
+    },
+    {
+      "page": 4,
+      "sha256": "21a269d601297397f05db7fcc284a9ca157f35c944aa6402550a12f969d5d226"
+    },
+    {
+      "page": 5,
+      "sha256": "57122d102a22554c3489e98f733c030b46d994f64f512e95f914d3ae65190bdd"
+    }
+  ],
+  "native_dimensions": [
+    1080,
+    1350
+  ],
+  "model_review_pending": true,
+  "published": false,
+  "native_and_390_agent_review": true,
+  "quality_notes": [
+    "Cover hierarchy and full counter photo intact; authored text separate.",
+    "Utensil closeup and right instruction readable without overlap.",
+    "Contextual bottle/containers photo and labels instruction clear.",
+    "Tray and cup placement visible; no same-home transformation claim.",
+    "Closing checklist and sink/utensil photo intact; sufficient margins."
+  ]
+}

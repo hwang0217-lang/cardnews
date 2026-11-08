@@ -17,6 +17,10 @@ on:
         description: Proven pre-Canva failure only; current approved42474430889
         type: string
         required: false
+      resume_canva_run:
+        description: Proven completed source with JSON review failure only;42474802375
+        type: string
+        required: false
       source_run:
         type: string
         required: false
@@ -92,6 +96,7 @@ jobs:
           NORDIC_MEDIA_BASE: ${{ vars.NORDIC_MEDIA_BASE }}
           PUBLISH_PAUSED: ${{ vars.CODEX_PUBLISH_PAUSED || '1' }}
           NORDIC_AUTONOMOUS_ACTIVE: ${{ vars.NORDIC_AUTONOMOUS_ACTIVE || '0' }}
+          NORDIC_RESUME_CANVA_RUN: ${{ inputs.resume_canva_run }}
           NORDIC_RESUME_DRAFT_RUN: ${{ inputs.resume_draft_run }}
           NORDIC_PUBLISH_NOW_DATE: ${{ inputs.publish_now_date }}
           NORDIC_MODE: ${{ inputs.mode || 'operate' }}

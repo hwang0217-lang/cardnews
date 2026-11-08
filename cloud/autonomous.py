@@ -59,13 +59,16 @@ def create_request(state, request_id, draft, height, purpose):
     commit = GitHub(os.environ['GITHUB_TOKEN']).get('repos/hwang0217-lang/cardnews/commits/main')['sha']
     return commit
 
-def produce_canva(request_id, revision, row, persist):
+def produce_canva(request_id, revision, row, persist, existing_run=None):
     client = GitHub(os.environ['CANVA_GATEWAY_GH_TOKEN'])
-    row.update(stage='canva_dispatching', request_id=request_id); persist()
-    r = requests.post('https://api.github.com/repos/hwang0217-lang/korea-firsttrip/actions/workflows/nordic-canva-produce.yml/dispatches',
-        headers=client.headers, json={'ref': 'main', 'inputs': {'request_id': request_id, 'revision': revision}}, timeout=45)
-    if r.status_code != 204: raise RuntimeError('Canva dispatch rejected; no automatic repeat')
-    run_id = None
+    if existing_run is None:
+        row.update(stage='canva_dispatching', request_id=request_id); persist()
+        r = requests.post('https://api.github.com/repos/hwang0217-lang/korea-firsttrip/actions/workflows/nordic-canva-produce.yml/dispatches',
+            headers=client.headers, json={'ref': 'main', 'inputs': {'request_id': request_id, 'revision': revision}}, timeout=45)
+        if r.status_code != 204: raise RuntimeError('Canva dispatch rejected; no automatic repeat')
+    run_id = existing_run
+    if existing_run:
+        row.update(canva_run_id=existing_run,request_id=request_id,stage='canva_reconciling');persist()
     for _ in range(200):
         if not run_id:
             runs = client.get('repos/hwang0217-lang/korea-firsttrip/actions/workflows/nordic-canva-produce.yml/runs?per_page=20')['workflow_runs']
@@ -86,7 +89,7 @@ def produce_canva(request_id, revision, row, persist):
                 with zipfile.ZipFile(io.BytesIO(reply.content)) as bundle:
                     if bundle.namelist() != ['result.json']: raise RuntimeError('Unexpected Canva output')
                     result = json.loads(bundle.read('result.json'))
-                if result.get('status') != 'success' or result.get('requestId') != request_id or result.get('registryRevision') != revision:
+                if result.get('status') != 'success' or result.get('requestId') != request_id or (revision is not None and result.get('registryRevision') != revision):
                     raise RuntimeError('Canva production result mismatch')
                 return result
         time.sleep(5)
@@ -120,7 +123,14 @@ def review_images(draft, new_images, references, kind):
     phone = []
     for data in new_images:
         im = Image.open(io.BytesIO(data)); im.thumbnail((390, 694)); buf=io.BytesIO(); im.convert('RGB').save(buf,'JPEG',quality=95); phone.append(buf.getvalue())
-    review, usage = generate_json(prompt, new_images + phone + references)
+    flags=['text_correct','no_overlap','readable_mobile','facts_safe','canva_quality','varied','photo_matches_topic','photo_intact','mobile_text_not_clipped','safe_areas']
+    page_schema={'type':'object','required':['observations','mobile_observations',*flags],
+        'properties':{'observations':{'type':'string'},'mobile_observations':{'type':'string'},**{k:{'type':'boolean'} for k in flags}}}
+    schema={'type':'object','required':['verdict','quality_score','comparison_notes','pages'],
+        'properties':{'verdict':{'type':'string','enum':['pass','revise','reject']},'quality_score':{'type':'number'},
+        'comparison_notes':{'type':'string'},'corrections':{'type':'string'},
+        'pages':{'type':'array','minItems':len(new_images),'maxItems':len(new_images),'items':page_schema}}}
+    review, usage = generate_json(prompt, new_images + phone + references,schema=schema)
     validate_visual_review(review, len(new_images))
     if review.get('verdict') == 'pass' and any(any(p.get(k) is not True for k in ('photo_matches_topic','photo_intact','mobile_text_not_clipped','safe_areas')) or not p.get('mobile_observations') for p in review['pages']):
         raise RuntimeError('Actual photo and390px review incomplete; cannot publish')
@@ -142,19 +152,34 @@ def read_literal_images(images, sections):
         ImageDraw.Draw(im).rectangle((x,y,x+w,y+h),fill='white')
         b=io.BytesIO();im.save(b,'JPEG',quality=95);masked.append(b.getvalue())
     count=len(images)
+    schema={'type':'object','required':['pages'],'properties':{'pages':{'type':'array','minItems':count,'maxItems':count,'items':{'type':'object','required':['literal_subject','main_objects','visible_text','gibberish_text'],'properties':{'literal_subject':{'type':'string'},'main_objects':{'type':'array','items':{'type':'string'}},'visible_text':{'type':'string'},'gibberish_text':{'type':'boolean'},'photo_text':{'type':'string'}}}}}}
     return generate_json('Inspect ONLY the supplied images, without guessing any intended topic or wording. '
         f'The first{count} are the ORIGINAL full pages: describe literal subjects and main physical objects from those. '
         f'The next{count} are copies with only the photograph masked white, in the same order. '
         'Copy ALL visible authored text EXACTLY from the MASKED versions only. Do not correct or invent Korean. '
         'Set gibberish_text=true only if that authored text is malformed/unreadable. Natural photographed package labels '
         'may be partially hidden; report them separately as photo_text, never classify them as malformed authored text. '
-        'Return JSON pages:[{literal_subject,main_objects,visible_text,gibberish_text,photo_text}].',images+masked)
+        'Return JSON pages:[{literal_subject,main_objects,visible_text,gibberish_text,photo_text}].',images+masked,schema=schema)
 
 def manual_publication_allowed(now, event, requested_day):
     if not requested_day:return False
     if event!='workflow_dispatch' or requested_day!='2026-11-08' or now.date().isoformat()!=requested_day:
         raise RuntimeError('Current explicitly approved manual publication date required')
     return True
+
+
+def require_same_layout_content(original, corrected):
+    import copy
+    def content(value):
+        result=copy.deepcopy(value)
+        for section in result.get('sections',[]):
+            section.pop('layout',None)
+            for key in ('title','body'):
+                section[key]=''.join(section.get(key,'').split())
+            for node in section.get('diagram_nodes',[]):node.pop('box',None)
+        return result
+    if content(original)!=content(corrected):raise RuntimeError('Geometry correction changed editorial content')
+    return corrected
 
 
 def main():
@@ -181,11 +206,16 @@ def main():
     old_rows,_=state.read(LEDGER)
     prior=old_rows.get(key)
     recovering=(manual_now and os.environ.get('NORDIC_RESUME_DRAFT_RUN')=='42474430889' and prior is not None)
+    resume_existing=(manual_now and os.environ.get('NORDIC_RESUME_CANVA_RUN')=='42474802375' and prior is not None)
+    if resume_existing:
+        if prior.get('stage')!='blocked' or prior.get('error')!='Expected editorial JSON object' or prior.get('canva_run_id')!='42474802375' or prior.get('published') is not False:
+            raise RuntimeError('Only proven completed Canva source with failed JSON review may resume')
+        row['resumed_original_canva_run']='42474802375'
     if recovering:
         if prior.get('stage')!='blocked' or prior.get('error')!='Text/photo collision or separation below24px' or prior.get('canva_generations')!=0 or prior.get('canva_run_id') or prior.get('published') is not False:
             raise RuntimeError('Only the proven pre-Canva geometry failure may resume')
         row['recovered_pre_generation_run']='42474430889'
-    state.put(LEDGER, key, row, absent=not recovering)
+    state.put(LEDGER, key, row, absent=not (recovering or resume_existing))
     OUT.mkdir(exist_ok=True)
     def persist():
         state.put(LEDGER, key, row)
@@ -220,16 +250,32 @@ def main():
             draft=json.loads(source_plan.read_text(encoding='utf-8')); usage={'source':'saved bespoke editorial plan','inference_calls':0}
         else:
             draft, usage = generate_json(prompt+'\n'+photo_draft_prompt(catalog,kind),references); row['gemini_calls'] += 1
-        validate_draft(draft); validate_photo_plan(draft,catalog,1350 if kind=='carousel' else 1920)
+        validate_draft(draft)
+        try:validate_photo_plan(draft,catalog,1350 if kind=='carousel' else 1920)
+        except RuntimeError as geometry_error:
+            if source_plan.exists() or str(geometry_error) not in ('Text/photo collision or separation below24px','Content outside mobile safe area'):
+                raise
+            row['preflight_layout_error']=str(geometry_error);row['editorial_draft']=draft;persist()
+            corrected,_=generate_json('Repair ONLY layout coordinates and line breaks in this complete real-photo editorial JSON. Preserve all words, photo IDs, objects, caption, descriptions and all other fields EXACTLY. All occupied boxes need24px separation, x64..1016 and y64..1240 for1350px cards or y210..1580 for1920px video. Return the entire corrected JSON. Error='+str(geometry_error)+' Draft='+json.dumps(draft,ensure_ascii=False))
+            row['gemini_calls']+=1
+            draft=require_same_layout_content(draft,corrected)
+            validate_draft(draft);validate_photo_plan(draft,catalog,1350 if kind=='carousel' else 1920)
         row.update(design_policy=POLICY,source_plan_date=plan_day)
         row.update(stage='drafted', topic=draft.get('topic'), model=MODEL, recent_posts_compared=len(posts),reference_images_compared=len(references), draft_usage=usage); persist()
         result = None; review = None; pages = []; hashes = []
         for version in (1, 2):
             request_id = 'nordic-auto-' + os.environ['GITHUB_RUN_ID'] + '-v' + str(version)
-            revision = create_request(state, request_id, draft, 1350 if kind == 'carousel' else 1920,
+            if resume_existing and version==1:
+                request_id=prior['request_id'];revision=None
+            else:
+                revision = create_request(state, request_id, draft, 1350 if kind == 'carousel' else 1920,
                                       'production' if mode == 'operate' else 'preview')
             row['canva_generations'] = version; row['editorial_draft']=draft; persist()
-            result = produce_canva(request_id, revision, row, persist)
+            result = produce_canva(request_id, revision, row, persist, '42474802375' if resume_existing and version==1 else None)
+            if resume_existing and version==1:
+                original=GitHub(os.environ['GITHUB_TOKEN']).get('repos/hwang0217-lang/cardnews/contents/cloud/autonomous/requests/'+request_id+'.json?ref='+result['registryRevision'])
+                source=json.loads(base64.b64decode(original['content']))['request']
+                if source['sections']!=draft['sections'] or source['brief']!=draft['canva_brief'] or source['purpose']!='production':raise RuntimeError('Existing Canva source differs from unchanged current plan')
             row['photo_evidence']=result.get('photoEvidence',[]); persist()
             if len(result.get('urls', [])) != len(draft['sections']): raise RuntimeError('All Canva pages required')
             pages = []; hashes = []; images = []
