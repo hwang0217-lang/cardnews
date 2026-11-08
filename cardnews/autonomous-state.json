@@ -2485,5 +2485,16 @@
       ],
       "notes": "The video is well-edited, with clear Korean text captions and appropriate photo cutaways illustrating kitchen organization tips. Music is present and the pacing is good."
     }
+  },
+  "2026-11-08": {
+    "stage": "starting",
+    "mode": "operate",
+    "day": "2026-11-08",
+    "format": "carousel",
+    "published": false,
+    "gemini_calls": 0,
+    "canva_generations": 0,
+    "pc_media_downloads": 0,
+    "manual_now_authorized": true
   }
 }
