@@ -1,0 +1,235 @@
+{
+  "request": {
+    "account": "nordic_log",
+    "request_id": "nordic-auto-42474756636-v1",
+    "purpose": "production",
+    "height": 1350,
+    "brief": "Five bespoke1080x1350 real-photo editorial pages for Nordic Log. Exact Korean wording and preserved700/450 glyph outlines. White charcoal cool gray with restrained blue footer. Every photograph is contain with original frame intact, all copy separated at least24px. Different photo geometries and reading order per page. These are different actual stock kitchens, not the same home before and after. Final native Canva export and390px QA required.",
+    "sections": [
+      {
+        "title": "주방 정리,\n꺼내는 순서로",
+        "body": "수납함보다 먼저\n자주 하는 동작부터 살펴요",
+        "photo_id": "7303767",
+        "photo_relation": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug. Context for practical placement suggestions; no tested-result or same-home claim.",
+        "visual_role": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug.",
+        "image_prompt_en": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug.",
+        "required_visual_objects": [
+          "counter",
+          "board"
+        ],
+        "layout": {
+          "photo": [
+            72,
+            520,
+            936,
+            650
+          ],
+          "title": [
+            72,
+            80,
+            936,
+            240
+          ],
+          "body": [
+            72,
+            350,
+            936,
+            130
+          ],
+          "title_size": 86,
+          "body_size": 46
+        }
+      },
+      {
+        "title": "먼저 꺼낼 도구만",
+        "body": "요리 전에\n손이 가는\n주걱·뒤집개를\n한곳에 모아요.",
+        "photo_id": "8251825",
+        "photo_relation": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls. Context for practical placement suggestions; no tested-result or same-home claim.",
+        "visual_role": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls.",
+        "image_prompt_en": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls.",
+        "required_visual_objects": [
+          "spoon",
+          "utensil"
+        ],
+        "layout": {
+          "photo": [
+            72,
+            250,
+            510,
+            740
+          ],
+          "title": [
+            72,
+            90,
+            936,
+            120
+          ],
+          "body": [
+            630,
+            350,
+            378,
+            440
+          ],
+          "title_size": 72,
+          "body_size": 46
+        }
+      },
+      {
+        "title": "병과 통은\n꺼내기 쉬운 쪽에",
+        "body": "함께 쓰는 양념끼리 묶고\n라벨이 보이게 놓아보세요.",
+        "photo_id": "13684937",
+        "photo_relation": "A small kitchen countertop with bottles, containers and a spice shelf. Context for practical placement suggestions; no tested-result or same-home claim.",
+        "visual_role": "A small kitchen countertop with bottles, containers and a spice shelf.",
+        "image_prompt_en": "A small kitchen countertop with bottles, containers and a spice shelf.",
+        "required_visual_objects": [
+          "bottle",
+          "container"
+        ],
+        "layout": {
+          "photo": [
+            72,
+            90,
+            936,
+            550
+          ],
+          "title": [
+            72,
+            690,
+            936,
+            210
+          ],
+          "body": [
+            72,
+            980,
+            936,
+            170
+          ],
+          "title_size": 72,
+          "body_size": 46
+        }
+      },
+      {
+        "title": "함께 드는 것은\n쟁반 하나에",
+        "body": "컵과 작은 용기를 함께 쓴다면\n한 번에 옮길 자리를 정해요.",
+        "photo_id": "11385963",
+        "photo_relation": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards. Context for practical placement suggestions; no tested-result or same-home claim.",
+        "visual_role": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards.",
+        "image_prompt_en": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards.",
+        "required_visual_objects": [
+          "tray",
+          "jar"
+        ],
+        "layout": {
+          "photo": [
+            72,
+            560,
+            936,
+            650
+          ],
+          "title": [
+            72,
+            90,
+            936,
+            200
+          ],
+          "body": [
+            72,
+            330,
+            936,
+            170
+          ],
+          "title_size": 72,
+          "body_size": 46
+        }
+      },
+      {
+        "title": "우리 집에\n맞는 동선\n세 가지만",
+        "body": "먼저 꺼내는 도구 · 함께 쓰는 것\n다시 놓는 자리까지 정해보세요.",
+        "photo_id": "8251790",
+        "photo_relation": "White sink-side counter with wooden utensils in a ceramic jar. Context for practical placement suggestions; no tested-result or same-home claim.",
+        "visual_role": "White sink-side counter with wooden utensils in a ceramic jar.",
+        "image_prompt_en": "White sink-side counter with wooden utensils in a ceramic jar.",
+        "required_visual_objects": [
+          "sink",
+          "utensil"
+        ],
+        "layout": {
+          "photo": [
+            510,
+            90,
+            498,
+            840
+          ],
+          "title": [
+            72,
+            140,
+            410,
+            300
+          ],
+          "body": [
+            72,
+            970,
+            936,
+            200
+          ],
+          "title_size": 72,
+          "body_size": 46
+        }
+      }
+    ],
+    "reuse_design_ids": [],
+    "design_policy": "impeccable-real-photo-v1",
+    "photo_catalog": {
+      "7303767": {
+        "kind": "real_photograph",
+        "source_page": "https://www.pexels.com/photo/variety-of-items-at-the-kitchen-counter-7303767/",
+        "url": "https://images.pexels.com/photos/7303767/pexels-photo-7303767.jpeg?w=1600",
+        "author": "Cup of Couple",
+        "license_url": "https://www.pexels.com/license/",
+        "verified_on": "2026-11-05",
+        "sha256": "e263571b1e353a88e805787b07abbbdd440b7a026640e5b2046c0691bc798e20",
+        "description": "A minimalist kitchen counter, wooden chopping board, utensil jar and a mug."
+      },
+      "8251825": {
+        "kind": "real_photograph",
+        "source_page": "https://www.pexels.com/photo/white-and-gray-concrete-utensil-holder-on-white-white-kitchen-countertop-8251825/",
+        "url": "https://images.pexels.com/photos/8251825/pexels-photo-8251825.jpeg?w=1600",
+        "author": "PNW Production",
+        "license_url": "https://www.pexels.com/license/",
+        "verified_on": "2026-11-05",
+        "sha256": "e358f38ae200aa1cf3466b6ab3f37b807bf199b11d14043aee00cc60cf7806cc",
+        "description": "Closeup of a white ceramic utensil jar holding wooden spoons and bowls."
+      },
+      "13684937": {
+        "kind": "real_photograph",
+        "source_page": "https://www.pexels.com/photo/items-on-a-small-kitchen-counter-13684937/",
+        "url": "https://images.pexels.com/photos/13684937/pexels-photo-13684937.jpeg?w=1600",
+        "author": "stayhereforu",
+        "license_url": "https://www.pexels.com/license/",
+        "verified_on": "2026-11-05",
+        "sha256": "dfd602b100caac2de0005dddba67b87904007134a2b5377a52a95550d4f12576",
+        "description": "A small kitchen countertop with bottles, containers and a spice shelf."
+      },
+      "11385963": {
+        "kind": "real_photograph",
+        "source_page": "https://www.pexels.com/photo/kitchenware-on-a-counter-top-11385963/",
+        "url": "https://images.pexels.com/photos/11385963/pexels-photo-11385963.jpeg?w=1600",
+        "author": "Georgie Devlin",
+        "license_url": "https://www.pexels.com/license/",
+        "verified_on": "2026-11-05",
+        "sha256": "69818e6a1f463003675afb78efb776a3848f47b6f8afb252f5d49b036f9dde1a",
+        "description": "Kitchen counter with ceramic mugs, containers, wooden tray and cutting boards."
+      },
+      "8251790": {
+        "kind": "real_photograph",
+        "source_page": "https://www.pexels.com/photo/wooden-spoon-in-jar-on-kitchen-counter-8251790/",
+        "url": "https://images.pexels.com/photos/8251790/pexels-photo-8251790.jpeg?w=1600",
+        "author": "PNW Production",
+        "license_url": "https://www.pexels.com/license/",
+        "verified_on": "2026-11-05",
+        "sha256": "faaf15cac4a993a6823e59d5f3839a95aeeff88b5cf4ceb11368a7acdc94c429",
+        "description": "White sink-side counter with wooden utensils in a ceramic jar."
+      }
+    }
+  }
+}
