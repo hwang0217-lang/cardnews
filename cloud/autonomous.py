@@ -145,21 +145,23 @@ def read_literal_images(images, sections):
     No expected words or intended subjects are disclosed to this independent observation.
     """
     from PIL import ImageDraw
-    masked=[]
+    masked=[];photo_regions=[]
     for content,section in zip(images,sections):
         im=Image.open(io.BytesIO(content)).convert('RGB')
         x,y,w,h=section['layout']['photo']
+        photo=im.crop((int(x),int(y),int(x+w),int(y+h)));photo.thumbnail((1400,1400))
+        pb=io.BytesIO();photo.save(pb,'JPEG',quality=95);photo_regions.append(pb.getvalue())
         ImageDraw.Draw(im).rectangle((x,y,x+w,y+h),fill='white')
         b=io.BytesIO();im.save(b,'JPEG',quality=95);masked.append(b.getvalue())
     count=len(images)
     schema={'type':'object','required':['pages'],'properties':{'pages':{'type':'array','minItems':count,'maxItems':count,'items':{'type':'object','required':['literal_subject','main_objects','visible_text','gibberish_text'],'properties':{'literal_subject':{'type':'string'},'main_objects':{'type':'array','items':{'type':'string'}},'visible_text':{'type':'string'},'gibberish_text':{'type':'boolean'},'photo_text':{'type':'string'}}}}}}
     return generate_json('Inspect ONLY the supplied images, without guessing any intended topic or wording. '
-        f'The first{count} are the ORIGINAL full pages: describe literal subjects and main physical objects from those. '
+        f'The first{count} are the ENTIRE photo regions extracted from the actual final pages, with the whole original photo frame preserved. Describe all literal main physical objects visible in those; do not infer missing objects. '
         f'The next{count} are copies with only the photograph masked white, in the same order. '
         'Copy ALL visible authored text EXACTLY from the MASKED versions only. Do not correct or invent Korean. '
         'Set gibberish_text=true only if that authored text is malformed/unreadable. Natural photographed package labels '
         'may be partially hidden; report them separately as photo_text, never classify them as malformed authored text. '
-        'Return JSON pages:[{literal_subject,main_objects,visible_text,gibberish_text,photo_text}].',images+masked,schema=schema)
+        'Return JSON pages:[{literal_subject,main_objects,visible_text,gibberish_text,photo_text}].',photo_regions+masked,schema=schema)
 
 def manual_publication_allowed(now, event, requested_day):
     if not requested_day:return False
@@ -208,7 +210,7 @@ def main():
     recovering=(manual_now and os.environ.get('NORDIC_RESUME_DRAFT_RUN')=='42474430889' and prior is not None)
     resume_existing=(manual_now and os.environ.get('NORDIC_RESUME_CANVA_RUN')=='42474802375' and prior is not None)
     if resume_existing:
-        if prior.get('stage')!='blocked' or prior.get('error')!='Expected editorial JSON object' or prior.get('canva_run_id')!='42474802375' or prior.get('published') is not False:
+        if prior.get('stage')!='blocked' or prior.get('error') not in ('Expected editorial JSON object','Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source') or prior.get('canva_run_id')!='42474802375' or prior.get('published') is not False:
             raise RuntimeError('Only proven completed Canva source with failed JSON review may resume')
         row['resumed_original_canva_run']='42474802375'
     if recovering:
