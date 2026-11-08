@@ -83,5 +83,30 @@
     ],
     "creating_page": 5,
     "container_id": "18113742656078061"
+  },
+  "publish-42474802375": {
+    "mode": "publish",
+    "format": "carousel",
+    "design_id": "DAHaUwg5XCI",
+    "gateway_run_id": "42474802375",
+    "gateway_request_id": "nordic-auto-42474756636-v1",
+    "registry_revision": "3918a2ad52f61494fcf480023fcd09837461a709",
+    "design_updated_at": null,
+    "page_count": 5,
+    "width": 1080,
+    "height": 1350,
+    "page_sha256": [
+      "ac6a3e3f50976a4aaab018ac021fbb6b8207260ec7552b516a7f90232d2f9aee",
+      "5956024b7eb6668bba7e7bdbb0cf53fa0e9562c225f9d562f534bb862aeceaa0",
+      "9d42eb6e23a815486006e05116652738e2ce5f6914d00e13e7efb069578a812f",
+      "21a269d601297397f05db7fcc284a9ca157f35c944aa6402550a12f969d5d226",
+      "57122d102a22554c3489e98f733c030b46d994f64f512e95f914d3ae65190bdd"
+    ],
+    "assets_sha256": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c",
+    "pc_media_download": false,
+    "published": false,
+    "unpublished_container_created": false,
+    "container_status": "creating",
+    "child_container_ids": []
   }
 }
