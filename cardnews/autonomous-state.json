@@ -2487,7 +2487,7 @@
     }
   },
   "2026-11-08": {
-    "stage": "canva_dispatching",
+    "stage": "canva_generating",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
@@ -2688,6 +2688,7 @@
         }
       ]
     },
-    "request_id": "nordic-auto-42474756636-v1"
+    "request_id": "nordic-auto-42474756636-v1",
+    "canva_run_id": "42474802375"
   }
 }
