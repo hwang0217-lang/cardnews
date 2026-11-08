@@ -28,6 +28,12 @@
       "active": false,
       "purpose": "diagnostic",
       "format": "mp4"
+    },
+    "DAHaUwg5XCI": {
+      "active": true,
+      "purpose": "production",
+      "format": "jpg",
+      "page_count": 5
     }
   }
 }
