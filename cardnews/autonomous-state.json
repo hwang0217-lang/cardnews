@@ -2487,7 +2487,7 @@
     }
   },
   "2026-11-08": {
-    "stage": "canva_reconciling",
+    "stage": "blocked",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
@@ -2850,6 +2850,7 @@
           "photo_text": ""
         }
       ]
-    }
+    },
+    "error": "Actual Canva import failed literal text/photo QA; reconcile instead of regenerating the same source"
   }
 }
