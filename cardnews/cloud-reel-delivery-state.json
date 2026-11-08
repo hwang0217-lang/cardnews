@@ -106,7 +106,7 @@
     "pc_media_download": false,
     "published": false,
     "unpublished_container_created": false,
-    "container_status": "creating_child",
+    "container_status": "creating_parent",
     "child_container_ids": [
       "18114437651078061",
       "18114437672078061",
