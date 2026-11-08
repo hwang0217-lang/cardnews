@@ -2487,7 +2487,7 @@
     }
   },
   "2026-11-08": {
-    "stage": "canva_generating",
+    "stage": "blocked",
     "mode": "operate",
     "day": "2026-11-08",
     "format": "carousel",
@@ -2781,6 +2781,7 @@
         "typography": "Exact700/450 glyph outlines; not editable text layers",
         "photo_relation": "White sink-side counter with wooden utensils in a ceramic jar. Context for practical placement suggestions; no tested-result or same-home claim."
       }
-    ]
+    ],
+    "error": "Expected editorial JSON object"
   }
 }
