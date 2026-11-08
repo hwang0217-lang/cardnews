@@ -98,5 +98,12 @@
     "verified_at": "2026-11-05T01:54:29.351233+00:00",
     "publication_path": "web_reel_composer",
     "media_id": null
+  },
+  "2026-11-08-cloud": {
+    "status": "pending",
+    "at": "2026-11-08T20:32:40.427940+09:00",
+    "format": "carousel",
+    "canva_design_id": "DAHaUwg5XCI",
+    "sha256": "ab0b9ee155c149d38ae79195f6c83832189dcdb0d5f17c973ca56cb77a0ef00c"
   }
 }
