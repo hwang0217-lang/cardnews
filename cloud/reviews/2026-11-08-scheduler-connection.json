@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-08",
+  "service": "nordic-production-clock",
+  "owner_final_approval": "지금 최종 발급·암호화 연결 진행",
+  "github_token_id": 22589637,
+  "token_name": "nordic-production-clock-20261108-server",
+  "repository": "hwang0217-lang/cardnews",
+  "permissions": {
+    "actions": "write",
+    "metadata": "read"
+  },
+  "expires": "2027-02-03",
+  "issued": true,
+  "key_value_in_files_or_chat": false,
+  "cloudflare_secret_stored": true,
+  "blocked_on": null,
+  "github_empty_unused_token_preserved": 22589508,
+  "today_publication": "https://www.instagram.com/p/DfeqIUkm3Dg/",
+  "today_republish_forbidden": true,
+  "cloudflare_owner_auth_complete": true,
+  "verification_status": "cloud_scheduled_dispatch_and_readonly_run_verified",
+  "verification_at_utc": "2026-11-08T12:20",
+  "worker_version": "47416112-ee5f-4400-aa29-c280ba890afe",
+  "github_cron_removed_locally_not_deployed": false,
+  "pre_send_failure_proven": {
+    "runtime": "local Cloudflare workerd",
+    "error": "TypeError Invalid redirect value",
+    "network_calls": 0,
+    "fix": "redirect manual; accept only204, reject redirects without forwarding Authorization"
+  },
+  "verification_run_id": "42479804495",
+  "verification_run_conclusion": "success",
+  "cloudflare_dispatch_at": "2026-11-08T12:20:47.596Z",
+  "github_run_created_at": "2026-11-08T12:20:47Z",
+  "generated_content": false,
+  "instagram_writes": 0,
+  "scheduled_dispatch_verified": true,
+  "scheduled_publication_verified": false,
+  "temporary_verification_cron_removed": true,
+  "production_cron_utc": "15 9 * * *",
+  "production_start_kst": "18:15",
+  "publication_target_kst": "18:30",
+  "deadline_kst": "18:45",
+  "key_memory_cleared": true,
+  "tests": {
+    "python": 47,
+    "scheduler": 6
+  }
+}

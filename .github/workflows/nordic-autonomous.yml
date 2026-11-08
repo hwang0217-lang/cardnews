@@ -1,8 +1,7 @@
 name: Nordic PC-off autonomous production
 run-name: Nordic autonomous ${{ inputs.mode || 'operate' }} ${{ inputs.format }}
 on:
-  schedule:
-    - cron: '15 9 * * *'
+  # Cloudflare nordic-production-clock is the single daily trigger.
   workflow_dispatch:
     inputs:
       mode:
