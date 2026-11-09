@@ -1,5 +1,5 @@
 import {DurableObject} from 'cloudflare:workers';
-import {ACCOUNT,SLOTS,LINK_INTRO,DISCLOSURE,kstDate,validateRecord,duplicate,safeError,fetchPartnerImage} from './policy.mjs';
+import {ACCOUNT,SLOTS,SHOP_SLOTS,INFO_SLOTS,LINK_INTRO,DISCLOSURE,kstDate,validateRecord,duplicate,safeError,fetchPartnerImage} from './policy.mjs';
 const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store','Content-Type':'application/json; charset=utf-8'}});
 const actor=env=>env.STATE.get(env.STATE.idFromName('nordic-log-threads-v1'));
 export default {
@@ -27,21 +27,22 @@ export class ShoppingState extends DurableObject {
  async reconcile(r){
   const posts=await this.recent();const found=posts.filter(x=>x.text===r.caption);
   if(found.length>1)throw Error('multiple_matching_posts');
-  if(found.length===1){if(found[0].media_type!=='IMAGE')throw Error('wrong_published_media');r.status='published_verified';r.mediaId=found[0].id;r.permalink=found[0].permalink;r.publishedAt=found[0].timestamp;await this.save(r);return true}
+  if(found.length===1){if(found[0].media_type!==(r.type==='info'?'TEXT_POST':'IMAGE'))throw Error('wrong_published_media');r.status='published_verified';r.mediaId=found[0].id;r.permalink=found[0].permalink;r.publishedAt=found[0].timestamp;await this.save(r);return true}
   return false;
  }
  async prepare(r){
   if(['published_verified','publish_requested','ambiguous_publish_result','preparing','preparation_unknown','skipped'].includes(r.status))return;
+  const info=r.type==='info';
   const verified=Date.parse(r.lastVerifiedAt||r.evidence?.checkedAt);
-  if(!Number.isFinite(verified)||Date.now()-verified>90*60000){r.status='held';r.error='verification_stale';await this.save(r);return}
+  if(!info&&(!Number.isFinite(verified)||Date.now()-verified>90*60000)){r.status='held';r.error='verification_stale';await this.save(r);return}
   if(await this.reconcile(r))return;
   if(r.creationId){const c=await this.api(r.creationId+'?fields=status');r.containerStatus=c.status;if(c.status==='FINISHED')r.status='ready';else if(c.status==='ERROR'||c.status==='EXPIRED')r.status='rejected';await this.save(r);return}
   if(duplicate(await this.rows(),r))throw Error('duplicate_product');
   r.status='preparing';await this.save(r);
   try{
-   const image=await fetchPartnerImage(r.product.productImage,'HEAD');
-   if(!image.ok||!image.headers.get('Content-Type')?.startsWith('image/'))throw Error('image_unavailable');
-   const container=await this.api(ACCOUNT.id+'/threads',{media_type:'IMAGE',image_url:r.product.productImage,text:r.caption,alt_text:r.product.productName});
+   if(!info){const image=await fetchPartnerImage(r.product.productImage,'HEAD');
+   if(!image.ok||!image.headers.get('Content-Type')?.startsWith('image/'))throw Error('image_unavailable')}
+   const container=await this.api(ACCOUNT.id+'/threads',info?{media_type:'TEXT',text:r.caption}:{media_type:'IMAGE',image_url:r.product.productImage,text:r.caption,alt_text:r.product.productName});
    if(!container.id)throw Error('missing_creation_id');r.creationId=container.id;r.status='container_created';await this.save(r);
    const c=await this.api(r.creationId+'?fields=status');r.containerStatus=c.status;if(c.status==='FINISHED')r.status='ready';await this.save(r);
   }catch(e){r.status=r.creationId?'container_created':'preparation_unknown';r.error=safeError(e);await this.save(r);throw e}
@@ -60,7 +61,7 @@ export class ShoppingState extends DurableObject {
    const p=await this.api(ACCOUNT.id+'/threads_publish',{creation_id:r.creationId});
    if(!p.id)throw Error('missing_published_id');r.mediaId=p.id;await this.save(r);
    const post=await this.api(p.id+'?fields=id,text,permalink,media_type,media_url,timestamp,username');
-   if(post.text!==r.caption||post.username!==ACCOUNT.username||post.media_type!=='IMAGE'||!post.permalink)throw Error('readback_mismatch');
+   if(post.text!==r.caption||post.username!==ACCOUNT.username||post.media_type!==(r.type==='info'?'TEXT_POST':'IMAGE')||!post.permalink)throw Error('readback_mismatch');
    r.status='published_verified';r.permalink=post.permalink;r.publishedAt=post.timestamp;await this.save(r);
   }catch(e){r.status='ambiguous_publish_result';r.error=safeError(e);await this.save(r);throw e}
  }
@@ -96,13 +97,17 @@ export class ShoppingState extends DurableObject {
    }
    if(request.method!=='POST')return json({error:'method_not_allowed'},405);
    if(path==='/admin/claim-generation'){
-    const {date}=await request.json();if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('invalid_date');
-    if(await this.s.get('generation:'+date))return json({claimed:false});
-    await this.s.put('generation:'+date,{at:new Date().toISOString()});return json({claimed:true});
+    const {date,kind}=await request.json();if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||(kind!==undefined&&kind!=='info'))throw Error('invalid_date');
+    const claimKey='generation:'+date+(kind?':'+kind:'');
+    if(await this.s.get(claimKey))return json({claimed:false});
+    await this.s.put(claimKey,{at:new Date().toISOString()});return json({claimed:true});
    }
    if(path==='/admin/queue'){
-    const input=await request.json();if(!Array.isArray(input.posts)||input.posts.length!==3)throw Error('expected_three_posts');
-    const posts=input.posts.map(r=>validateRecord(r));if(new Set(posts.map(r=>r.slot)).size!==3||new Set(posts.map(r=>r.date)).size!==1||new Set(posts.map(r=>r.category)).size!==3||new Set(posts.map(r=>r.product.productId)).size!==3)throw Error('invalid_daily_mix');
+    const input=await request.json();if(!Array.isArray(input.posts)||input.posts.length<1||input.posts.length>3)throw Error('invalid_post_count');
+    const posts=input.posts.map(r=>validateRecord(r)),n=posts.length,info=posts[0].type==='info',allowed=info?INFO_SLOTS:SHOP_SLOTS;
+    // 글 한 묶음은 한 유형만: 쇼핑은 SHOP_SLOTS 전부, 정보형은 비어 있는 INFO_SLOTS 일부 허용
+    if(posts.some(r=>(r.type==='info')!==info||!allowed.includes(r.slot))||n>allowed.length||(!info&&n!==allowed.length)||new Set(posts.map(r=>r.slot)).size!==n||new Set(posts.map(r=>r.date)).size!==1)throw Error('invalid_daily_mix');
+    if(!info&&(new Set(posts.map(r=>r.category)).size!==n||new Set(posts.map(r=>r.product.productId)).size!==n))throw Error('invalid_daily_mix');
     const rows=await this.rows();for(const r of posts){if(rows.some(x=>x.key===r.key)||duplicate([...rows,...posts],r))throw Error('duplicate_queue')}
     await this.s.put(Object.fromEntries(posts.map(r=>['post:'+r.key,r])));return json({queued:posts.map(r=>r.key)});
    }
@@ -124,7 +129,7 @@ export class ShoppingState extends DurableObject {
    }
    if(path==='/admin/reviewed-copy'){
     const {key,body}=await request.json(),r=await this.s.get('post:'+key);
-    if(!r||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now()||typeof body!=='string')throw Error('copy_not_editable');
+    if(!r||r.type==='info'||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now()||typeof body!=='string')throw Error('copy_not_editable');
     const revised={...r,body,caption:body+'\n\n'+LINK_INTRO+'\n'+r.product.shortUrl+'\n'+DISCLOSURE};validateRecord(revised);
     revised.visualReview={...r.visualReview,finalBody:body};revised.editorReview={method:'operator_source_and_brand_check',at:new Date().toISOString()};await this.save(revised);return json({updated:true,key});
    }

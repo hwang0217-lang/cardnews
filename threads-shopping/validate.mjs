@@ -7,6 +7,7 @@ const state=await admin('state');
 for(const slot of slots){
 const post=state.posts.find(p=>p.date===date&&p.slot===slot);
 if(!post)throw Error('Missing prepared post');
+if(post.type==='info'){console.log('Info post has no product or source to recheck.');continue}
 if(post.status==='published_verified'){console.log('Already published; no changes or duplicate publication.');continue}
 const keyword=post.searchKeyword||post.product.productName.slice(0,80);
 const products=await coupang('GET','/v2/providers/affiliate_open_api/apis/openapi/v1/products/search','keyword='+encodeURIComponent(keyword)+'&limit=10&imageSize=1024x1024');

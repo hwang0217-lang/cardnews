@@ -1,5 +1,10 @@
 export const ACCOUNT={id:'39841850798795933',username:'nordic_log'};
 export const SLOTS=['09:00','12:00','15:00'];
+// 09:00·15:00은 링크 없는 정보/대화 글, 12:00은 쇼핑 글. 슬롯 시각 자체(SLOTS)는 그대로.
+export const SHOP_SLOTS=['12:00'];
+export const INFO_SLOTS=['09:00','15:00'];
+// 2026-11-09 사용자가 정한 주제. 바꾸려면 이 한 줄만 수정한다
+export const INFO_TOPIC='자취 살림 팁';
 export const DISCLOSURE='쿠팡 제휴 링크 포함 · 구매 시 수수료를 받습니다.';
 export const LINK_INTRO='물어보는 분들 많아서 링크 남겨 둘게';
 export const SOURCE_HOSTS=['www.shinsegaegroupnewsroom.com','news.samsung.com','cjnews.cj.net','newsroom.cj.net'];
@@ -9,6 +14,12 @@ export function validateRecord(r,now=Date.now()){
  if(!r||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||!SLOTS.includes(r.slot))throw Error('invalid_slot');
  const when=slotTime(r.date,r.slot);
  if(when<now-15*60000||when>now+48*3600000)throw Error('invalid_window');
+ if(r.type==='info'){
+  const n=[...String(r.caption)].length;
+  if(r.product||!r.category||typeof r.body!=='string'||r.caption!==r.body||n<60||n>500)throw Error('invalid_caption');
+  if(/https?:\/\/|www\.|쿠팡|제휴|링크|내돈내산|써보니|써봤|내가 찍|직접 (써|사|구매)|품절|최저가|할인|효과|치료|\d\s*%/.test(r.body))throw Error('unsupported_copy');
+  return {...r,key:r.date+'-'+r.slot.replace(':',''),publishAt:when,status:'queued'};
+ }
  if(!/^\d+$/.test(String(r.product?.productId)))throw Error('invalid_product');
  const original=new URL(r.product.originalUrl),image=new URL(r.product.productImage),link=new URL(r.product.shortUrl);
  if(original.origin!=='https://www.coupang.com'||original.pathname!=='/vp/products/'+r.product.productId||!original.searchParams.get('itemId')||!original.searchParams.get('vendorItemId'))throw Error('product_target_mismatch');
@@ -20,7 +31,7 @@ export function validateRecord(r,now=Date.now()){
  return {...r,key:r.date+'-'+r.slot.replace(':',''),publishAt:when,status:'queued'};
 }
 export function duplicate(records,r,now=Date.now()){
- return records.some(x=>x.key!==r.key&&(x.product?.productId==r.product.productId||x.caption===r.caption)&&(!x.publishedAt||Date.parse(x.publishedAt)>now-30*86400000)&&!['skipped','rejected','failed_before_publish'].includes(x.status));
+ return records.some(x=>x.key!==r.key&&((r.product&&x.product?.productId==r.product.productId)||x.caption===r.caption)&&(!x.publishedAt||Date.parse(x.publishedAt)>now-30*86400000)&&!['skipped','rejected','failed_before_publish'].includes(x.status));
 }
 export function safeError(e){return /^[a-z_]+(?::\d+)?$/.test(e.message)?e.message:'operation_failed'}
 export async function fetchPartnerImage(url,method='GET'){

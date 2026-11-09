@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Generate three verified photo posts for the server queue
+      - name: Generate the verified shopping photo post for the server queue
         if: inputs.mode == 'generate' || github.event.schedule == '45 21 * * *' || github.event.schedule == '10 23 * * *'
         run: node threads-shopping/generate.mjs
         env:
@@ -41,6 +41,13 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           THREADS_SHOPPING_COUPANG_ACCESS: ${{ secrets.THREADS_SHOPPING_COUPANG_ACCESS }}
           THREADS_SHOPPING_COUPANG_SECRET: ${{ secrets.THREADS_SHOPPING_COUPANG_SECRET }}
+          THREADS_SHOPPING_ADMIN_KEY: ${{ secrets.THREADS_SHOPPING_ADMIN_KEY }}
+      - name: Generate link-free information posts for the server queue
+        if: ${{ !cancelled() && (inputs.mode == 'generate' || github.event.schedule == '45 21 * * *' || github.event.schedule == '10 23 * * *') }}
+        run: node threads-shopping/generate-info.mjs
+        env:
+          TARGET_DATE: ${{ inputs.target_date }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           THREADS_SHOPPING_ADMIN_KEY: ${{ secrets.THREADS_SHOPPING_ADMIN_KEY }}
       - name: Recheck the exact product option and original source before publishing
         if: inputs.mode == 'validate' || github.event.schedule == '25 23,2,5 * * *'
