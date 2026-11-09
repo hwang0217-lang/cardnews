@@ -1,5 +1,9 @@
 # 노르딕로그 Threads 서버 운영
 
+## 최우선 운영 상태 — 2026-11-09 중단
+
+사용자가 오늘부터 Threads에 글을 올리지 말라고 명시 요청했다. 쇼핑·정보형을 포함해 자동 제작·게시를 중단했다. Cloudflare ACTIVE=0과 Cron 제거를 배포했고, GitHub THREADS_SHOPPING_SERVER_ACTIVE=0 / threads-shopping.yml disabled_manually 및 진행 중 실행 없음, PC threads-2 PAUSED를 확인했다. 2026-11-10 09:00·15:00 대기 글도 skipped로 변경했고 정오를 포함해 미게시 대기 글 0건을 확인했다. Worker 배포 버전은 eaaaaec3-947b-4991-ac6f-5e44ffa18999다. 기존 공개 글이나 인증정보는 삭제하지 않았다. 사용자의 명시적인 재개 지시 전에는 아래 과거 승인·일정을 실행하지 않는다. 다른 채널은 변경하지 않는다.
+
 ## 소유자와 실행 경로
 
 2026-11-07 사용자는 PC 없이 매일 09:00·12:00·15:00 KST 발행을 요청했고, 기존 Threads 토큰의 Cloudflare 전용 Worker Secrets 저장 및 쿠팡 API 키의 본인 GitHub 전용 Actions Secrets 저장을 명시적으로 승인했다. 승인 후 이전을 완료했다. 기존 Gemini 키는 GitHub에 그대로 남아 있으며 추출·복사하지 않았다.
