@@ -129,9 +129,16 @@ export class ShoppingState extends DurableObject {
    }
    if(path==='/admin/reviewed-copy'){
     const {key,body}=await request.json(),r=await this.s.get('post:'+key);
-    if(!r||r.type==='info'||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now()||typeof body!=='string')throw Error('copy_not_editable');
-    const revised={...r,body,caption:body+'\n\n'+LINK_INTRO+'\n'+r.product.shortUrl+'\n'+DISCLOSURE};validateRecord(revised);
-    revised.visualReview={...r.visualReview,finalBody:body};revised.editorReview={method:'operator_source_and_brand_check',at:new Date().toISOString()};await this.save(revised);return json({updated:true,key});
+    if(!r||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now()||typeof body!=='string')throw Error('copy_not_editable');
+    const info=r.type==='info';
+    const revised={...r,body,caption:info?body:body+'\n\n'+LINK_INTRO+'\n'+r.product.shortUrl+'\n'+DISCLOSURE};validateRecord(revised);
+    if(!info)revised.visualReview={...r.visualReview,finalBody:body};revised.editorReview={method:'operator_source_and_brand_check',at:new Date().toISOString()};await this.save(revised);return json({updated:true,key});
+   }
+   if(path==='/admin/skip'){
+    // 운영자가 아직 컨테이너도 만들지 않은 대기 글만 건너뛴다. 이미 게시 절차에 들어간 글은 건드리지 않는다.
+    const {key}=await request.json(),r=await this.s.get('post:'+key);
+    if(!r||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now())throw Error('post_not_skippable');
+    r.status='skipped';r.error='operator_skipped';await this.save(r);return json({skipped:true,key});
    }
    if(path==='/admin/seed'){
     const {posts}=await request.json();if(!Array.isArray(posts)||posts.length>10)throw Error('invalid_seed');

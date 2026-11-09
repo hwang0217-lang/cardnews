@@ -18,6 +18,9 @@ export function validateRecord(r,now=Date.now()){
   const n=[...String(r.caption)].length;
   if(r.product||!r.category||typeof r.body!=='string'||r.caption!==r.body||n<60||n>500)throw Error('invalid_caption');
   if(/https?:\/\/|www\.|쿠팡|제휴|링크|내돈내산|써보니|써봤|내가 찍|직접 (써|사|구매)|품절|최저가|할인|효과|치료|\d\s*%/.test(r.body))throw Error('unsupported_copy');
+  // 계정의 지어낸 경험담 방지: 1인칭 주어·"우리 집"을 막고 독자(너/너네)에게 말 거는 글만 허용
+  if(/(^|[\s,.~!?])(나도|나는|난|나만|내가|내|저는|제가|저도|우리\s?집|우리|울\s?집)(?=[\s,.~!?]|$)/m.test(r.body))throw Error('unsupported_copy');
+  if(([...r.body.matchAll(/\p{Extended_Pictographic}/gu)]).length>3)throw Error('unsupported_copy');
   return {...r,key:r.date+'-'+r.slot.replace(':',''),publishAt:when,status:'queued'};
  }
  if(!/^\d+$/.test(String(r.product?.productId)))throw Error('invalid_product');

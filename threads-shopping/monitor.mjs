@@ -6,5 +6,5 @@ const state=await response.json();
 const issues=[];
 if(!state.active)issues.push('server_paused');
 if(!state.lastTick||now-Date.parse(state.lastTick)>5*60000)issues.push('server_heartbeat_stale');
-for(const slot of SLOTS){if(slotTime(date,slot)+15*60000>now)continue;const p=state.posts.find(p=>p.date===date&&p.slot===slot);if(p?.status!=='published_verified')issues.push(slot+':'+(p?.status||'missing_queue'));}
+for(const slot of SLOTS){if(slotTime(date,slot)+15*60000>now)continue;const p=state.posts.find(p=>p.date===date&&p.slot===slot);if(p?.status!=='published_verified'&&!(p?.status==='skipped'&&p.error==='operator_skipped'))issues.push(slot+':'+(p?.status||'missing_queue'));}
 console.log(JSON.stringify({date,issues,pcRequired:false}));if(issues.length)process.exitCode=1;
