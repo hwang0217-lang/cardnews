@@ -25,11 +25,11 @@
     }
   ],
   "triggers": {
-    "crons": []
+    "crons": ["* * * * *"]
   },
   "vars": {
-    "ACTIVE": "0",
-    "BUILD_ID": "c41b8f2e7d905a63",
+    "ACTIVE": "1",
+    "BUILD_ID": "e5a2f7b3c9d14086",
     "TOKEN_ISSUED_AT": "1794030349"
   }
 }

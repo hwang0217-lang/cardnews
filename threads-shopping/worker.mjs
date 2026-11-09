@@ -140,6 +140,12 @@ export class ShoppingState extends DurableObject {
     if(!r||r.creationId||!['queued','held'].includes(r.status)||r.publishAt<Date.now())throw Error('post_not_skippable');
     r.status='skipped';r.error='operator_skipped';await this.save(r);return json({skipped:true,key});
    }
+   if(path==='/admin/unskip'){
+    // 게시 중단 해제용: 컨테이너가 없고 시각이 아직 남은 skipped 글만 대기열로 되돌린다.
+    const {key}=await request.json(),r=await this.s.get('post:'+key);
+    if(!r||r.creationId||r.status!=='skipped'||r.publishAt<Date.now())throw Error('post_not_restorable');
+    r.status='queued';delete r.error;await this.save(r);return json({restored:true,key});
+   }
    if(path==='/admin/seed'){
     const {posts}=await request.json();if(!Array.isArray(posts)||posts.length>10)throw Error('invalid_seed');
     const recent=await this.recent();

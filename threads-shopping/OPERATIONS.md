@@ -20,6 +20,13 @@
 
 팔로워 0명 단계라 구성을 바꿨다. 09:00·15:00은 링크·상품이 없는 "자취 살림 팁" 정보/대화 글(`type:'info'`, `generate-info.mjs`), 12:00은 쇼핑 글 1건이다. 정보형 글은 쿠팡·제휴·할인·수치·체험 가장 표현을 정책 코드가 막는다. Worker 빌드 `a7d3e19c4b6f2085`, GitHub 커밋 `5993cbe`. 정보형 글의 Threads `TEXT_POST` 실제 응답은 첫 게시(2026-11-10 09:00)에서 확인해야 한다. 아래 "일일 흐름"의 3건·슬롯 설명 중 쇼핑 부분은 12:00 1건으로 읽는다. 주제는 `policy.mjs`의 `INFO_TOPIC` 한 줄로 바꾼다.
 
+## 2026-11-09 후속 기록 (Claude Code 전담)
+
+- 재배포 최종 빌드 `c41b8f2e7d905a63`, GitHub 커밋 `1d5bd7b`. 이후 사용자 중지 지시로 ACTIVE=0·Cron 제거 상태이며 소스에는 정보형 글 코드가 그대로 남아 있다.
+- 관리 엔드포인트 추가: `/admin/skip`(아직 게시 시도 전인 queued/held 글을 operator_skipped로 건너뜀), `/admin/reviewed-copy`는 정보형 글 문안 교체도 지원한다.
+- 재개 시 순서: 쇼핑 글의 행사-상품 불일치 개선 → Worker ACTIVE=1과 GitHub THREADS_SHOPPING_SERVER_ACTIVE=1 동시 활성 → 첫 정보형 글의 `TEXT_POST` 실제 게시를 원장으로 확인. `TEXT_POST` 실응답은 아직 미검증이다.
+- 이 프로젝트의 운영 담당은 Claude Code다. Codex `threads-2`는 재활성화하지 않는다.
+
 ## 일일 흐름
 
 1. KST 06:45 GitHub에서 최근 7일 공식 뉴스룸 자료를 수집하고 서로 다른 분야의 관심 계기를 고른다. 08:10 보조 일정은 최초 스케줄 자체가 누락됐을 때만 사용하며 같은 날짜의 모델 생성 실패를 자동으로 반복하지 않는다.
