@@ -1,6 +1,10 @@
 # 노르딕로그 Threads 서버 운영
 
-## 최우선 운영 상태 — 2026-11-09 중단
+## 현재 운영 상태 — 2026-11-09 재개
+
+사용자 "재개" 지시로 복구했다: Worker 빌드 `e5a2f7b3c9d14086`(버전 ae61acf9), GitHub 커밋 `eea442f`, ACTIVE=1·매분 Cron·THREADS_SHOPPING_SERVER_ACTIVE=1·워크플로 active. `/admin/unskip` 추가, 쇼핑 검수에 `relevant`(행사-상품 종류 일치) 필수 판정 추가. 11-10은 09:00·15:00 정보형 queued, 12:00 쇼핑 skipped. 아래 중단 기록은 이력이다.
+
+## 이력 — 2026-11-09 중단
 
 사용자가 오늘부터 Threads에 글을 올리지 말라고 명시 요청했다. 쇼핑·정보형을 포함해 자동 제작·게시를 중단했다. Cloudflare ACTIVE=0과 Cron 제거를 배포했고, GitHub THREADS_SHOPPING_SERVER_ACTIVE=0 / threads-shopping.yml disabled_manually 및 진행 중 실행 없음, PC threads-2 PAUSED를 확인했다. 2026-11-10 09:00·15:00 대기 글도 skipped로 변경했고 정오를 포함해 미게시 대기 글 0건을 확인했다. Worker 배포 버전은 eaaaaec3-947b-4991-ac6f-5e44ffa18999다. 기존 공개 글이나 인증정보는 삭제하지 않았다. 사용자의 명시적인 재개 지시 전에는 아래 과거 승인·일정을 실행하지 않는다. 다른 채널은 변경하지 않는다.
 

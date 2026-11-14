@@ -20,4 +20,6 @@ export async function generateInfo(date){
  await mkdir('threads-reports',{recursive:true});await writeFile('threads-reports/generation-info.json',JSON.stringify({date,queued:queued.queued,postCount:posts.length},null,2));
  console.log(JSON.stringify({date,queued:queued.queued,published:false}));
 }
-if(process.argv[1]?.endsWith('generate-info.mjs'))generateInfo(process.env.TARGET_DATE||kstDate()).catch(async e=>{await mkdir('threads-reports',{recursive:true});await writeFile('threads-reports/failure-info.json',JSON.stringify({date:process.env.TARGET_DATE||kstDate(),error:/^[a-z_]+(?::\d+)?$/.test(e.message)?e.message:'generation_failed'}));console.error('Threads info generation stopped. See bounded failure report.');process.exitCode=1});
+// 저녁(KST 18시 이후)에 돌면 다음 날 글을 미리 만든다: GitHub 예약 지연이 09:00을 놓치지 않도록
+const defaultDate=()=>new Date(Date.now()+9*3600000).getUTCHours()>=18?kstDate(Date.now()+86400000):kstDate();
+if(process.argv[1]?.endsWith('generate-info.mjs'))generateInfo(process.env.TARGET_DATE||defaultDate()).catch(async e=>{await mkdir('threads-reports',{recursive:true});await writeFile('threads-reports/failure-info.json',JSON.stringify({date:process.env.TARGET_DATE||defaultDate(),error:/^[a-z_]+(?::\d+)?$/.test(e.message)?e.message:'generation_failed'}));console.error('Threads info generation stopped. See bounded failure report.');process.exitCode=1});
