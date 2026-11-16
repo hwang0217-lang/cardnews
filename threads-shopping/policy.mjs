@@ -10,6 +10,12 @@ export const LINK_INTRO='물어보는 분들 많아서 링크 남겨 둘게';
 export const SOURCE_HOSTS=['www.shinsegaegroupnewsroom.com','news.samsung.com','cjnews.cj.net','newsroom.cj.net'];
 export function kstDate(now=Date.now()){return new Date(now+9*3600000).toISOString().slice(0,10)}
 export function slotTime(date,slot){if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!SLOTS.includes(slot))throw Error('invalid_slot');return Date.parse(date+'T'+slot+':00+09:00')}
+// 사전 검증 대상: 지정 슬롯, 또는 90분 안에 다가오는 쇼핑 슬롯. 정보형은 재검증할 상품이 없다
+export function verificationSlots(date,target,now=Date.now()){
+ if(target==='all')return SLOTS;
+ if(target){if(!SLOTS.includes(target))throw Error('invalid_slot');return [target]}
+ return SHOP_SLOTS.filter(s=>slotTime(date,s)>=now&&slotTime(date,s)-now<=90*60000);
+}
 export function validateRecord(r,now=Date.now()){
  if(!r||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||!SLOTS.includes(r.slot))throw Error('invalid_slot');
  const when=slotTime(r.date,r.slot);

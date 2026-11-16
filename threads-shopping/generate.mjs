@@ -12,7 +12,7 @@ export function parseFeed(xml,now=Date.now()){
  return [...xml.matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi)].map(([,item])=>({title:text(field(item,'title')),url:text(field(item,'link')),publishedAt:new Date(field(item,'pubDate')).toISOString(),excerpt:text(field(item,'description')||field(item,'content:encoded')).slice(0,2000)})).filter(x=>Date.parse(x.publishedAt)>=now-7*86400000&&Date.parse(x.publishedAt)<=now&&SOURCE_HOSTS.includes(new URL(x.url).hostname));
 }
 async function request(url,options={}){const r=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(60000),...options});if(!r.ok)throw Error('upstream_http:'+r.status);return r}
-async function admin(path,body){const r=await request(BASE+'/admin/'+path,{method:body?'POST':'GET',headers:{Authorization:'Bearer '+process.env.THREADS_SHOPPING_ADMIN_KEY,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined});return r.json()}
+async function admin(path,body,tries=3){try{const r=await request(BASE+'/admin/'+path,{method:body?'POST':'GET',headers:{Authorization:'Bearer '+process.env.THREADS_SHOPPING_ADMIN_KEY,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined});return await r.json()}catch(e){if(e.message!=='upstream_http:409'||tries<=1)throw e;await new Promise(r=>setTimeout(r,2000));return admin(path,body,tries-1)}}
 let modelCalls=0;
 async function model(prompt,images=[],schema){
  if(++modelCalls>3)throw Error('model_call_limit');
@@ -37,7 +37,7 @@ export async function generate(date){
  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date<kstDate()||date>kstDate(Date.now()+86400000))throw Error('invalid_generation_date');
  for(const key of ['THREADS_SHOPPING_ADMIN_KEY','THREADS_SHOPPING_COUPANG_ACCESS','THREADS_SHOPPING_COUPANG_SECRET','GEMINI_API_KEY'])if(!process.env[key])throw Error('missing_required_secret');
  const state=await admin('state');if(state.posts.filter(x=>x.date===date&&x.type!=='info').length>=N){console.log('Daily queue already present; no generation or publishing.');return}
- const claim=await admin('claim-generation',{date});if(!claim.claimed)throw Error('daily_generation_already_attempted');
+ const claim=await admin('claim-generation',{date});if(!claim.claimed){console.log('Generation already attempted for '+date+'; no automatic retry (by design).');return}
  const saved=await admin('checkpoint?date='+date);
  let chosen=[],images=[];
  if(saved.checkpoint){
