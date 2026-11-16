@@ -24,11 +24,16 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          if [ -z "$GH_TOKEN" ]; then
-            echo "GH_PAT 비밀 값이 없어요. 토큰 저장 권한용 키를 먼저 넣어 주세요." >&2
-            exit 1
-          fi
           NEW_TOKEN="$(python cardnews/refresh_token.py)"
           echo "::add-mask::$NEW_TOKEN"
+          # 갱신이 같은 문자열의 유효기간만 늘렸으면 저장할 것이 없다(GH_PAT 불필요)
+          if [ "$NEW_TOKEN" = "$IG_ACCESS_TOKEN" ]; then
+            echo "같은 토큰의 유효기간이 연장됐어요. 저장할 새 값이 없어요."
+            exit 0
+          fi
+          if [ -z "$GH_TOKEN" ]; then
+            echo "새 토큰 값이 나왔는데 GH_PAT 비밀 값이 없어요." >&2
+            exit 1
+          fi
           gh secret set IG_ACCESS_TOKEN --body "$NEW_TOKEN" --repo "$GITHUB_REPOSITORY"
           echo "IG_ACCESS_TOKEN을 새 값으로 저장했어요."
